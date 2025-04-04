@@ -10,7 +10,7 @@ pipeline{
     stages{
         stage('Build and Package'){
             steps{
-                dir('/var/lib/jenkins/workspace/fusion/Fusion-Frontend'){
+                dir('/var/lib/jenkins/workspace/project-build-frontend'){
                     sh '''
                         npm install --no-audit
                         ng build --configuration=production
