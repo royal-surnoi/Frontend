@@ -1,0 +1,260 @@
+/* General Container */
+.container {
+  max-width: 1000px;
+  /* margin: 0 auto; */
+  padding: 25px;
+  font-family: Arial, sans-serif;
+}
+ 
+.name{
+  text-align: center;
+}
+/* Quiz Header */
+.quizName {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #000000;
+  margin-bottom: 20px;
+}
+ 
+/* Quiz Card */
+.quiz-card {
+  background: #ffffff;
+  border: 2px solid #452758;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+ 
+.quiz-card h3{
+  font-size: 2.0rem;
+ 
+}
+ 
+.quiz-card h2 {
+  font-size: 2.8rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+ 
+/* Question Card */
+.question-card {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #f0f0f0;
+  border-radius: 6px;
+  background: #f9f9f9;
+}
+ 
+.question-card h4 {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+ 
+/* Options List */
+.options-list {
+  list-style-type: none;
+  padding: 0;
+}
+ 
+.option-item {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: #444;
+}
+ 
+.option-item input {
+  margin-right: 10px;
+  cursor: pointer;
+}
+ 
+/* Submit Button */
+.submit-button {
+  display: block;
+  width: 25%;
+  padding: 12px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #ffffff;
+  background: #452758;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.3s;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto;
+}
+ 
+.submit-button:hover {
+  background: #5e3c74;
+}
+ 
+ 
+.overlay-content h6 {
+  font-size: 1.5rem;
+  color: #452758;
+  margin-bottom: 10px;
+}
+ 
+.overlay-content p {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+ 
+.button-group button:first-child {
+  background: #4caf50;
+  color: #ffffff;
+}
+ 
+.button-group button:first-child:hover {
+  background: #388e3c;
+}
+ 
+.button-group button:last-child {
+  background: #f44336;
+  color: #ffffff;
+}
+ 
+.button-group button:last-child:hover {
+  background: #d32f2f;
+}
+ 
+/* No Quiz/Questions Template */
+.container p {
+  font-size: 1.2rem;
+  color: #777;
+  text-align: center;
+}
+ 
+/* Overlay Styling */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  
+}
+ 
+.overlay-content {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 90%;
+}
+ 
+.button-group {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+ 
+.button-group button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ffffff;
+  background: #452758;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 10px;
+  transition: background 0.3s ease;
+  flex: 1;
+}
+ 
+.button-group button:hover {
+  background: #5e3c74;
+}
+ 
+/* Success Message Styling */
+/* Popup Styling */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+}
+ 
+.popup-content {
+  background: #ffffff;
+  padding: 20px 30px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease-out;
+}
+ 
+.popup-content h3 {
+  font-size: 1.5rem;
+  color: #452758;
+  margin-bottom: 15px;
+}
+ 
+.popup-content p {
+  font-size: 1rem;
+  color: #333333;
+  margin-bottom: 20px;
+}
+ 
+.close-popup {
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ffffff;
+  background: #452758;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+ 
+.close-popup:hover {
+  background: #5e3c74;
+}
+ 
+/* Fade-in animation for the popup */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+ 
+ 
+h1, h2, h3, h4, h5, h6 {
+  font-family: Tahoma, Verdana, Geneva, sans-serif;
+}
+ 
+p {
+  font-family: Cambria, Georgia, "Times New Roman", serif;
+}
+ 
+ 

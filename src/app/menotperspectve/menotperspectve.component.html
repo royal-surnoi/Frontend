@@ -1,0 +1,529 @@
+<div class="body">
+  <nav>
+    <div class="nav-left">
+      <a href="#" class="nav-link nav-txt">{{ currentTab }}</a>
+    </div>
+    <div class="welcomeMessage">
+      <p>Welcome, {{ welcomeMessage }}</p>
+    </div>
+    <div class="nav-right">
+    
+      <span>{{ name }}</span>
+      <img class="user-picture" [src]="newImage ? newImage : (userImage ? userImage : '../../assets/download.png')" alt="" (click)="navigateToProfile()">
+    </div>
+  </nav>
+    <div class="main-container">
+        <div class="left-content">
+            <div class="wrapper">
+                <div class="sidnav">
+                  <ul class="ulList">
+                    <li *ngFor="let tab of tabs" class="profileList" [class.active]="currentTab === tab" (click)="setCurrentTab(tab)">
+                      <span class="Inspan">{{ tab }}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div> 
+        </div>  
+    <div class="right-content">
+        <div *ngIf="currentTab === 'Dashboard'" class="profilebox">
+            <div class="profile-container">
+              <div class="card-client">
+                <div class="user-picture1">
+                  <img 
+  [src]="userImage || '../../assets/download.png'" 
+  alt="" 
+  (click)="navigateToProfile()" 
+  style="width:80px; height:80px; border-radius: 50%;" 
+/>
+
+                  
+
+                    
+                </div>
+                <p class="name-client">{{ name }}
+                </p>
+                
+                <p class="designation">{{ role }}</p>
+                
+            </div>
+            <div class="card-next">
+              <p class="userdata">   &nbsp; &nbsp; &nbsp; {{ name }} <span>{{userDescription}}</span></p>
+             
+             
+              
+            </div>
+            </div>
+
+
+            <!-- New Flex Container -->
+           
+            <div class="header-container">
+                          <input type="text" id="search-bar" class="inp-dash-search" style="width: 50px; margin-right: 82px; margin-left: 26px;" placeholder="Search...">
+                          <div class="radio-buttons">
+                            <label><input type="radio" name="course-type" value="in-progress" [(ngModel)]="selectedCourseType" (change)="onCourseTypeChange()"> In Progress</label>
+                            <label><input type="radio" name="course-type" value="completed" [(ngModel)]="selectedCourseType" (change)="onCourseTypeChange()"> Completed</label>
+                          </div>
+                          <button class="button btn8" (click)="togglePopup()">Add Content</button>
+                        </div>
+                       
+                        <div *ngIf="filteredCoursesList && filteredCoursesList.length > 0">
+                          <h3>Courses:</h3>
+                          <ul>
+                            <li *ngFor="let course of filteredCoursesList">
+                              <!-- Display course details here -->
+                              {{ course.courseTitle }} - {{ course.coursePercentage }}%
+                            </li>
+                          </ul>
+                        </div>
+                        <div *ngIf="filteredCoursesList && filteredCoursesList.length === 0">
+                          <p>No courses found.</p>
+                        </div>
+             
+            <hr>
+
+
+
+            <div class="course-card coursecompleyeprogress" *ngFor="let item of filteredCoursesList; let i = index">
+              <img [src]="image(item.courseImage)" alt="Course Image" class="course-image">
+              <div class="course-details">
+                <div class="course-info">
+                  <div>
+                    <h2 class="course-title">{{ item.courseTitle }}</h2> <!-- Bind course title -->
+                    <p class="last-updated">Last updated: {{ item.updatedAt | date:'medium' }}</p> <!-- Display last updated timestamp -->
+                  </div>
+                  <div class="course-actions">
+                    <button class="icon-button edit-button" (click)="navigateToUpdateCoursID(item.id)">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button (click)="deleteCoureseByCouseID(item.id)" class="icon-button delete-button">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="course-progress">
+                  <progress [value]="item.coursePercentage" max="100"></progress>
+                  <span>{{ item.coursePercentage }}%</span> <!-- Show percentage -->
+                </div>
+              </div>
+            </div>
+            
+            
+            <!-- Popup Modal -->
+            <div *ngIf="showPopup" class="popup-overlay">
+              <div class="popup-content">
+                <button class="close-button" (click)="togglePopup()">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 6L6 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M6 6L18 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <div class="cards123">
+                  <div class="card456 red">
+                      <p class="tip" (click)="navCourse()">Add Course</p>
+                  
+                  </div>
+                  <div class="card456 blue">
+                      <p class="tip">Add practice Test</p>
+                   
+                  </div>
+                  <div class="card456 green">
+                      <p class="tip">Add Mock Interview</p>
+                   
+                  </div>
+              </div>
+              </div>
+            </div>
+        </div>
+         
+      
+<div *ngIf="currentTab === 'StudentAnalytics'">
+ 
+ 
+          <hr>
+   
+         
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+         <div class="bgcolor">
+         
+            <!-- /////////////////////////newly added container/////////////////////////////////////////////////////////////////////////////////////// -->
+           
+            <div class="dashboard-container">
+           
+              <div class="metrics-container">
+           
+                <mat-card class="metric-card">
+           
+                  <mat-card-title>{{totalCourses}}</mat-card-title>
+           
+                  <mat-card-subtitle>Total Courses</mat-card-subtitle>
+           
+                  <mat-icon>school</mat-icon>
+           
+                </mat-card>
+           
+                <mat-card class="metric-card">
+           
+                  <mat-card-title>{{activeStudents}}</mat-card-title>
+           
+                  <mat-card-subtitle>Active Students</mat-card-subtitle>
+           
+                  <mat-icon>people</mat-icon>
+           
+                </mat-card>
+           
+                <mat-card class="metric-card upcoming">
+           
+                  <mat-card-title>{{upcomingClasses}}</mat-card-title>
+           
+                  <mat-card-subtitle>Upcoming Events</mat-card-subtitle>
+           
+                  <mat-icon>event</mat-icon>
+           
+                </mat-card>
+           
+                <mat-card class="metric-card">
+           
+                  <mat-card-title>{{pendingAssignments}}</mat-card-title>
+           
+                  <mat-card-subtitle>Pending Assignments</mat-card-subtitle>
+           
+                  <mat-icon>assignment</mat-icon>
+           
+                </mat-card>
+           
+              </div>
+           
+ 
+             
+ 
+ 
+ 
+              <div class="charts-container">
+                <div class="distcontainer">
+                  <mat-card class="chart-card coursedistsection">
+                    <div class="course-d">
+                      <mat-card-title>Course Distribution</mat-card-title>
+                      <h6 class="enro">Enrollers</h6>
+                    </div>
+                    <mat-card-content>
+                      <div class="course-cards-container1" style="display: flex; flex-wrap: wrap; height: 400px; overflow-y: auto;">
+                        <div *ngFor="let item of CoursesList; let i = index" style="display: flex; flex-direction: row; margin-bottom: 20px;">
+                          <div style="display: flex;">
+                            <div class="courseimgcourse" style="margin-right: 20px;">
+                              <div class="course-card2 coursecompleyeprogress">
+                                <img [src]="image(item.courseImage)" alt="Course Image" class="course-image">
+                                <div class="course-details">
+                                  <div class="course-info">
+                                    <div>
+                                      <h2 class="course-title" style="margin-top: -25px;">{{ item.courseTitle }}</h2> <!-- Bind course title -->
+                                      <p class="last-updated">Last updated: {{ item.updatedAt | date:'medium' }}</p>
+                                      <!-- Display last updated timestamp -->
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- User Enrollers -->
+                            <div class="userescourse">
+                              <div class="userescourse-details">
+                             
+                               
+                                <p class="enrollment-count" style="margin-left: 45px;font-size: 1.2em;"> {{ getEnrollmentCount(item.id) }}</p>                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+               
+               
+               
+                <mat-card class="chart-card  upcmng-classs">
+           
+                  <mat-card-title>Upcoming Classes</mat-card-title>
+           
+                  <mat-card-content>
+           
+                    <mat-list>
+           
+                      <mat-list-item *ngFor="let class of upcomingClassesList">
+                        <div></div>
+             
+           
+                        <h3 class="upcoming1" style="font-size: medium;line-height: 15px;" matLine>{{class.name}}</h3>
+           
+                        <p class="upcoming2" style="font-size: medium;line-height: 15px;" matLine>{{class.date | date}} at
+                         {{class.time}}</p>
+                      </mat-list-item>    
+                    </mat-list>
+           
+                  </mat-card-content>
+           
+                </mat-card>
+           
+              </div>
+           
+              <div class="actions-container" style="margin: auto;">
+           
+                <button mat-raised-button color="primary">Create New Assignment</button>
+           
+                <button mat-raised-button color="accent">Schedule Class</button>
+           
+                <button mat-raised-button color="warn">Message Students</button>
+           
+              </div>
+           
+            </div>
+           
+           
+           
+            <!-- /////////////////////////newly added container/////////////////////////////////////////////////////////////////////////////////////// -->
+           
+         
+           
+          </div>
+        </div>
+ 
+        <!-- ///////////////////////////////////StudentAnalytics end//////////////////////     -->
+
+
+
+
+         <!-- ////////////////////// add announcenments //////////////////// -->
+        <div *ngIf="currentTab === 'Announcenments'" class="announcenments-section">
+
+           
+          <div class="dannouncements">
+            <div class="topInput">
+              <div>
+                <input type="text" class="dinput dinput2" [(ngModel)]="newPostTitle" placeholder="Enter title">
+              </div>
+              <div>
+                <input type="text" class="dinput dinput2" [(ngModel)]="newPostDescription" placeholder="Enter description">
+              </div>
+              <div>
+                <button class="dinput dButton" (click)="addPost()">Post</button>
+              </div>
+            </div>
+  
+            <h4 class="dh4">Previous Posts:-</h4>
+          <div class="scrollable-content">
+     
+            <div *ngFor="let item of scrollableContent" class="dScrollContent">
+              <div>
+                <h5>{{ item.title }}</h5>
+              </div>
+              <div>
+                {{ item.description }}
+              </div>
+              <div>
+                <small>{{ item.timestamp | date:'short' }}</small> 
+              </div>
+              <hr>
+            </div>
+          </div>
+          </div>
+        
+
+        <div>
+        </div>
+        
+        </div>
+        </div>
+        <!-- ////////////////////// add short //////////////////// -->
+ 
+        <div *ngIf="currentTab === 'Addshort'" class="shorts-section">
+          <div class="addshort-section">
+            <h2 class="addshortHeading">Add Short</h2>
+          <form (ngSubmit)="onUpload()">
+            <input type="file" (change)="onFileSelected($event)" />
+            <button type="submit">Upload Short Video</button>
+          </form>
+        </div>
+         
+        <div *ngIf="shortVideos.length" class="getshort-section">
+          <div class="video-grid">
+            <div *ngFor="let video of shortVideos">
+              <p>{{ video.title }}</p>
+              <video [src]="video.src" controls>
+                <track kind="subtitles" src="https://example.com/subtitles-en.vtt" srclang="en" label="English" default>
+              </video>
+            </div>
+          </div>
+        </div>
+       
+          <div *ngIf="!shortVideos.length">
+            <p>No short videos available.</p>
+          </div>
+        </div>
+ 
+
+        <!-- //////////////////////////////////////////////////////////////////////////////////////////// -->
+
+        <div *ngIf="currentTab === 'Activities'" class="activities-section">
+                <h5>Student Activities</h5>
+             
+                <div>
+                  <div class="check">
+                    <div class="boxer">
+                      <div>
+                        <label for="activity-course-select">Select Course:</label>
+                        <select id="activity-course-select" (click)="fetchCourseData(userId)" (change)="onActivityCourseChange($event)">
+                          <option value="">--Select Course--</option>
+                          <option *ngFor="let activityCourse of activityCourses" [value]="activityCourse.id">
+                            {{ activityCourse.name }}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="boxer" *ngIf="selectedActivityCourse">
+                        <label for="term-type-select">Select Course Type:</label>
+                        <select id="term-type-select" (change)="onTermTypeChange($event)">
+                          <option value="">--Select Course Type--</option>
+                          <option *ngFor="let termType of termTypes" [value]="termType">{{ termType }}</option>
+                        </select>
+                      </div>
+                     
+                    </div>
+                   
+               
+                    <div class="boxer" *ngIf="selectedTermType === 'Long Term'">
+                      <label for="activity-module-select">Select Module:</label>
+                      <select id="activity-module-select" (change)="onActivityModuleChange($event)">
+                        <option value="">--Select Module--</option>
+                        <option *ngFor="let activityModule of activityModules" [value]="activityModule.id">{{activityModule.name}}</option>
+                      </select>
+                    </div>
+               
+                    <div class="boxer" *ngIf="(selectedTermType === 'Short Term' && selectedActivityCourse) || (selectedTermType === 'Long Term' && selectedActivityModule)">
+                      <label for="activity-lesson-select">Select Lesson:</label>
+                      <select id="activity-lesson-select" (change)="onActivityLessonChange($event)">
+                        <option value="">--Select Lesson--</option>
+                        <option *ngFor="let activityLesson of activityLessons" [value]="activityLesson.id">{{activityLesson.name}}</option>
+                      </select>
+                    </div>
+               
+                    <div class="boxer" *ngIf="selectedActivityLesson">
+                      <label for="quiz-or-assessment-select">Select Task</label>
+                      <select id="quiz-or-assessment-select" (change)="onQuizOrAssessmentChange($event)">
+                        <option value="">--Select Task--</option>
+                        <option value="quiz">Quiz</option>
+                        <option value="assessment">Assessment</option>
+                      </select>
+                    </div>
+               
+                    <div class="boxer" *ngIf="selectedQuizOrAssessment === 'quiz'">
+                      <label for="activity-quiz-select">Select Quiz:</label>
+                      <select id="activity-quiz-select" (change)="onActivityQuizChange($event)">
+                        <option value="">--Select Quiz--</option>
+                        <option *ngFor="let activityQuiz of activityQuizzes" [value]="activityQuiz.id">{{activityQuiz.name}}</option>
+                      </select>
+                    </div>
+               
+                    <div class="boxer" *ngIf="selectedQuizOrAssessment === 'assessment'">
+                      <label for="activity-assessment-select">Select Assessment:</label>
+                      <select id="activity-assessment-select" (change)="onActivityAssessmentChange($event)">
+                        <option value="">--Select Assessment--</option>
+                        <option *ngFor="let activityAssessment of activityAssessments" [value]="activityAssessment.id">{{activityAssessment.name}}</option>
+                      </select>
+                    </div>
+                  </div>
+               
+                  <div class="display" *ngIf="results">
+                    <h3>Results:</h3>
+                    
+                    <!-- Button to open the quiz report popup -->
+                    <button class="quizrepbutton" (click)="openActivityQuizResults()">Show Report</button>
+                  </div>
+                </div>
+               
+             
+             
+             
+                <!-- Activity Quiz Results Table Popup -->
+        <div class="popup-results123" *ngIf="showActivityQuizResults">
+          <div class="popup-content-results123">
+            <span class="close-results123" (click)="closeActivityQuizResults()">&times;</span>
+            <h2>Results</h2>
+            <table class="results-table123">
+              <caption></caption>
+              <thead>
+                <tr>
+                  <th>S.No</th>
+                  <th>User Name</th>
+                  <th>User ID</th>
+                  <th>Marks</th>
+                  <th>View</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let result of activityQuizResults; let i = index">
+                  <td>{{i + 1}}</td>
+                  <td>{{result.userName}}</td>
+                  <td>{{result.userId}}</td>
+                  <td>{{result.marks}}</td>
+                  <td><button style="background-color: #124E66;
+        color:white;" (click)="openActivityQuizReport(result)">View</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+         
+        <!-- Activity Quiz Report Popup -->
+        <div class="xyz" *ngIf="showActivityQuizReport">
+          <div class="xyz-content">
+            <span class="close-xyz" (click)="closeActivityQuizReport()">&times;</span>
+            <div class="quiz-report-xyz">
+              <h3>Report for {{ activityQuizAttemptData.userName }} - {{ activityQuizAttemptData.quizTitle }}</h3>
+              <div class="report-details-xyz">
+                <table>
+                  <caption></caption>
+                  <thead>
+                    <tr>
+                      <th>Question</th>
+                      <th>Selected Option</th>
+                      <th>Correct Option</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let question of activityQuizAttemptData.questions">
+                      <td>{{ question.question }}</td>
+                      <td>{{ question.selectedOption }}</td>
+                      <td>{{ question.correctOption }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="overall-marks">
+                <p>Overall Marks: {{ calculateActivityOverallMarks() }}</p>
+              </div>
+              <div class="input-section">
+                <input type="text" [(ngModel)]="activityFeedbackMessage" placeholder="Enter activity feedback message">
+                <button class="send-button-xyz" (click)="sendActivityFeedback()">Send</button>
+              </div>
+            </div>
+          </div>
+        </div>
+         
+         
+         
+             
+              </div>
+         
+        
+      </div>
+              
+          
+<!-- ///////////////////////////////////right content end//////////////////////     -->
+    </div>
+       
+            
+
+

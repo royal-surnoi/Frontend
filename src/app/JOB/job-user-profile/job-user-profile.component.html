@@ -1,0 +1,381 @@
+<div class="main-container" [ngClass]="user.theme" *ngIf="isloaded">
+    <div class="header">
+        <!-- portfolio.component.html -->
+        <div class="portfolio-container">
+            <div class="parent-div">
+              
+              <div class="sections-container">
+                <!-- Child 1: Video Section (50% width) -->
+                <div class="child-section video-section">
+                  <div class="video-container">
+                    <video #videoPlayer controls>
+                      <source [src]="videoUrl" type="video/mp4" />
+                      <track kind="subtitles" src="https://example.com/subtitles-en.vtt" srclang="en" label="English" default>
+                    </video>
+                  </div>
+                </div>
+                
+                <!-- Child 2: Self Introduction Section (20% width) -->
+                <div class="child-section introduction-section">
+                  <div class="intro-description">
+                    <h2>
+                      <span class="greeting-text">Hi, {{ setGreetingMessage().timeGreeting }}! {{ setGreetingMessage().welcomeMessage }},</span> 
+                      {{user.user.name}}
+                    </h2>
+                    <p>{{user.profession}}</p>
+                    <p class="description">{{user.userDescription}}</p>
+                  </div>
+                </div>
+                
+                <!-- Child 3: Profile and Details Section (30% width) -->
+                <div class="child-section profile-section">
+                  <div class="profile-details">
+                    <div class="profile-picture">
+                      <img [src]='user.user.userImage' alt="user">
+                    </div>
+                    <br>
+                    <div class="contact-info">
+                      <p><i class="fa-solid fa-location-dot"></i> {{user.permanentCity}}</p>
+                      <p><i class="fa-solid fa-envelope"></i> {{user.user.email}}</p>
+                      <p><i class="fa-solid fa-phone-volume"></i> {{user.phoneNumber}}</p>
+                      <button class="colorchange" (click)="ShowOverlay=true">
+                        <span><i class="fa fa-file" aria-hidden="true"></i>  Resume</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-2" *ngIf="!shoqgallarydata" id="jobs">
+
+        <nav class="navbar sticky-header">
+            <ul class="navbar-tabs">
+                <li [class.active]="activeTab === 'skillsProjects'" (click)="activeTab = 'skillsProjects'">
+                    <i class="fas fa-code"></i>
+                    <span>Skills/Projects</span>
+                </li>
+                <li [class.active]="activeTab === 'experienceEducation'" (click)="activeTab = 'experienceEducation'">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Experience/Education</span>
+                </li>
+                <li [class.active]="activeTab === 'personalInfo'" (click)="activeTab = 'personalInfo'">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </li>
+
+            </ul>
+        </nav>
+
+        <app-personal-info *ngIf="activeTab == 'personalInfo'" [user_deatils]="user" />
+
+        <div *ngIf="activeTab == 'experienceEducation'">
+            <div class="main">
+                <!-- Experience Section -->
+                <div class="main1">
+                    <div class="sub-section">
+                        <header class="section-header">
+                            <h3 style="font-size: 20px;">Experience</h3>
+                        </header>
+
+                        <div class="experience-items">
+                            <ng-container *ngFor="let item of experiences; let i = index">
+                                <div class="profile-item">
+                                    <div class="timeline-bubble">
+                                        {{ getYear(item.workStartDate) }} -
+                                        {{ item.currentlyWorking ? 'Present' : getYear(item.workEndDate) }}
+                                    </div>
+
+                                    <div class="item-content">
+                                        <ng-container *ngIf="!item.isEditing">
+                                            <h4>
+                                                {{ item.workRole }} at {{ item.workCompanyName }}
+                                            </h4>
+                                            <p>{{ item.workDescription }}</p>
+                                        </ng-container>
+
+                                    </div>
+                                </div>
+                                <div class="vertical-line" *ngIf="i !== experiences.length - 1"></div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Education Section -->
+                <div class="main2">
+                    <div class="sub-section">
+                        <header class="section-header">
+                            <h3 style="font-size: 20px;">Education</h3>
+                        </header>
+
+                        <div *ngFor="let item of educationDetails; let i = index" class="education-box">
+                            <div class="profile-item">
+                                <div class="item-content">
+                                    <!-- School Education Section -->
+                                    <div class="education-section">
+                                        <h4>School Education</h4>
+                                        <ng-container *ngIf="!item.isEditingSchool">
+                                            <p>
+                                                <strong>{{ item.schoolName }}</strong>
+                                                ({{ item.schoolYearOfJoining }} - {{ item.schoolYearOfPassout }})
+                                                - {{ item.schoolPercentage }}% - {{ item.schoolEducationBoard }}
+                                            </p>
+                                        </ng-container>
+                                    </div>
+
+                                    <!-- Intermediate Education Section -->
+                                    <div class="education-section">
+                                        <h4>Intermediate Education</h4>
+                                        <ng-container *ngIf="!item.isEditingIntermediate">
+                                            <p>
+                                                <strong>{{ item.intermediateCollegeName }}</strong>
+                                                ({{ item.intermediateYearOfJoining }} - {{
+                                                item.intermediateYearOfPassout }})
+                                                - {{ item.intermediateCollegePercentage }} - {{
+                                                item.intermediateEducationBoard }}
+                                            </p>
+                                        </ng-container>
+                                    </div>
+
+
+
+                                    <!-- Graduation Education Section -->
+                                    <div class="education-section">
+                                        <h4>Graduation</h4>
+                                        <ng-container *ngIf="!item.isEditingGraduation">
+                                            <p>
+                                                <strong>{{ item.graduationCollegeName }}</strong>
+                                                ({{ item.graduationYearOfJoining }} - {{ item.graduationYearOfPassout
+                                                }})
+                                                - {{ item.graduationCollegePercentage }}% - {{
+                                                item.graduateEducationBoard }}
+                                            </p>
+                                        </ng-container>
+
+                                    </div>
+
+                                    <!-- Postgraduate Education Section -->
+                                    <div class="education-section">
+                                        <h4>Postgraduate</h4>
+                                        <ng-container *ngIf="!item.isEditingPostGraduate">
+                                            <p>
+                                                <strong>{{ item.postGraduateCollegeName }}</strong>
+                                                ({{ item.postGraduateYearOfJoining }} - {{
+                                                item.postGraduateYearOfPassout }})
+                                                - {{ item.postGraduateCollegePercentage }}% - {{
+                                                item.postGraduateEducationBoard }}
+                                            </p>
+                                        </ng-container>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div [ngClass]="user.theme" *ngIf="activeTab == 'skillsProjects'">
+            <div id="skills" class="skills-section">
+                <div class="skills-header">
+                    <div class="skills-links">
+                        <h2 class="skills-heading">Skills</h2>
+                        <div class="info-button" (mouseenter)="showInfoCard = true" (mouseleave)="showInfoCard = false">
+                            <i class="fa-solid fa-info-circle"></i>
+                            <div class="info-card" *ngIf="showInfoCard">
+                                <h4>Skill Levels</h4>
+                                <div class="level"><span class="dot unverified-info"></span>Unverified</div>
+                                <div class="level"><span class="dot average-info"></span>Average</div>
+                                <div class="level"><span class="dot skilled-info"></span>Skilled</div>
+                                <div class="level"><span class="dot expert-info"></span>Expert</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="skills-list">
+                    <div class="skill" *ngFor="let skill of skills; let i = index" [ngClass]="skill.level">
+                        <span class="skill-name">{{ skill.skillName }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!--------------------------------------------------------projects----------------------------------------------------------->
+
+            <!-- Projects section in HTML -->
+            <div id="projects" class="projects-section">
+                <div class="projects-header">
+                    <h2 class="projects-heading">Projects</h2>
+                </div>
+
+
+                <div class="projects-list">
+                    <div class="projects-list">
+                        <div *ngFor="let project of projects; let i = index"
+                            [style.background-image]="getBackgroundImageUrl(project)" class="make-Curve">
+                            <div class="blur"
+                                [ngClass]="{'project': true, 'project-left': i % 2 === 0, 'project-right': i % 2 !== 0}">
+            
+                                <video [src]="sanitizedVideoUrl" controls class="project-img">
+                                    <track kind="subtitles" src="https://example.com/subtitles-en.vtt" srclang="en" label="English" default>
+                                </video>
+                                <div class="project-details">
+                                   
+                                    <div class="project-title">
+                                        <h3>{{ project.projectName }}</h3>
+                                    </div>
+                                    <p><strong>Client:</strong> {{ project.client }}</p>
+                                    <p><strong>Start Date:</strong> {{ project.startDate | date }}</p>
+                                    <p><strong>End Date:</strong> {{ project.endDate | date}}</p>
+                                     <p><strong>Skills Used:</strong> {{ project.skillsUsed}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Overlay -->
+
+<div id="overlay" class="overlay" *ngIf="ShowOverlay" [ngClass]="user.theme">
+    <div class="overlay-content">
+        <div class="layout-container">
+
+            <!-- Left column (20% width) -->
+            <div class="left-column">
+                <!-- Navigation sections -->
+                <div class="section-buttons">
+                    <button (click)="displayContent('intro')">Self Introduction</button>
+                    <button (click)="displayContent('resume')">Resume</button>
+                </div>
+            </div>
+
+            <!-- Right column (80% width) to display dynamic content -->
+            <div class="right-column">
+                <button class="cross-button" aria-label="Close" (click)="ShowOverlay=false">×</button>
+
+                <!-- Self Introduction video content -->
+                <div *ngIf="selectedContent === 'intro'" class="video-containers">
+              
+
+                    <div class="video-upload-container">
+                        <h2>Upload Self Introduction Videos</h2>
+
+                        <!-- Overall error message -->
+                        <div *ngIf="overallError" class="alert alert-danger">
+                            {{ overallError }}
+                        </div>
+
+                        <!-- Video upload sections -->
+                        <div class="video-grid">
+                            <div *ngFor="let video of videos" class="video-item">
+                                <div class="video-card" [class.has-error]="video.error">
+                                    <h3>{{ video.title }}</h3>
+
+                                    <!-- Existing uploaded video -->
+                                    <div *ngIf="video.url" class="video-preview-section">
+                                        <video controls class="video-preview">
+                                            <source [src]="video.url" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                            <track kind="subtitles" src="https://example.com/subtitles-en.vtt" srclang="en" label="English" default>
+                                        </video>
+                                    </div>
+
+                                    <!-- File input section -->
+                                    <div *ngIf="!video.url && !video.preview" class="file-input-section">
+                                        Video Unavilable
+                                    </div>
+
+                                    <!-- Preview section -->
+                                    <div *ngIf="!video.url && video.preview" class="preview-section">
+                                        <video controls class="video-preview">
+                                            <source [src]="video.preview" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                            <track kind="subtitles" src="https://example.com/subtitles-en.vtt" srclang="en" label="English" default>
+                                        </video>
+
+                                    </div>
+
+                                    <!-- Error message -->
+                                    <div *ngIf="video.error" class="error-message">
+                                        {{ video.error }}
+                                    </div>
+
+                                    <!-- Progress bar -->
+                                    <div *ngIf="video.progress > 0" class="progress-bar">
+                                        <div class="progress-fill" [style.width.%]="video.progress"></div>
+                                        <span class="progress-text">{{ video.progress }}%</span>
+                                    </div>
+
+                                    <!-- File requirements -->
+                                    <div class="file-requirements">
+                                        <small>
+                                            Supported formats: MP4, WebM, OGG
+                                            <br>
+                                            Maximum size: 100MB
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Resume PDF content -->
+                <div *ngIf="selectedContent === 'resume'" class="pdf-container">
+                    <div class="pdf-header">
+                        <i class="file-icon"></i>
+                        <span>Resume</span>
+                    </div>
+                   
+                    <div *ngIf="!safeResumeUrl" class="resume-upload">
+                        <p>No resume uploaded yet</p>
+
+
+                        <!-- Error message display -->
+                        <div *ngIf="uploadError" class="error-message">
+                            {{ uploadError }}
+                        </div>
+
+                        <!-- File requirements info -->
+                        <div class="file-requirements">
+                            <p>Supported formats: PDF, DOC, DOCX</p>
+                            <p>Maximum file size: 5MB</p>
+                        </div>
+                    </div>
+
+                    <!-- Show resume if it exists -->
+                    <div *ngIf="safeResumeUrl" class="resume-viewer">
+                        <iframe [src]="safeResumeUrl" title="PDF Viewer" width="100%" height="600px" style="border: none;"></iframe>
+
+
+                        <!-- Option to replace existing resume -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- loader -->
+
+<div class="body" *ngIf="!isloaded">
+    <div class="loader">
+        <div class="f-letter">F</div>
+        <div class="f-letter">F</div>
+        <div class="f-letter">F</div>
+    </div>
+</div>

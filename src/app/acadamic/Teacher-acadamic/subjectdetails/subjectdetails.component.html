@@ -1,0 +1,100 @@
+<div class="card12">
+    <div class="card1">
+      <div class="card-one1" *ngIf="getFirstLetter()">
+        <div class="first-letter">
+            <span>{{ getFirstLetter() }}</span>
+        </div>
+      </div>
+      <div class="card-1two">
+        <ul>
+          <li *ngFor="let n of details">
+            <p><strong>Name:</strong>{{ n.name }}</p>
+            <p><strong>Subject:</strong>{{ n.subject }}</p>
+            <p><strong>TeacherName:</strong>{{ n.teachername }}</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="card2">      
+      <div class="card">
+      <div class="icons">
+        <button
+          *ngFor="let iconItem of card.icons"
+          (click)="iconItem.action()"
+          class="icon-button">
+          <i [class]="iconItem.class"></i>
+          <span class="label">{{ iconItem.name }}</span>
+        </button>
+      </div>
+    </div>
+    </div>
+  </div>
+ 
+ 
+  <div class="popup" [ngClass]="{ 'open': isSchedulePopupOpen }">
+    <div class="popup-content">
+      <h3>Schedule Topic</h3>
+      <form>
+        <label for="topic">Topic:</label>
+        <input type="text" id="topic" [(ngModel)]="schedule.topic" name="topic" required />
+ 
+        <label for="startTime">Start Time:</label>
+        <input type="time" id="startTime" [(ngModel)]="schedule.startTime" name="startTime" required />
+ 
+        <label for="endTime">End Time:</label>
+        <input type="time" id="endTime" [(ngModel)]="schedule.endTime" name="endTime" required />
+ 
+        <!-- Display total duration (hours and minutes) -->
+      <div *ngIf="schedule.startTime && schedule.endTime">
+        <p>Total Duration: {{ getTotalDuration() }}</p>
+      </div>
+ 
+        <div class="popup-buttons">
+          <button type="button" (click)="submitSchedule()">Submit</button>
+          <button type="button" class="cancel" (click)="closeSchedulePopup()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+ <!-- Add Items Pop-up -->
+<div class="popup" [ngClass]="{ 'open': isAddPopupOpen }">
+  <div class="popup-content">
+    <h3>Select Items to Add</h3>
+   
+    <!-- Search Bar -->
+    <input
+      type="text"
+      placeholder="Search by name..."
+      [(ngModel)]="searchQuery"
+      (ngModelChange)="filterItems()"
+      class="search-bar"
+    />
+ 
+    <form>
+      <!-- Scrollable container for checkboxes -->
+      <div class="checkbox-container">
+        <div *ngFor="let item of filteredItems; let i = index" class="checkbox-item">
+          <div class="Divs">
+            
+        <div>
+            <p class="checkbox-label">{{ i + 1 }}. {{ item.studentName }}</p>
+        </div>
+
+        <div>
+            <input
+              type="checkbox"
+              [(ngModel)]="item.selected"
+              name="item"
+            />
+        </div>
+          </div>
+        </div>
+      </div>
+ 
+      <div class="popup-buttons">
+        <button type="button" (click)="addSelectedItems()">Add</button>
+        <button type="button" class="cancel" (click)="closeAddPopup()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,102 @@
+<nav class="navbar sticky-header">
+  <ul class="navbar-tabs">
+ 
+    <li [class.active]="activeTab === 'Requrtment'" (click)="activeTab = 'Requrtment'">
+      <i class="fas fa-file-alt"></i>
+      <span>Recruitment</span>
+    </li>
+    <li [class.active]="activeTab === 'New-Job'" (click)="activeTab = 'New-Job'">
+      <i class="fas fa-briefcase"></i>
+      <span>New-Job</span>
+    </li>
+    <li [class.active]="activeTab === 'Upcoming'" (click)="activeTab = 'Upcoming'">
+      <i class="fa fa-calendar" aria-hidden="true"></i>
+      <span>Upcoming interview</span>
+    </li>
+    <li [class.active]="activeTab === 'Company-info'" (click)="activeTab = 'Company-info'">
+      <i class="fas fa-user"></i>
+      <span>Company-info</span>
+    </li>
+  </ul>
+ 
+  <button (click)="logoutpopshow()" class="logout">logout</button>
+</nav>
+ 
+<app-requrter-requrtment *ngIf="activeTab=='Requrtment'"></app-requrter-requrtment>
+<app-requrter-new-job *ngIf="activeTab=='New-Job'"></app-requrter-new-job>
+ 
+<section *ngIf="activeTab=='Company-info'">
+  <!-- Recruiter Details Section -->
+  <section id="recruiter-details-section" class="recruiter-details">
+    <header class="recruiter-header">
+      <h2 class="recruiter-title">Recruiter Details</h2>
+    </header>
+    <div class="Recruiter">
+      <p class="Recruiter_heading"><strong>Name: </strong> {{recruiter?.recruiter?.recruiterName}}</p>
+      <p class="Recruiter_heading"><strong>Company: </strong>{{recruiter?.jobAdmin?.jobAdminCompanyName}}</p>
+      <p class="Recruiter_heading"><strong>Email: </strong> <a href="mailto:{{recruiter?.recruiter?.recruiterName}}"></a>{{recruiter?.recruiter?.recruiterName}}</p>
+      <p class="Recruiter_heading"><strong>Location: </strong> {{recruiter?.jobAdmin?.companyLocation}}</p>
+      <p class="Recruiter_heading"><strong>Position: </strong> {{recruiter?.jobAdmin?.companyLocation}}</p>
+    </div>
+  </section>
+ 
+ 
+  <!----------------------------------------------------- About Company Section ---------------------------------------------->
+  <section id="about-company-section" class="about-company">
+    <header class="company-header">
+      <h2 class="company-title">About Company</h2>
+    </header>
+ 
+    <div class="Recruiter">
+      <div class="company-overview">
+        <img [src]="recruiter?.jobAdmin?.companyLogo" alt="Company Logo" class="company-logo">
+        <h3 class="company-name">{{recruiter?.jobAdmin?.jobAdminCompanyName}}</h3>
+      </div>
+      <p class="Recruiter_heading"><strong>Industry:</strong> {{recruiter?.jobAdmin?.companyTypeOfIndustry}}</p>
+      <p class="Recruiter_heading"><strong>Website: </strong> <a href="{{recruiter?.jobAdmin?.companyWebsiteLink}}" target="_blank">{{recruiter?.jobAdmin?.companyWebsiteLink}}</a></p>
+      <p class="Recruiter_heading"><strong>Company Size:</strong> {{recruiter?.jobAdmin?.companyStrength}}+ employees</p>
+      <p class="Recruiter_heading"><strong>Location:</strong> {{recruiter?.jobAdmin?.companyLocation}}</p>
+      <p class="Recruiter_heading"><strong>Email:</strong> {{recruiter?.jobAdmin?.jobAdminEmail}}</p>
+      <p class="Recruiter_heading"><strong>Phone Number:</strong> {{recruiter?.jobAdmin?.companyPhoneNumber}}</p>
+     
+      <p>{{recruiter?.jobAdmin?.companyDescription}}</p>
+    </div>
+ 
+  </section>
+ 
+</section>
+ 
+ 
+<section *ngIf="activeTab=='Upcoming'">
+  <div class="calendar">
+    <div class="calendar-header">
+      <h6>Upcoming Scheduled interviews</h6>
+    </div>
+    <div class="calendar-grid">
+      <div
+        class="calendar-slot"
+        *ngFor="let interview of interviews">
+        <p class="slot-time"><strong>Interview on </strong>{{ formatTimeForInteview(interview.interviewTimestamp)}}</p>
+        <div class="slot-details">
+          <p [title]="interview.interviewerName"><strong>Interviewer:</strong> {{ interview.interviewerName.length>6?interview.interviewerName.slice(0,6)+"...":interview.interviewerName }}</p>
+          <p [title]=" interview.userName +'-'+ interview.userEmail"><strong>Candidate:</strong> {{ interview.userName.length>6?interview.userName.slice(0,6)+"...":interview.userName }}</p>
+          <p><strong>Description:</strong> {{ interview.interviewDescription.length>20?interview.interviewDescription.slice(0,20)+"...":interview.interviewDescription }}</p>
+          <a [href]="interview.interviewLink" target="_blank" class="join-button">Join Now</a>
+          </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="Log-modal-overlay" *ngIf="islogoutPopUpOpen">
+  <div class="Log-modal-container">
+    <h6>Are you sure you want to logout?</h6>
+    <div class="Log-modal-buttons">
+      <button class="Log-confirm" (click)="onLogoutSubmit()">Yes, Logout</button>
+      <button class="Log-cancel" (click)="logoutpopClose()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+ 

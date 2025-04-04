@@ -1,0 +1,169 @@
+/* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+} */
+
+body {
+  min-height: 100vh;
+  padding: 2rem;
+  line-height: 1.6;
+  background: linear-gradient(135deg, #f1f1f9 0%, #e3dfe8 100%);
+  position: relative;
+  overflow-x: hidden;
+}
+
+section {
+ background: linear-gradient(
+    135deg,
+    #c4f5e3 0%,
+    #dcedc1 25%,
+    #ffd3b6 50%,
+    #ffaaa5 75%,
+    #ff8b94 100%
+);
+background-size: 400% 400%;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.recruiter-header,
+.company-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e1e8f0;
+}
+
+h2 {
+  color: #2d3748;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.recruiter-action-links a,
+.company-action-links a {
+  color: #4a5568;
+  margin-left: 1rem;
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+}
+
+.recruiter-action-links a:hover,
+.company-action-links a:hover {
+  color: #2b6cb0;
+}
+
+.recruiter-info p,
+.company-info p {
+  margin-bottom: 0.75rem;
+  color: #4a5568;
+}
+
+.recruiter-info strong,
+.company-info strong {
+  color: #2d3748;
+  min-width: 120px;
+  display: inline-block;
+}
+
+.recruiter-social-links,
+.company-social-links {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e1e8f0;
+}
+
+.recruiter-social-links a,
+.company-social-links a {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  margin-right: 1rem;
+  background-color: #edf2f7;
+  color: #4a5568;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.recruiter-social-links a:hover,
+.company-social-links a:hover {
+  background-color: #2b6cb0;
+  color: white;
+}
+
+.company-overview {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.company-logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 12px;
+  object-fit: cover;
+  margin-right: 1.5rem;
+  border: 2px solid #e1e8f0;
+}
+
+.company-name {
+  font-size: 1.5rem;
+  color: #2d3748;
+  margin-bottom: 0.5rem;
+}
+
+a {
+  color: #2b6cb0;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #1a4971;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 1rem;
+  }
+
+  section {
+    padding: 1.5rem;
+  }
+
+  .company-overview {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .company-logo {
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+
+  .recruiter-social-links a,
+  .company-social-links a {
+    margin-bottom: 0.5rem;
+    display: block;
+    text-align: center;
+  }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: Tahoma, Verdana, Geneva, sans-serif;
+}
+ 
+p {
+  font-family: Cambria, Georgia, "Times New Roman", serif;
+}
+ 
+ 

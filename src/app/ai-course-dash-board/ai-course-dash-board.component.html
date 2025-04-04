@@ -1,0 +1,230 @@
+<div class="container-dashboard">
+    <!-- Left sidebar (30%) -->
+    <div class="sidebar" *ngIf=" this.coursePlan.length != 0 || this.assignments.length != 0 || this.projects.length!=0">
+        <!-- Week selection -->
+        <div class="weeks-container">
+
+            <div class="week-header week-content week-section" (click)="selectWeek(0)" [class.active]="Desc">
+                <h3>About</h3>
+            </div>
+            
+            <div *ngFor="let week of getAllWeeks()" 
+                 class="week-section"
+                 [class.active]="selectedWeek === week && !Desc">
+
+                
+
+                <div class="week-header" (click)="selectWeek(week)">
+                    <h3>Week {{ week }}</h3>
+                </div>
+
+                <!-- Content for selected week -->
+                <div class="week-content" *ngIf="selectedWeek === week && !Desc">
+                    <!-- Videos -->
+                    <div class="content-section" *ngIf="getTopicsForWeek(week).length > 0">
+                        <div class="section-title">Videos</div>
+                        <div class="video-list">
+                            <div *ngFor="let video of getTopicsForWeek(week)" 
+                                 class="content-item"
+                                 [class.active]="selectedContent === video"
+                                 (click)="selectVideo(video)">
+                                <div class="content-title">{{ video.mainTopicTitle }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Assignments -->
+                    <div class="content-section" *ngIf="getAssignmentsForWeek(week).length > 0">
+                        <div class="section-title">Assignments</div>
+                        <div class="video-list">
+                            <div *ngFor="let assignment of getAssignmentsForWeek(week),let i = index" 
+                                 class="content-item"
+                                 [class.active]="selectedContent === assignment"
+                                 (click)="selectAssignment(assignment)">
+                                <div class="content-title">Week {{week}} Assignment {{ i+1 }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Projects -->
+                    <div class="content-section" *ngIf="getProjectsForWeek(week).length > 0">
+                        <div class="section-title">Projects</div>
+                        <div class="video-list">
+                            <div *ngFor="let project of getProjectsForWeek(week),let i = index" 
+                                 class="content-item"
+                                 [class.active]="selectedContent === project"
+                                 (click)="selectProject(project)">
+                                <div class="content-title">Week {{week}} Project {{ i+1 }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right content area (70%) -->
+    <div class="content" *ngIf=" this.coursePlan.length != 0 || this.assignments.length != 0 || this.projects.length!=0">
+        <!-- Video Content -->
+        <div class="content-container" *ngIf="selectedContent && isVideo(selectedContent) && !Desc">
+            <h2>{{ selectedContent.mainTopicTitle }}</h2>
+            <video controls [src]="getCurrentVideo()" class="video-player">
+                <track kind="subtitles" src="https://example.com/subtitles-en.vtt" srclang="en" label="English" default>
+            </video>
+            <div class="content-description">
+                <p>{{ selectedContent.explanation }}</p>
+            </div>
+        </div>
+
+        <!-- Assignment Content -->
+        <div class="content-container" *ngIf="selectedContent && isAssignment(selectedContent) && !Desc">
+            <h2>Assignment</h2>
+            <div class="content-description">
+                <div *ngIf="selectedContent.aiCourseAssignment">
+                    <p><strong>Assignment Description:</strong> {{ data['Assignment Description'] }}</p>
+                  
+                    <div *ngIf="data['Tasks'] && data['Tasks'].length > 0">
+                      <strong>Tasks:</strong>
+                      <ul>
+                        <li *ngFor="let task of data['Tasks']">{{ task }}</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="info-message">
+                    <i class="fas fa-info-circle"></i>
+                    <p>You can only submit your assignment once, and it must contain at least two words.</p>
+                  </div>
+                  
+
+                <textarea [(ngModel)]="selectedContent.aiCourseAssignmentUserAnswer"
+                          placeholder="Enter your answer here..."
+                          rows="5"
+                          class="answer-input"></textarea>
+
+                          <button class="submit-btn" *ngIf="answerwrite==''" (click)="submitAssignmentAnswer(selectedContent.aiCourseAssignmentUserAnswer,selectedContent.id)" [disabled]="!verifyanswer(selectedContent.aiCourseAssignmentUserAnswer)">Submit</button>
+
+            </div>
+        </div>
+
+        <!-- Project Content -->
+        <div class="content-container" *ngIf="selectedContent && isProject(selectedContent) && !Desc">
+            <h2>Project</h2>
+            <div class="content-description">
+                <div *ngIf="selectedContent.aiCourseProject">
+                    <p><strong>Project Title:</strong> {{ data['Project Title'] }}</p>
+                    <p><strong>Project Description:</strong> {{ data['Project Overview'] }}</p>
+                  
+                    <div *ngIf="data['Key Features'] && data['Key Features'].length > 0">
+                      <strong>Key Features:</strong>
+                      <ul>
+                        <li *ngFor="let task of data['Key Features']">{{ task }}</li>
+                      </ul>
+                    </div>
+
+                    <div *ngIf="data['Technologies Used'] && data['Technologies Used'].length > 0">
+                        <strong>Technologies Used:</strong>
+                        <ul>
+                          <li *ngFor="let task of data['Technologies Used']">{{ task }}</li>
+                        </ul>
+                      </div>
+                  </div>
+
+                  <div class="info-message">
+                    <i class="fas fa-info-circle"></i>
+                    <p>You can only submit your assignment once, and it must contain at least two words.</p>
+                  </div>
+                  
+                <textarea [(ngModel)]="selectedContent.aiCourseProjectUserAnswer"
+                            (change)="saveanswer('')"
+                          placeholder="Enter your project details here..."
+                          rows="5"
+                          class="answer-input"></textarea>
+
+                          <button class="submit-btn" *ngIf="answerwrite==''"  (click)="submitProjectAnswer(selectedContent.aiCourseProjectUserAnswer,selectedContent.id)"  [disabled]="!verifyanswer(selectedContent.aiCourseProjectUserAnswer)">Submit</button>
+            </div>
+        </div>
+
+        <div class="content-container" *ngIf="Desc">
+            <h2>Course Plan: {{ course.coursePlanName }}</h2>
+            <hr/>
+        <div class="content-description" *ngIf="course; else loading">
+            <p><strong>Learning Goal:</strong> {{ course.learningGoal }}</p><br/>
+            <p><strong>Starting Point:</strong> {{ course.courseStartingPoint }}</p><br/>
+            <p><strong>Preferences:</strong> {{ course.preferences }}</p><br/>
+            <p><strong>Week Duration:</strong> {{ course.weekDuration }} week(s)</p><br/>
+            <p><strong>Hours Per Week:</strong> {{ course.hoursPerWeek }} hours</p><br/>
+            <p><strong>Created At:</strong> {{ course.createdAt | date }}</p>
+          </div>
+
+          
+          <ng-template #loading>
+            <p>Loading course plan...</p>
+          </ng-template>
+        </div>
+    </div>
+
+    <div class="no-content-data" *ngIf="this.coursePlan.length == 0 && this.assignments.length == 0 && this.projects.length==0">
+        <h2>{{!isTimeDifferenceGreaterThan30Minutes(course.createdAt)?'Still We Are Cooking Your Course Please Come After some time':'Something Went Wrong Please Create Another One'}}</h2>
+
+    </div>
+
+
+
+    <!-- Chat Bot Component -->
+    <div class="chat-widget" [class.open]="isOpen">
+        <!-- Chat Button -->
+        <button class="chat-button" (click)="toggleChat()">
+            <i class="fas fa-comments"></i>
+            Chat
+        </button>
+    
+        <!-- Chat Window -->
+        <div class="chat-window" *ngIf="isOpen">
+            <div class="chat-header">
+                <h3>Course Assistant</h3>
+                <div class="header-buttons">
+                    <button class="clear-button" (click)="clearChat()">Clear</button>
+                    <button class="close-button" (click)="toggleChat()">×</button>
+                </div>
+            </div>
+    
+            <div class="chat-messages">
+                <div *ngFor="let message of chatHistory" class="message-group">
+                    <div class="user-message">
+                        <p>{{ message.query }}</p>
+                        <small class="timestamp">{{ message.timestamp | date:'short' }}</small>
+                    </div>
+                    <div class="bot-message">
+                        <p>{{ message.response }}</p>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="chat-input">
+                <input type="text" 
+                       [(ngModel)]="userInput" 
+                       placeholder="Ask about the course..."
+                       (keyup.enter)="sendMessage()"
+                       [disabled]="isLoading">
+                <button (click)="sendMessage()" [disabled]="isLoading">
+                    <i class="fas" [class.fa-spinner]="isLoading" [class.fa-paper-plane]="!isLoading"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="overlay" *ngIf="isOverlayOpen">
+        <div class="overlay-content" *ngIf="iscompleted">
+          <h4>Your Score is {{tempdata.final_score}}</h4>
+          <h6>Other Details :</h6>
+          <p><strong>Grade :</strong>{{tempdata.grade}}</p>
+          <p><strong>feedback :</strong>{{tempdata.final_feedback}}</p>
+          <p><strong>Most Memebrs Used text :</strong>{{tempdata.most_similar_text}}</p>
+          <button class="close-btn" (click)="closeOverlay()">Close</button>
+        </div>
+
+        <div *ngIf="!iscompleted" class="main">
+            <div class="loader"></div>
+            </div>
+      </div>
+</div>

@@ -1,0 +1,117 @@
+<div class="mock-interview-container">
+    <h1>Mock Interview</h1>
+    <p>Prepare for the interview in advance and get yourself in the best possible state.</p>
+
+    <div class="assessment-buttons">
+        <button class="assessment-card beta" (click)="openPopup()">
+            <i class="icon">📺</i>
+            <span>Start Mock Interview</span>
+        </button>
+
+        <button class="assessment-card" (click)="openAssignmentPopup()">
+            <i class="icon">💼</i>
+            <span>Start Mock Assignment</span>
+        </button>
+
+
+    </div>
+
+    <div class="filter-section">
+        <select>
+            <option>All Status</option>
+        </select>
+    </div>
+
+    <table class="interview-table">
+      <caption></caption>
+        <thead>
+            <tr>
+                <th>Interview</th>
+                <th>Status</th>
+                <th>Appointment</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="4" class="no-data">You don't have any Interview Copilot™ sessions.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <span>Page 1/1 Total 0</span>
+        <button disabled><</button>
+        <button disabled>></button>
+    </div>
+</div>
+
+<!-- Popup Overlay -->
+<div class="popup-overlay" *ngIf="showPopup">
+    <div class="popup-content">
+        <span class="close-btn" (click)="closePopup()">✖</span>
+
+        <form [formGroup]="interviewForm" (ngSubmit)="submitForm()" class="form">
+            <label class="input-label">Job Role</label>
+            <input type="text" formControlName="jobRole" placeholder="Role.." class="input-field">
+            <div *ngIf="interviewForm.get('jobRole')?.invalid && interviewForm.get('jobRole')?.touched" class="error">
+              Job role is required.
+            </div>
+          
+            <label class="input-label">Description</label>
+            <textarea formControlName="description" placeholder="Description..." class="input-field"></textarea>
+            <div *ngIf="interviewForm.get('description')?.invalid && interviewForm.get('description')?.touched" class="error">
+              Description is required (min 10 characters).
+            </div>
+          
+            <label class="input-label">Experience</label>
+            <input type="text" formControlName="experience" placeholder="Experience..." class="input-field">
+            <div *ngIf="interviewForm.get('experience')?.invalid && interviewForm.get('experience')?.touched" class="error">
+              Experience is required (only numbers allowed).
+            </div>
+          
+            <!-- Resume Section -->
+            <div class="resume" *ngIf="resumeAvailable">
+              <p>
+                Available Resume:
+                <a [href]="resumeFileUrl" target="_blank" class="view-resume">{{ resumeFileName }}</a>
+              </p>
+            </div>
+          
+            <p>Want to upload a new resume?</p>
+            <input type="file" class="resume-input" (change)="onFileSelected($event)" accept=".pdf,.doc,.docx">
+          
+            <button class="generate-button" type="submit" [disabled]="interviewForm.invalid" (click)="click()">Generate Interview</button>
+          </form>
+          
+    </div>
+</div>
+
+<!-- Popup Overlay -->
+<div class="assignmentinterview-popup-overlay" *ngIf="showAssignmentPopup">
+    <div class="assignmentinterview-popup-content">
+        <span class="assignmentinterview-close-btn" (click)="closeAssignmentPopup()">✖</span>
+
+        <form [formGroup]="assignmentInterviewForm" (ngSubmit)="submitAssignmentForm()" class="assignmentinterview-form">
+            <label class="assignmentinterview-input-label">Job Role</label>
+            <input type="text" formControlName="jobRole" placeholder="Role.." class="assignmentinterview-input-field">
+            <div *ngIf="assignmentInterviewForm.get('jobRole')?.invalid && assignmentInterviewForm.get('jobRole')?.touched" class="assignmentinterview-error">
+              Job role is required.
+            </div>
+          
+            <label class="assignmentinterview-input-label">Description</label>
+            <textarea formControlName="description" placeholder="Description..." class="assignmentinterview-input-field"></textarea>
+            <div *ngIf="assignmentInterviewForm.get('description')?.invalid && assignmentInterviewForm.get('description')?.touched" class="assignmentinterview-error">
+              Description is required (min 10 characters).
+            </div>
+          
+            <label class="assignmentinterview-input-label">Experience</label>
+            <input type="text" formControlName="experience" placeholder="Experience..." class="assignmentinterview-input-field">
+            <div *ngIf="assignmentInterviewForm.get('experience')?.invalid && assignmentInterviewForm.get('experience')?.touched" class="assignmentinterview-error">
+              Experience is required (only numbers allowed).
+            </div>
+          
+            <button class="assignmentinterview-generate-button" type="submit" [disabled]="assignmentInterviewForm.invalid">Generate Interview</button>
+        </form>
+    </div>
+</div>

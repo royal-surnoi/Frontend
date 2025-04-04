@@ -1,0 +1,183 @@
+/* Main container */
+.result-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+  /* background-color:#CBDCEB; */
+  height: 100vh;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: rgb(17, 16, 16)  ;
+  font-size: 2rem;
+  font-weight: bold;
+  padding-top: 20px;
+}
+
+/* Row styling */
+.result-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+
+}
+.examname{
+  font-size: 20px!important;
+}
+
+/* Individual result card styling */
+.result-card {
+  background-color: #F3F3E0;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: calc(33.33% - 20px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+ 
+}
+
+.result-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.view-result-btn {
+  padding: 10px 0px;
+  width: 50%;
+  margin-left: 80px;
+  margin-top: 10px;
+  background-color: #133E87;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+ 
+}
+
+.view-result-btn:hover {
+  background-color: #608BC1;
+}
+
+/* Popup Overlay */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+ 
+}
+
+.popup-content {
+  padding: 30px;
+  border-radius: 10px;
+  width: 500px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  position: relative;
+  text-align: center;
+  background-color:#CBDCEB ;
+  background-image: url(https://png.pngtree.com/thumb_back/fh260/back_our/20190620/ourmid/pngtree-college-entrance-examination-must-win-inspirational-poster-background-material-image_150447.jpg);
+  background-size: cover;
+}
+
+.popup-content h2 {
+  text-align: center;
+  color: #f2f6fa;
+  margin-top: 80px;
+ 
+ 
+ 
+}
+
+/* User Details */
+.user-details {
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  margin-bottom: 20px;
+  gap: 15px;
+  padding: 20px;
+  text-align: center;
+  margin-right: 50px;
+  color: #c8f525;
+}
+
+
+.profile-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding-left: 0px;
+}
+
+.rank-card-details p {
+  font-size: 1.2rem;
+  margin: 20px 0;
+  color: #c8f525;
+  font-family: 'Times New Roman', Times, serif;
+ margin-top: -10px;
+
+}
+
+/* Print Button */
+.print-btn {
+  display: block;
+  margin: 20px auto 0;
+  padding: 10px 20px;
+  background-color: #133E87;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.print-btn:hover {
+  background-color: #608BC1;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #7f8c8d;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+  color: #e74c3c;
+}
+
+@media print {
+  .print-btn {
+    display: none;
+  }
+}
+

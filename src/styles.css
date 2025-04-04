@@ -1,0 +1,137 @@
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@import 'ngx-toastr/toastr';
+ 
+html,
+body {
+    height: 100%;
+    background-color: #fafdff;
+    font-family: 'Mulish', Halvetica, Arial, sans-serif !important;
+    margin: 0;
+ 
+ 
+ 
+    .advanced-pie-legend .total-value {
+        font-size: 30px !important;
+        font-weight: 400 !important;
+        margin-bottom: 7px !important;
+    }
+.advanced-pie-legend .total-label {
+    font-size: 25px !important;
+    margin-bottom: 30px !important;
+  }
+ 
+  .advanced-pie-legend .legend-items-container .legend-items .legend-item .item-value {
+    font-size: 24px !important;
+    margin-top: 0px !important;
+    margin-left: 11px !important;
+  }
+ 
+  .advanced-pie-legend .legend-items-container .legend-items .legend-item .item-label {
+    font-size: 14px !important;
+    opacity: 0.7 !important;
+    margin-left: 11px !important;
+    margin-top: 0px !important;
+  }
+ 
+  /*** assignment section*** */
+ 
+ 
+  .mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs>.mat-mdc-tab-header .mat-mdc-tab {
+    flex-grow: 1;
+    background-color: #a09ed4;
+    margin-left: 2px;
+    /* border-radius: 5px; */
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+   
+}
+  .mdc-tab__text-label {
+    transition: 150ms color linear;
+    display: inline-block;
+    line-height: 1;
+    z-index: 2;
+    font-weight: 570;
+    color: white !important;
+    font-size: 16px;
+    font-family: 'Mulish', Halvetica, Arial, sans-serif !important;
+}
+.mat-mdc-tab-labels {
+  display: flex;
+  background-color: #f8f8ff;
+  flex: 1 0 auto;
+}
+  .mat-tab-label-active {
+    color: #1976d2;
+    font-size: 16px;
+  }
+ 
+  .mat-mdc-ink-bar {
+    background-color: #ebf0f6;
+  }
+ 
+  .mat-mdc-list-item:not(.mat-mdc-list-item-interactive), .mat-mdc-list-option:not(.mat-mdc-list-item-interactive) {
+    cursor: default;
+    margin-bottom: 15px !important;
+    height: fit-content;
+}
+ 
+.mat-display-medium, .mat-typography .mat-display-medium, .mat-typography h2 {
+  /* font: 400 -10.188rem / 3.25rem Roboto, sans-serif; */
+  letter-spacing: 0rem;
+  margin: 0 0 .5em;
+  font-family: 'Mulish', Halvetica, Arial, sans-serif !important;
+  font-weight: 500;
+  font-size: 30px;
+}
+ 
+}
+ 
+ 
+/* ✅ Success Toast: Light Green Background, Dark Green Border */
+.custom-toast-success {
+  background-color: #e8f5e9 !important;  /* Light green */
+  color: #1b5e20 !important;             /* Dark green text */
+  font-weight: bold;
+  border-left: 6px solid #1b5e20;        /* Dark green left border */
+  box-shadow: 2px 2px 10px rgba(0, 128, 0, 0.2);
+  padding: 8px;
+}
+ 
+/* ❌ Error Toast: Light Red Background, Dark Red Border */
+.custom-toast-error {
+  background-color: #ffebee !important;  /* Light red */
+  color: #b71c1c !important;             /* Dark red text */
+  font-weight: bold;
+  border-left: 6px solid #b71c1c;        /* Dark red left border */
+  box-shadow: 2px 2px 10px rgba(255, 0, 0, 0.2);
+  padding: 8px;
+ 
+}
+ 
+/* ⚠️ Warning Toast: Light Yellow Background, Dark Orange Border */
+.custom-toast-warning {
+  background-color: #fff3e0 !important;  /* Light yellow */
+  color: #e65100 !important;             /* Dark orange text */
+  font-weight: bold;
+  border-left: 6px solid #e65100;        /* Dark orange left border */
+  box-shadow: 2px 2px 10px rgba(255, 165, 0, 0.2);
+  padding: 8px;
+ 
+}
+ 
+/* ✅ Common Toastr Styles */
+.toast-top-right {
+  top: 12px !important;
+  right: 12px !important;
+}
+ 
+/* 🎨 Progress Bar: Darker Color */
+.ngx-toastr .toast-progress {
+  background-color: rgba(0, 0, 0, 0.2) !important;  /* Dark progress bar */
+}
+ 
+ 
+ 
+ 

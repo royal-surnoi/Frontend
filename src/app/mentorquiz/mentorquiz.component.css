@@ -1,0 +1,179 @@
+.headding h4{
+    font-family: 'Mulish', Helvetica, Arial, sans-serif;
+    text-align: right;
+    margin-top: 50px;
+   }
+   .headding button{
+    font-family: 'Mulish', Helvetica, Arial, sans-serif;
+    border-radius: 15px;
+   
+   }
+   .headding {
+    height: 100px;
+    width:100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #D3D9D4;
+    background-size: 600% 600%;
+    /* animation: gradientBG 30s ease infinite; */
+    padding: 0 20px;
+     
+    color: black;
+     
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s, color 0.3s;
+}
+ 
+/* Container Styles */
+.container {
+    width: 60%;
+    margin: auto;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
+    transition: background-color 0.3s, color 0.3s;
+}
+ 
+/* Heading Styles */
+h1 {
+    text-align: center;
+    color: #124E66;
+}
+ 
+/* Question Styles */
+.question {
+    margin-bottom: 20px;
+}
+ 
+.questionbox {
+    width: 100%;
+    height: 30px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+ 
+.answerbox {
+    width: 25%;
+    height: 24px;
+    border: 1px solid rgb(94, 41, 95);
+    border-radius: 10px;
+    margin: 5px;
+}
+ 
+/* Button Styles */
+button {
+    display: block;
+    width: 50%;
+    transform: translate(50%);
+    padding: 10px;
+    background-color: #452758;
+    border-radius: 24px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: background-color 0.3s, color 0.3s;
+}
+ 
+button:hover {
+    background-color: #452758e0 ;
+    border: #452758  1px solid;
+    color: #f1f1f1 ;
+    font-weight: bold;
+}
+ 
+ 
+/* Icon Styles */
+.icon {
+    cursor: pointer;
+    color: #999;
+    transition: color 0.3s;
+}
+ 
+.icon:hover {
+    color: #333;
+}
+ 
+ 
+.small-icon i {
+    font-size: 0.8em;
+}
+ 
+/* Quiz Input Styles */
+.quiz-name-input {
+    margin-bottom: 20px;
+   
+}
+ 
+.quizTitle {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translate(-44px, 0px);
+}
+ 
+.quizTitle label {
+    display: block;
+    margin-bottom: 5px;
+    color: rgb(94, 41, 95);
+}
+ 
+#quizName {
+    width: 51%;
+    height: 44px;
+    border-radius: 8px;
+    border: 1px solid rgb(94, 41, 95);
+    padding: 0 10px;
+    font-size: 16px;
+}
+ 
+.quizDates {
+    display: flex;
+    justify-content: center;
+    margin: 22px 50px 20px -109px;
+}
+ 
+.quizDates label {
+    display: block;
+    margin-bottom: 5px;
+    color: rgb(94, 41, 95);
+}
+ 
+.quizDates input[type="datetime-local"] {
+    width: 45%;
+    height: 44px;
+    border-radius: 8px;
+    border: 1px solid rgb(94, 41, 95);
+    padding: 0 10px;
+    font-size: 16px;
+}
+ 
+.quiz-name-input button {
+    width: 20%;
+    transform: none;
+    margin: 61px 0px 0px 42%;
+}
+ 
+#dashbo{
+    background-color:#452758;
+    width: 200px;
+    margin: 15px 0px 0px -100px;
+}
+ 
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    text-align: center;
+}
+ 

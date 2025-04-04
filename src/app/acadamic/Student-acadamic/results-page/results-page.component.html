@@ -1,0 +1,40 @@
+<div class="result-container">
+    <h1>Exam Results</h1>
+    <div class="result-row">
+      <div *ngFor="let result of results" class="result-card">
+        <h2 class="examname">{{result.name }}</h2>
+        <p><strong>Date:</strong> {{ result.date }}</p>
+        <button class="view-result-btn" (click)="viewResult(result)">View Result</button>
+      </div>
+    </div>
+  
+    <!-- Popup Overlay -->
+    <div class="popup-overlay" *ngIf="showPopup">
+      <div class="popup-content" id="rank-card">
+        <button class="close-btn" (click)="closePopup()">×</button>
+        
+        <h2>Rank Card</h2>
+        
+        <!-- User Details Section -->
+        <div class="user-details">
+          <img [src]="user.profileImage" alt="User Profile" class="profile-img" />
+          <div>
+            <p><strong>Name:</strong> {{ user.name }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+          </div>
+        </div>
+        
+        <!-- Exam Result Details -->
+        <div class="rank-card-details">
+          <p><strong>Exam Name:</strong> {{ selectedResult?.name }}</p>
+          <p><strong>Date:</strong> {{ selectedResult?.date }}</p>
+          <p><strong>Score:</strong> {{ selectedResult?.score }}</p>
+          <p><strong>Total Marks:</strong> {{ selectedResult?.total }}</p>
+          <p><strong>Rank:</strong> {{ selectedResult?.rank }}</p>
+        </div>
+        
+        <button class="print-btn" (click)="printRankCard()">Print Rank Card</button>
+      </div>
+    </div>
+  </div>
+  

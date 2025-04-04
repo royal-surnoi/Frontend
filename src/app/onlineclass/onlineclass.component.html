@@ -1,0 +1,41 @@
+<nav class="headding">
+  <button (click)="navigateToDashboard()" id="dashbbo">
+    <i class="fas fa-arrow-left"></i> Back to Dashboard
+  </button>
+  <h4 style="margin-right:450px;margin-top:15px;">Schedule Online Class</h4>
+</nav>
+
+<form (ngSubmit)="onSubmit()" #trainingRoomForm="ngForm">
+  <div>
+    <label for="roomName">Room Name:</label>
+    <input
+      type="text"
+      id="roomName"
+      name="roomName"
+      [(ngModel)]="roomName"
+      #roomNameInput="ngModel"
+      [attr.required]="true"
+    />
+    <div *ngIf="roomNameInput?.invalid && (roomNameInput?.dirty || roomNameInput?.touched)">
+      <small class="error">Room Name is required.</small>
+    </div>
+  </div>
+
+  <div>
+    <label for="scheduledTime">Scheduled Time:</label>
+    <input
+      type="datetime-local"
+      id="scheduledTime"
+      name="scheduledTime"
+      [(ngModel)]="scheduledTime"
+      #scheduledTimeInput="ngModel"
+      [attr.min]="currentDateTime" 
+      [attr.required]="true"
+    />
+    <div *ngIf="scheduledTimeInput?.invalid && (scheduledTimeInput?.dirty || scheduledTimeInput?.touched)">
+      <small class="error">Scheduled time is required and cannot be in the past.</small>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="trainingRoomForm.invalid">Create Training Room</button>
+</form>

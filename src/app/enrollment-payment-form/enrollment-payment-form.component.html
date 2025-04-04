@@ -1,0 +1,47 @@
+<p-toast></p-toast>
+ 
+<div class="card">
+  <div class="content">
+    <div class="input-fields">
+      <label for="otpEmail">Email</label>
+      <div class="email-container">
+        <p-progressSpinner
+          *ngIf="isEmailLoading"
+          styleClass="small-spinner"
+          [style]="{'width': '30px', 'height': '30px'}"
+        ></p-progressSpinner>
+        <p *ngIf="!isEmailLoading" class="email-display">{{ email }}</p>
+      </div>
+    </div>
+    <button
+      type="button"
+      class="btn-container"
+      (click)="generateOtp()"
+      [disabled]="isEmailLoading || isGeneratingOtp"
+    >
+      <span *ngIf="!isGeneratingOtp">Generate OTP</span>
+      <span *ngIf="isGeneratingOtp">Generating...</span>
+    </button>
+  </div>
+ 
+  <div class="content">
+    <form [formGroup]="verifyForm" (submit)="onSubmit()">
+      <div class="input-fields">
+        <input type="hidden" formControlName="email" />
+        <input type="hidden" formControlName="id" />
+        <input type="hidden" formControlName="courseId" />
+       
+        <label for="otp">OTP</label>
+        <input type="text" id="otp" formControlName="otp" required />
+      </div>
+      <button
+        type="submit"
+        [disabled]="isVerifyingOtp"
+      >
+        <span *ngIf="!isVerifyingOtp">Verify OTP</span>
+        <span *ngIf="isVerifyingOtp">Verifying...</span>
+      </button>
+    </form>
+  </div>
+</div>
+ 

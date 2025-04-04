@@ -1,0 +1,96 @@
+<div class="container"> 
+  <!-- Display Quiz Details -->
+  <div *ngIf="quizDetails && quizDetails.length > 0; else noQuizDetails">
+    <div *ngFor="let quiz of quizDetails" class="quiz-card">
+      <h2 class="quizName">{{ quiz.quizName }}</h2>
+ 
+      <!-- Display questions associated with each quiz -->
+      <div *ngIf="quiz.questions && quiz.questions.length > 0; else noQuestions">
+        <h3>Questions:</h3>
+        <div *ngFor="let question of quiz.questions; let i = index" class="question-card">
+          <h4>{{ i + 1 }}. {{ question.text }}</h4>
+          <ul class="options-list">
+            <li class="option-item">
+              <input
+                type="radio"
+                [name]="'question' + question.id"
+                [value]="question.optionA"
+                [checked]="selectedAnswers[question.id] === question.optionA"
+                (change)="selectOption(question.id, question.optionA)"
+              />
+              {{ question.optionA }}
+            </li>
+            <li class="option-item">
+              <input
+                type="radio"
+                [name]="'question' + question.id"
+                [value]="question.optionB"
+                [checked]="selectedAnswers[question.id] === question.optionB"
+                (change)="selectOption(question.id, question.optionB)"
+              />
+              {{ question.optionB }}
+            </li>
+            <li class="option-item">
+              <input
+                type="radio"
+                [name]="'question' + question.id"
+                [value]="question.optionC"
+                [checked]="selectedAnswers[question.id] === question.optionC"
+                (change)="selectOption(question.id, question.optionC)"
+              />
+              {{ question.optionC }}
+            </li>
+            <li class="option-item">
+              <input
+                type="radio"
+                [name]="'question' + question.id"
+                [value]="question.optionD"
+                [checked]="selectedAnswers[question.id] === question.optionD"
+                (change)="selectOption(question.id, question.optionD)"
+              />
+              {{ question.optionD }}
+            </li>
+          </ul>
+         
+        </div>
+        
+  <!-- Submit Quiz Button -->
+  <button class="submit-button" (click)="submitQuiz()">Submit Quiz</button>
+      </div>
+ 
+      <ng-template #noQuestions>
+        <p>No questions available for this quiz.</p>
+      </ng-template>
+    </div>
+  </div>
+ 
+  <ng-template #noQuizDetails>
+    <p>No quiz details available at the moment.</p>
+  </ng-template>
+</div>
+ 
+<!-- Quiz Result Overlay -->
+<div class="overlay" *ngIf="isOverlayVisible">
+  <div class="overlay-content">
+    <h6>Do you want to submit?</h6>
+    <p>You attempted {{ attemptedQuestions }} </p>
+    <div class="button-group">
+      <button (click)="onYes()">submit</button>
+      <button (click)="onCancel()">Cancel</button>
+    </div>
+   
+  </div>
+</div>
+ 
+<div class="popup" *ngIf="isSubmitted">
+  <div class="popup-content">
+    <h3>Success!</h3>
+    <p>Your quiz has been submitted successfully.</p>
+    <button class="close-popup" (click)="closeSuccessPopup()">OK</button>
+  </div>
+</div>
+ 
+ 
+ 
+ 
+ 

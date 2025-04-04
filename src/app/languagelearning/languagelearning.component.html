@@ -1,0 +1,45 @@
+<div class="Main">
+  <div class="Gif"></div>
+  <div class="random-image"></div>
+
+  <div class="ai-messages">
+    <div>
+      <div class="message ai-reply" *ngIf="chatHistory.length > 0">
+        <h6>AI Response</h6>
+        <p>{{ chatHistory[chatHistory.length - 1]?.aiReply || 'No response yet.' }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="user-messages">
+    <div>
+      <div class="message user-input" *ngIf="chatHistory.length > 0">
+        <h6>Your Sentence</h6>
+        <p>{{ chatHistory[chatHistory.length - 1]?.userInput }}</p>
+        <small class="timestamp">{{ chatHistory[chatHistory.length - 1]?.timestamp | date: 'short' }}</small>
+      </div>
+      <div class="message correction" *ngIf="chatHistory.length > 0">
+        <h6>AI Corrected Sentence</h6>
+        <p>
+          {{ chatHistory[chatHistory.length - 1]?.corrections
+            ?.replace('Your response:', '')
+            ?.replace('Please respond with:', '') }}
+        </p>
+        <small class="timestamp">{{ chatHistory[chatHistory.length - 1]?.timestamp | date: 'short' }}</small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="chat-input">
+  <input
+    type="text"
+    [(ngModel)]="userInput"
+    placeholder="Type your message..."
+    (keyup.enter)="sendMessage()"
+    [disabled]="isLoading1"
+  />
+  <button (click)="sendMessage()" [disabled]="isLoading1" class="send-button">
+    {{ isLoading1 ? 'Sending...' : 'Send' }}
+  </button>
+</div>

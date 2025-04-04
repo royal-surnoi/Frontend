@@ -1,0 +1,159 @@
+<div class="job-listings-page" [ngClass]="theme" *ngIf="isloaded">
+
+  <div class="filters-container">
+    <div class="add-job">
+      <button (click)="onRoleSelect()" class="add-btn">Add Job </button>
+    </div>
+    <div class="role-selection" *ngIf="showRoleOptions">
+      <label for="role">choose your role</label>
+      <select [(ngModel)]="selectedRole" id="role">
+        <option value="" disabled selected>select</option>
+        <option value="admin">Admin</option>
+        <option value="recruiter">Recruiter</option>
+      </select>
+      <button (click)="navigateToRole()" class="detail-btn">Proceed</button>
+    </div>
+    <hr>
+    <!-- ------------------------------------------------------------------- -->
+    <h5>Filters</h5>
+    <div class="filter-group">
+      <h4>Posted Date</h4>
+      <select #dateSelect (change)="updateFilters('dateRange', dateSelect.value)">
+        <option value="all">All Time</option>
+        <option value="today">Today</option>
+        <option value="week">Last Week</option>
+        <option value="month">Last Month</option>
+      </select>
+    </div>
+  
+
+    <!-- From Uiverse.io by adamgiebl -->
+    <div class="form-control">
+      <input class="input input-alt" [(ngModel)]="locationSearch" (input)="searchLocation()"
+        placeholder="Find By Location" type="text">
+      <span class="input-border input-border-alt"></span>
+    </div>
+
+    <div class="form-control">
+      <input class="input input-alt" [(ngModel)]="skillSearch" (input)="searchSkills()"
+        placeholder="Find By Skill" required="" type="text">
+      <span class="input-border input-border-alt"></span>
+    </div>
+
+
+
+
+   
+
+    <div class="filter-group">
+      <select #jobTypeSelect (change)="updateFilters('jobType', jobTypeSelect.value)">
+        <option value="Full-Time">Full-time</option>
+        <option value="Part-Time">Part-time</option>
+        <option value="Remote">Remote</option>
+        <option value="freelancing">freelancing</option>
+        <option value="internship">internship</option>
+      </select>
+    </div>
+
+  </div>
+  <div class="content">
+    <div class="job-listings-container">
+
+      <h3>Recommended Jobs</h3>
+      <div class="job-listings-container">
+        <div class="job-container">
+          <div class="job-cards">
+            <div *ngFor="let job of applicationsListAI; let i = index" class="job-card2">
+              <div class="job-card" [ngStyle]="{ 'background-color': job.bgcolor }">
+                <div class="job-header">
+                  <span class="job-date">{{ formatPostedDate(job.createdAt) }}</span>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" class="company-logo" (click)="saveJob(job.id)">
+                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                </div>
+                <h3 class="job-title" [title]="(job.jobTitle)">{{
+                  (job.jobTitle).length>22?(job.jobTitle).slice(0,19)+'...':(job.jobTitle) }}</h3>
+                <p class="job-company" [title]="(job.jobAdminCompanyName + ',' +job.location)">{{
+                  (job.jobAdminCompanyName + ',' +job.location).length>30?(job.jobAdminCompanyName +
+                  ',' +job.location).slice(0,27)+'...':(job.jobAdminCompanyName + ',' +job.location) }}</p>
+                <div class="job-tags">
+                  <span *ngFor="let tag of getDisplayedSkills(job)" class="job-tag" [title]="tag">{{ tag.length>=7?tag.slice(0,7)+'...':tag }}</span>
+                  <span class="view-more-text" *ngIf="job.requiredSkills && job.requiredSkills.length > 32"
+                    (click)="toggleSkills(job)" class="job-tag">
+                    {{ job.showAllSkills ? 'View Less' : 'View More' }}
+                  </span>
+                </div>
+              </div>
+              <div class="Details">
+              <p class="job-salary">{{ job.minSalary | number | currency:'INR':'symbol' }} - {{ job.maxSalary | number | currency:'INR':'symbol' }}</p>
+                <p class="job-location">{{ job.requiredWorkExperience }}</p>
+                <p class="job-location" *ngIf="job.appliedCount">{{ job.appliedCount }}+ Applicants</p>
+                <button class="details-btn" (click)="viewJob(job.id)">Details</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="job-container">
+          <div class="job-cards">
+            <div *ngFor="let job of paginatedJobs; let i = index" class="job-card2">
+              <div class="job-card" [ngStyle]="{ 'background-color': job.bgcolor }">
+                <div class="job-header">
+                  <span class="job-date">{{ formatPostedDate(job.createdAt) }}</span>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" class="company-logo" (click)="saveJob(job.id)">
+                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                </div>
+                <h3 class="job-title" [title]="(job.jobTitle)">{{
+                  (job.jobTitle).length>22?(job.jobTitle).slice(0,19)+'...':(job.jobTitle) }}</h3>
+                <p class="job-company" [title]="(job.jobAdmin?.jobAdminCompanyName + ',' +job.location)">{{
+                  (job.jobAdmin?.jobAdminCompanyName + ',' +job.location).length>30?(job.jobAdmin?.jobAdminCompanyName +
+                  ',' +job.location).slice(0,27)+'...':(job.jobAdmin?.jobAdminCompanyName + ',' +job.location) }}</p>
+                <div class="job-tags">
+                  <span *ngFor="let tag of getDisplayedSkills(job)" class="job-tag" [title]="tag">{{ tag.length>=7?tag.slice(0,7)+'...':tag }}</span>
+                  <span class="view-more-text" *ngIf="job.requiredSkills && job.requiredSkills.length > 32"
+                    (click)="toggleSkills(job)" class="job-tag">
+                    {{ job.showAllSkills ? 'View Less' : 'View More' }}
+                  </span>
+                </div>
+              </div>
+              <div class="Details">
+                <p class="job-salary">{{ job.maxSalary | currency:'INR':'symbol' }}</p>
+                <p class="job-location">{{ job.requiredWorkExperience }}+ Experiance Required</p>
+                <p class="job-location" *ngIf="job.appliedCount">{{ job.appliedCount }}+ Applicants</p>
+                <button class="details-btn" (click)="viewJob(job.id)">Details</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="pagination">
+          <button *ngIf="currentPage > 1" class="button-3d" (click)="changePage(currentPage - 1)">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <span class="pagination-current">{{ currentPage }}</span>
+          <button *ngIf="currentPage < Math.ceil(filteredJobs.length / itemsPerPage)" class="button-3d"
+            (click)="changePage(currentPage + 1)">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+</div>
+
+<div class="body" *ngIf="!isloaded">
+  <div class="loader">
+    <div class="f-letter">F</div>
+    <div class="f-letter">F</div>
+    <div class="f-letter">F</div>
+  </div>
+  <p class="loader2">Loading..</p>
+</div>

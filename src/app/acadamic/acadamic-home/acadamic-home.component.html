@@ -1,0 +1,99 @@
+<div class="accounts-container">
+  <h1 class="title">Accounts</h1>
+ <div class="search-bar">
+<input
+  type="text"
+  placeholder="Search accounts..."
+  class="search-input"
+  (input)="onSearch($event)"
+/>
+<i class="fa fa-search search-icon"></i>
+</div>
+ 
+  <div class="card-container">
+    <div
+    class="card"
+    *ngFor="let account of userAccounts"
+    (click)="onAccountClick(account)"
+  >
+    <div class="top-card">
+      <img [src]="account.image" class="card-image" alt="image">
+    </div>
+    <div class="bottom-card">
+      <div class="card-content">
+        <span class="card-title">{{ account.role }}</span>
+        <p class="card-txt">at {{ account.instituteName }}</p>
+        <button class="card-btn"><i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-container">
+    <div
+    class="card"
+    (click)="onAccountClick2"
+   >
+    <div class="top-card">
+      <img [src]="" class="card-image" alt="image">
+    </div>
+    <div class="bottom-card">
+      <div class="card-content">
+        <span class="card-title">student</span>
+        <p class="card-txt">at abc</p>
+        <button class="card-btn" routerLink="['/StudentAcadamic',1]"><i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+    </div>
+  </div>
+ 
+    <div class="card" (click)="onAddClick()">
+      <div class="top-card">
+      </div>
+ 
+    <div class="info-card">
+        <div class="info-card-content">
+          <h3 class="info-card-title">Register Institute</h3>
+          <p class="info-card-description">
+            Add Institute
+          </p>
+          <button class="info-card-btn">
+            <span>Add More</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+ 
+  <div class="pagination">
+    <button
+      class="pagination-btn"
+      [disabled]="currentPage === 1"
+      (click)="goToPreviousPage()"
+    >
+      &laquo; Prev
+    </button>
+ 
+    <button
+      class="pagination-btn"
+      *ngFor="let page of totalPages; let i = index"
+      [class.active]="currentPage === i + 1"
+      (click)="goToPage(i + 1)"
+    >
+      {{ i + 1 }}
+    </button>
+ 
+    <button
+      class="pagination-btn"
+      [disabled]="currentPage === totalPages.length"
+      (click)="goToNextPage()"
+    >
+      Next &raquo;
+    </button>
+  </div>
+</div>
+
+
+
+ 
+ 
+ 
+ 

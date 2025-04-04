@@ -1,0 +1,97 @@
+<main class="main-container">
+    <div class="login-container">
+        <!-- Left Panel -->
+        <div class="welcome-panel">
+            <h2>Welcome to FusionIQ AI</h2>
+            <p>"Empowering Developers to Spark the Next Tech Revolution 💪 ✨</p>
+            <p>#FUSIONIQ AI</p>
+        </div>
+   
+        <!-- Right Panel -->
+        <div class="login-panel">
+            <h2>Create an Account</h2>
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="login-form">
+              <!-- Company Name Validation -->
+              <input type="text" formControlName="jobAdminCompanyName" placeholder="Company Name">
+              <div *ngIf="registerForm.get('jobAdminCompanyName')?.touched && registerForm.get('jobAdminCompanyName')?.invalid">
+                <small *ngIf="registerForm.get('jobAdminCompanyName')?.errors?.['required']">
+                  Company Name is required.
+                </small>
+                <small *ngIf="registerForm.get('jobAdminCompanyName')?.errors?.['minlength']">
+                  Company Name must be at least 3 characters.
+                </small>
+                <small *ngIf="registerForm.get('jobAdminCompanyName')?.errors?.['maxlength']">
+                    Company Name cannot exceed 30 characters.
+                  </small>
+                <small *ngIf="registerForm.get('jobAdminCompanyName')?.errors?.['pattern']">
+                  Company Name can only contain letters and spaces.
+                </small>
+              </div>
+         
+              <!-- Admin name Validation -->
+              <input type="text" formControlName="jobAdminName" placeholder="Admin Name">
+              <div *ngIf="registerForm.get('jobAdminName')?.touched && registerForm.get('jobAdminName')?.invalid">
+                <small *ngIf="registerForm.get('jobAdminName')?.errors?.['required']">
+                  Admin Name is required.
+                </small>
+                <small *ngIf="registerForm.get('jobAdminName')?.errors?.['minlength']">
+                    Admin Name must be at least 3 characters.
+                  </small>
+                <small *ngIf="registerForm.get('jobAdminName')?.errors?.['maxlength']">
+                    Admin Name cannot exceed 30 characters.
+                  </small>
+              </div>
+ 
+              <!-- Role Validation -->
+              <select name="adminrole" formControlName="role" id="adminrole">
+                <option value="" disabled selected hidden>Choose a role</option>
+                <option value="admin">Admin</option>
+              </select>
+              <div *ngIf="registerForm.get('role')?.touched && registerForm.get('role')?.invalid">
+                <small *ngIf="registerForm.get('role')?.errors?.['required']">Role is required.</small>
+              </div>
+         
+              <!-- Email Validation -->
+              <input type="email" formControlName="jobAdminEmail" placeholder="Email">
+              <div *ngIf="registerForm.get('jobAdminEmail')?.touched && registerForm.get('jobAdminEmail')?.invalid">
+                <small *ngIf="registerForm.get('jobAdminEmail')?.errors?.['required']">Email is required.</small>
+                <small *ngIf="registerForm.get('jobAdminEmail')?.errors?.['email']">Invalid email format.</small>
+              </div>
+         
+              <!-- Password Validation -->
+              <input type="password" formControlName="jobAdminPassword" placeholder="Password">
+              <div *ngIf="registerForm.get('jobAdminPassword')?.touched && registerForm.get('jobAdminPassword')?.invalid">
+                <small *ngIf="registerForm.get('jobAdminPassword')?.errors?.['required']">Password is required.</small>
+                <small *ngIf="registerForm.get('jobAdminPassword')?.errors?.['minlength']">
+                  Password must be at least 8 characters.
+                </small>
+                <small *ngIf="registerForm.get('jobAdminPassword')?.errors?.['pattern']">
+                  Password must contain uppercase, lowercase, a number, and a special character.
+                </small>
+              </div>
+         
+              <!-- Confirm Password Validation -->
+              <input type="password" formControlName="jobAdminConfirmPassword" placeholder="Confirm Password">
+              <div *ngIf="registerForm.get('jobAdminConfirmPassword')?.touched && registerForm.get('jobAdminConfirmPassword')?.invalid">
+                <small *ngIf="registerForm.get('jobAdminConfirmPassword')?.errors?.['required']">
+                  Confirm Password is required.
+                </small>
+                <small *ngIf="registerForm.get('jobAdminConfirmPassword')?.errors?.['mustMatch']">
+                  Passwords do not match.
+                </small>
+              </div>
+         
+              <!-- Submit Button -->
+              <button type="submit" class="login-button" [disabled]="registerForm.invalid">Sign Up</button>
+            </form>
+            <div class="signup-link">
+              <p>Already have an account?</p>
+              <a routerLink="/JobAdminLogin">Login here</a>
+            </div>
+          </div>
+        </div>  
+  </main>
+   
+   
+ 
+ 

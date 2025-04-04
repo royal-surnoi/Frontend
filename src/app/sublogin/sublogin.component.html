@@ -1,0 +1,58 @@
+<div>
+    <div class="main"  >
+        <div class="video-background-container">
+        </div>
+   
+        <div class="container">
+            <div class="info-card">
+                <h1>Welcome to <span>FusionIQ AI</span></h1>
+                <h1><span>Mentor</span></h1>
+            </div>
+            <div class="login-card">
+                <h2>Mentor Login</h2>
+                <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+                    <div class="input-wrapper">
+                        <input class="passinput" [(ngModel)]="loginData.username" id="username" name="username" type="text" placeholder="Enter email/Username" required autofocus>
+                    </div>
+                    <div class="input-wrapper">
+                        <input class="passinput" [(ngModel)]="loginData.password" id="password" name="password" [type]="showPassword ? 'text' : 'password'" placeholder="Password" required>
+                        <i class="password-toggle fas" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'" (click)="togglePasswordVisibility()"></i>
+                    </div>
+                    <div class="error-message">{{ errorMessage }}</div>
+                    <a href="#" (click)="navigateToForgotusernamepassword($event)" style="color: #758; font-size: 15px; text-decoration: underline; width: 100%;">forgot Username/Password</a>
+                    <div *ngIf="showForgotPopup" class="forgot-popup-overlay">
+                        <div class="forgot-popup">
+                            <h2>Forgot</h2>
+                            <button class="forgot-btn" (click)="onForgotUsername()">Forgot Username</button>
+                            <button class="forgot-btn" (click)="onForgotPassword()">Forgot Password</button>
+                            <button class="close-btn" (click)="closeForgotPopup()">Close</button>
+                        </div>
+                    </div>
+                    <button type="submit">Login</button>
+                </form>
+                <p>Don't have an account? <a href="#" class="new-account" (click)="navigateToHrRegister($event)">
+                    <br>Create an account
+                </a></p>
+            </div>
+           
+        </div>
+       
+        <div *ngIf="showPopup" class="popup-overlay">
+            <div class="popup-content">
+                <ng-container *ngIf="loginStatus === 'success'; else errorContent">
+                    <h2>Welcome to Mentor Perspective</h2>
+                    <p>Your journey continues here. Log in to access your account.</p>
+                </ng-container>
+                <ng-template #errorContent>
+                    <p>{{ errorMessage }}</p>
+                </ng-template>
+                <button (click)="closePopup()" class="close-button">Click Here</button>
+            </div>
+        </div>
+    </div>
+    </div>
+ 
+ 
+ 
+ 
+ 

@@ -1,0 +1,419 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+ 
+/* Container styling */
+.accounts-container {
+  max-width: 100%;
+  margin: 3rem auto;
+  padding: 2rem;
+  background-color: #f4f4f4;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Roboto', Arial, sans-serif;
+  text-align: center;
+  margin-top: 2vh;
+  padding-bottom: 90px;
+  position: relative;
+}
+ 
+/* Title styling */
+.title {
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  color: #333;
+  text-align: left;
+}
+ 
+/* Button styling */
+.account-button {
+  width: 100%;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: white;
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+  outline: none;
+}
+ 
+/* Hover effect for the button */
+.account-button:hover {
+  background: linear-gradient(135deg, #2575fc, #6a11cb);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(37, 117, 252, 0.3);
+}
+ 
+/* Active button effect */
+.account-button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 8px rgba(37, 117, 252, 0.2);
+}
+ 
+/* Role styling */
+.account-role {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+ 
+/* Institution styling */
+.account-institution {
+  font-size: 1rem;
+  margin-top: 6px;
+  color: #d9ecff;
+}
+ 
+/* Button focus outline */
+.account-button:focus {
+  outline: 3px solid #80b3ff;
+}
+ 
+ 
+ 
+.card-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+ 
+.card {
+  position: relative;
+  width: 190px;
+  height: 254px;
+  background-color: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+}
+ 
+.top-card {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  height: 65%;
+  transition: height 0.3s ease;
+  background-color: #fff;
+}
+ 
+.bottom-card {
+  border-top-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  height: 35%;
+  transition: height 0.3s ease;
+  background-color:#452758e0;
+}
+ 
+.bottom-card::before {
+  content: "";
+  position: absolute;
+  background-color: transparent;
+  bottom: 89px;
+  height: 50px;
+  width: 175px;
+  transition: bottom 0.3s ease;
+  border-bottom-left-radius: 20px;
+  box-shadow: 0 30px 0 0 #452758;
+}
+ 
+.card-content {
+  padding-top: 13%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+ 
+.card-title {
+  font-weight: 700;
+  font-size: 18px;
+}
+ 
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+ 
+.card-txt {
+  font-size: 14px;
+}
+ 
+ 
+.card-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 16px;
+  color: #452758;
+  background-color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
+}
+ 
+/* Arrow Icon */
+.card-btn i {
+  font-size: 20px;
+  color: #452758;
+  transition: color 0.3s ease;
+}
+ 
+.card-btn:hover i {
+  color: #452758e0;
+}
+ 
+.card:hover {
+  box-shadow: 0px 2px 2px #0a3bffa1;
+  border: solid 1px #0a3cff;
+}
+ 
+.card:hover .top-card {
+  height: 35%;
+  transition: height 0.3s ease;
+}
+ 
+.card:hover .bottom-card {
+  height: 65%;
+  transition: height 0.3s ease;
+}
+ 
+.card:hover .bottom-card::before {
+  bottom: 164px;
+  transition: bottom 0.3s ease;
+}
+ 
+.card-btn:hover {
+  color: black;
+  background-color: #fff;
+  transition: background-color 0.4s ease;
+  transform: scale(1.05);
+}
+ 
+ 
+.search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: -93px 0px 20px auto;
+  width: 300px;
+  background-color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  position: relative;
+  transition: all 0.3s ease;
+}
+ 
+.search-bar:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+ 
+.search-input {
+  flex: 1;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 30px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+ 
+.search-input:focus {
+  background-color: #f0f4ff;
+}
+ 
+.search-input::placeholder {
+  color: #999;
+  font-style: italic;
+}
+ 
+.search-icon {
+  color: #007BFF;
+  font-size: 18px;
+  cursor: pointer;
+  margin-left: 8px;
+  transition: color 0.3s ease;
+}
+ 
+.search-icon:hover {
+  color: #0056b3;
+}
+ 
+ 
+ 
+.info-card {
+  background: linear-gradient(135deg, #452758, #452758e0);
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  color: #fff;
+  padding: 20px;
+  max-width: 300px;
+  margin: 20px auto;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+ 
+.info-card:hover,
+.info-card:focus-within,
+.info-card:active {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+}
+ 
+.info-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+ 
+.info-card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+ 
+.info-card-description {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+ 
+.info-card-btn {
+  background: #fff;
+  border: none;
+  border-radius: 50px;
+  color: #2575fc;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 10px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background-color 0.3s, color 0.3s, transform 0.2s;
+}
+ 
+.info-card-btn span {
+  transition: color 0.3s;
+}
+ 
+.info-card-btn:hover,
+.info-card-btn:focus,
+.info-card-btn:active {
+  background: #452758;
+  color: #fff;
+}
+ 
+.info-card-btn:hover span,
+.info-card-btn:focus span,
+.info-card-btn:active span {
+  color: #fff;
+}
+ 
+.info-card-btn:hover i,
+.info-card-btn:focus i,
+.info-card-btn:active i {
+  color: #fff;
+}
+ 
+ 
+/* Add Institute Card */
+.add-institute {
+  margin-top: 20px;
+  text-align: center;
+  grid-column: span 4;
+  background-color: #f8f9fa;
+  border: 2px dashed #452758;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+ 
+/* Pagination at the bottom */
+.pagination {
+  position: absolute; /* Ensures it stays at the bottom of the container */
+  bottom: 20px; /* Distance from the bottom edge */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+ 
+/* Pagination Button Styles */
+.pagination-btn {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  color: #007bff;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+ 
+.pagination-btn:hover {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+ 
+.pagination-btn:disabled {
+  background-color: #f1f1f1;
+  color: #ccc;
+  cursor: not-allowed;
+}
+ 
+.pagination-btn.active {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+ 
+ 
+ .accounts-Comingsoon{
+  max-width: 100%;
+  margin: auto;
+  padding: 2rem;
+  background-color: #f4f4f4;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Roboto', Arial, sans-serif;
+  margin-top: 2vh;
+  padding-bottom: 90px;
+  position: relative;
+  align-items: center;
+  text-align: center;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+ }
+ 
+.Comingsoon{
+  text-align: center;
+  margin: auto;
+}

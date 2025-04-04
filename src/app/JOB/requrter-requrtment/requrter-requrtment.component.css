@@ -1,0 +1,1129 @@
+/* jOB CARDS */
+ 
+
+ 
+.filters-container {
+ 
+  width: 250px;
+  padding: 20px;
+  background-color: #f0f4f8;
+  border: 2px solid #0073e6;
+  border-radius: 8px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #333;
+  max-height: 600px;
+  overflow-y: auto;
+ 
+}
+ 
+.job-listings-container {
+ 
+  flex: 1;
+ 
+}
+ 
+.job-listing {
+ 
+  background-color:#ffff;
+ 
+  border: 1px solid #452758;
+ 
+  border-radius: 10px;
+ 
+  padding: 20px;
+ 
+  margin-bottom: 20px;
+ 
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+ 
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+ 
+}
+ 
+.job-listing:hover {
+ 
+  transform: translateY(-5px);
+ 
+  box-shadow: 0 8px 14px rgba(0, 0, 0, 0.15);
+ 
+  border-color: #452758;
+ 
+}
+ 
+ 
+.job-title {
+ 
+  /* background: linear-gradient(45deg,#1F1F21, #9695A0); */
+ 
+color: #0a0a0a;
+ 
+/* padding: 10px 15px;  */
+ 
+border-radius: 10px;
+ 
+font-weight: bold;
+ 
+/* text-align: center; */
+ 
+/* box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); */
+ 
+}
+ 
+.company-info {
+ 
+  display: flex;
+ 
+  justify-content: space-between;
+ 
+  margin-bottom: 10px;
+ 
+  color: #3f5771;
+ 
+  font-size: 0.95em;
+ 
+}
+ 
+.rating-container {
+ 
+  display: flex;
+ 
+  align-items: center;
+ 
+}
+ 
+.rating {
+ 
+  font-weight: bold;
+ 
+  margin-right: 5px;
+ 
+  color: #ffb300;
+ 
+}
+ 
+.job-details {
+ 
+  display: flex;
+ 
+  gap: 15px;
+ 
+  margin-bottom: 10px;
+ 
+  color: #546e7a;
+ 
+  font-size: 0.9em;
+ 
+}
+ 
+.job-description {
+ 
+  margin-bottom: 10px;
+ 
+  line-height: 1.6;
+ 
+  color: #37474f;
+ 
+}
+ 
+.skills {
+ 
+  display: flex;
+ 
+  flex-wrap: wrap;
+ 
+  gap: 8px;
+ 
+  margin-bottom: 10px;
+ 
+}
+ 
+.skills span {
+ 
+  background-color: #dbefeb;
+ 
+  padding: 6px 12px;
+ 
+  border-radius: 15px;
+ 
+  font-size: 0.9em;
+ 
+  font-weight: 500;
+ 
+}
+ 
+.job-footer {
+ 
+  display: flex;
+ 
+  justify-content: space-between;
+ 
+  align-items: center;
+ 
+  padding-top: 10px;
+ 
+  border-top: 1px solid #452758;
+ 
+}
+ 
+ 
+.save-btn {
+ 
+display: inline-end;
+ 
+/* justify-content: center;
+ 
+align-items: center; */
+ 
+border-radius: 5px;
+ 
+/* font-family: "Montserrat", sans-serif; */
+ 
+box-shadow: 0px 6px 24px 0px rgba(0, 0, 0, 0.2);
+ 
+cursor: pointer;
+ 
+border: none;
+ 
+font-size: 1.125em;
+ 
+font-weight: 700;
+ 
+letter-spacing: 0.1em;
+ 
+padding: 10px 13px;
+ 
+color: #fff;
+ 
+transition: background-color 0.4s ease, transform 0.3s ease;
+background-color: #452758;
+font-family: serif;
+font-family: 300;
+
+}
+
+ 
+/* Apply Button Styles */
+ 
+.apply-btn {
+ 
+margin: 0 0 0 65%;
+ 
+border-radius: 5px;
+ 
+font-family: serif;
+ 
+box-shadow: 0px 6px 24px 0px rgba(0, 0, 0, 0.2);
+ 
+cursor: pointer;
+ 
+border: none;
+ 
+font-size: 1.125em;
+ 
+font-weight: 300;
+ 
+letter-spacing: 0.1em;
+ 
+padding: 10px 13px;
+ 
+color: #fff;
+ 
+transition: background-color 0.4s ease, transform 0.3s ease;
+ 
+background-color: #452758;
+ 
+}
+ 
+.apply-btn:hover {
+ 
+  background-color:#a09ed4;
+ 
+  color: #f9fafc;
+ 
+transform: scale(1.05); /* Slightly enlarge the button on hover */
+ 
+}
+ 
+/* Save Button Styles */
+ 
+
+ 
+.save-btn:hover {
+ 
+  background-color:#a09ed4;
+ 
+  color: #f6f7f8;
+ 
+transform: scale(1.05);
+ 
+}
+ 
+/* Optional: Add a subtle animation for button press */
+ 
+.apply-btn:active, .save-btn:active {
+ 
+transform: scale(0.98);
+ 
+}
+ 
+ 
+.posted-date {
+ 
+color:  #0e0e0e;
+ 
+font-weight: bold;
+ 
+}
+ 
+ 
+/* Styles for the job listings page */
+ 
+.job-listings-page {
+ 
+display: flex;
+ 
+justify-content: flex-start;
+ 
+padding: 20px;
+ 
+background-color: #f5f5f5;
+ 
+font-family: Arial, sans-serif;
+gap: 20px;
+ 
+}
+ 
+
+ 
+/* Filters container styling */
+
+ 
+/* Filters header */
+ 
+.filters-container h3 {
+ 
+font-size: 20px;
+ 
+font-weight: bold;
+ 
+color: #0073e6;
+ 
+margin-bottom: 20px;
+ 
+text-align: center;
+ 
+}
+ 
+/* Filter group styling */
+ 
+.filter-group {
+ 
+margin-bottom: 20px;
+ 
+border-bottom: 1px solid #ddd;
+ 
+padding-bottom: 10px;
+ 
+}
+ 
+.filter-group h4 {
+ 
+font-size: 16px;
+ 
+font-weight: 600;
+ 
+color: #0056b3;
+ 
+margin-bottom: 10px;
+ 
+}
+ 
+/* Sort select dropdown styling */
+ 
+#sort-select {
+ 
+width: 100%;
+ 
+padding: 8px;
+ 
+border: 1px solid #0073e6;
+ 
+border-radius: 4px;
+ 
+font-size: 14px;
+ 
+color: #333;
+ 
+background-color: #f9f9f9;
+ 
+}
+ 
+/* Checkbox label styling */
+ 
+.filter-group label {
+ 
+display: flex;
+ 
+align-items: center;
+ 
+font-size: 14px;
+ 
+color: #333;
+ 
+margin: 8px 0;
+ 
+cursor: pointer;
+margin-bottom: 5px;
+ 
+}
+ 
+.filter-group label input[type="checkbox"] {
+ 
+margin-right: 8px;
+ 
+accent-color: #0073e6;
+ 
+width: 16px;
+ 
+height: 16px;
+ 
+}
+ 
+/* Hover effects for interactive elements */
+ 
+#sort-select:hover,
+ 
+.filter-group label:hover {
+ 
+color: #0073e6;
+ 
+}
+ 
+/* Scrollbar customization */
+ 
+.filters-container::-webkit-scrollbar {
+ 
+width: 5px;
+ 
+}
+ 
+.filters-container::-webkit-scrollbar-thumb {
+ 
+background-color: #0073e6;
+ 
+border-radius: 3px;
+ 
+}
+ 
+.filters-container::-webkit-scrollbar-thumb:hover {
+ 
+background-color: #0056b3;
+ 
+}
+ 
+.job-actions {
+ 
+  display: flex;
+ 
+  justify-content: flex-start;
+ 
+  margin-top: 10px;
+ 
+}
+ 
+.job-actions button {
+ 
+  margin-right: 0.5rem;
+ 
+  padding: 0.3rem 0.8rem;
+ 
+  background-color: rgb(61, 61, 61);
+ 
+  color: #fff;
+ 
+  border: none;
+ 
+  border-radius: 4px;
+ 
+  cursor: pointer;
+ 
+  transition: background-color 0.3s;
+ 
+  font-size: 0.9rem;
+ 
+}
+ 
+/* Ensure the dialog content is scrollable */
+ 
+.mat-dialog-content {
+ 
+  max-height: 80vh; /* Limits height to 80% of the viewport height */
+ 
+  overflow-y: auto; /* Enables vertical scrolling */
+ 
+}
+ 
+/* Optional: set max width if content is wide */
+ 
+.mat-dialog-container {
+ 
+  max-width: 600px; /* Adjust width as needed */
+ 
+}
+ 
+@keyframes fadeIn {
+ 
+  from {
+ 
+    opacity: 0;
+ 
+    transform: scale(0.95);
+ 
+  }
+ 
+  to {
+ 
+    opacity: 1;
+ 
+    transform: scale(1);
+ 
+  }
+ 
+}
+ 
+.action-icons button {
+ 
+  float: inline-end;
+ 
+  background: none;
+ 
+  border: none;
+ 
+  cursor: pointer;
+ 
+  padding: 0;
+ 
+  margin-right: 20px;
+ 
+  gap: 50px;
+ 
+}
+ 
+.action-icons i {
+ 
+  font-size: 20px;
+ 
+}
+ 
+ 
+/* .edit-icon,
+ 
+.delete-icon {
+ 
+  cursor: pointer;
+ 
+  font-size: 1.2em;
+ 
+} */
+ 
+.container {
+ 
+  position: relative;
+ 
+}
+ 
+.icon-1 {
+ 
+  position: absolute;
+ 
+  top: 10px;
+ 
+  right: 10px;
+ 
+}
+ 
+.icon-2 {
+ 
+  position: absolute;
+ 
+  top: 10px;
+ 
+  right: 50px;
+ 
+}
+ 
+/* ////////////////////////////////  */
+ 
+/* Overlay with blur effect */
+ 
+.job-form-overlay {
+ 
+  position: fixed;
+ 
+  top: 0;
+ 
+  left: 0;
+ 
+  width: 100%;
+ 
+  height: 100%;
+ 
+  background: rgba(17, 25, 40, 0.7);
+ 
+  backdrop-filter: blur(8px);
+ 
+  display: flex;
+ 
+  justify-content: center;
+ 
+  align-items: center;
+ 
+  z-index: 1000;
+ 
+}
+ 
+/* Form container with glass effect */
+ 
+.job-form {
+ 
+  background: rgba(255, 255, 255, 0.9);
+ 
+  backdrop-filter: blur(10px);
+ 
+  padding: 2.5rem;
+ 
+  border-radius: 20px;
+ 
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+ 
+  width: 90%;
+ 
+  max-width: 800px;
+ 
+  max-height: 90vh;
+ 
+  overflow-y: auto;
+ 
+  border: 1px solid rgba(255, 255, 255, 0.18);
+ 
+}
+ 
+/* Stylish header */
+ 
+.job-form h2 {
+ 
+  color: #4f46e5;
+ 
+  font-size: 2.2rem;
+ 
+  text-align: center;
+ 
+  margin-bottom: 2rem;
+ 
+  font-weight: 700;
+ 
+  text-transform: uppercase;
+ 
+  letter-spacing: 2px;
+ 
+  background: linear-gradient(45deg, #4f46e5, #7c3aed);
+ 
+  -webkit-background-clip: text;
+ 
+  -webkit-text-fill-color: transparent;
+ 
+  padding-bottom: 1rem;
+ 
+  border-bottom: 2px solid #e5e7eb;
+ 
+}
+ 
+/* Form layout */
+ 
+.job-form form {
+ 
+  display: grid;
+ 
+  grid-template-columns: repeat(2, 1fr);
+ 
+  gap: 1.5rem;
+ 
+}
+ 
+/* Full width sections */
+ 
+.job-form form div.full-width {
+ 
+  grid-column: 1 / -1;
+ 
+}
+ 
+/* Skills section */
+ 
+.skills-container {
+ 
+  grid-column: 1 / -1;
+ 
+  border: 2px solid #e5e7eb;
+ 
+  border-radius: 10px;
+ 
+  padding: 1.5rem;
+ 
+  background: rgba(255, 255, 255, 0.8);
+ 
+  margin-top: 1rem;
+ 
+}
+ 
+.skills-header {
+ 
+  display: flex;
+ 
+  justify-content: space-between;
+ 
+  align-items: center;
+ 
+  margin-bottom: 1rem;
+ 
+}
+ 
+.skills-list {
+ 
+  display: flex;
+ 
+  flex-wrap: wrap;
+ 
+  gap: 0.8rem;
+ 
+  margin-top: 1rem;
+ 
+}
+ 
+.skill-item {
+ 
+  background: rgba(79, 70, 229, 0.1);
+ 
+  color: #4f46e5;
+ 
+  padding: 0.5rem 1rem;
+ 
+  border-radius: 20px;
+ 
+  font-size: 0.9rem;
+ 
+  font-weight: 500;
+ 
+  display: flex;
+ 
+  align-items: center;
+ 
+  gap: 0.5rem;
+ 
+  transition: all 0.3s ease;
+ 
+}
+ 
+.skill-item:hover {
+ 
+  background: rgba(79, 70, 229, 0.2);
+ 
+  transform: translateY(-2px);
+ 
+}
+ 
+.skill-item .remove-skill {
+ 
+  cursor: pointer;
+ 
+  color: #4f46e5;
+ 
+  font-weight: bold;
+ 
+  font-size: 1.1rem;
+ 
+}
+ 
+/* Skills input */
+ 
+.skills-input-container {
+ 
+  display: flex;
+ 
+  gap: 1rem;
+ 
+  margin-bottom: 1rem;
+ 
+}
+ 
+.skills-input-container input {
+ 
+  flex: 1;
+ 
+}
+ 
+.add-skill-btn {
+ 
+  background: #4f46e5;
+ 
+  color: white;
+ 
+  padding: 0.8rem 1.5rem;
+ 
+  border-radius: 10px;
+ 
+  border: none;
+ 
+  cursor: pointer;
+ 
+  transition: all 0.3s ease;
+ 
+}
+ 
+.add-skill-btn:hover {
+ 
+  background: #6d28d9;
+ 
+  transform: translateY(-2px);
+ 
+}
+ 
+/* Job title section */
+ 
+.job-title-section {
+ 
+  grid-column: 1 / -1;
+ 
+  margin-bottom: 1.5rem;
+ 
+}
+ 
+.job-title-container {
+ 
+  display: flex;
+ 
+  gap: 1rem;
+ 
+  align-items: center;
+ 
+}
+ 
+.job-level-select {
+ 
+  width: 30%;
+ 
+  padding: 0.8rem 1rem;
+ 
+  border: 2px solid #e5e7eb;
+ 
+  border-radius: 10px;
+ 
+  font-size: 1rem;
+ 
+  background: rgba(255, 255, 255, 0.9);
+ 
+  color: #374151;
+ 
+  transition: all 0.3s ease;
+ 
+}
+ 
+ 
+.job-level-select:focus {
+ 
+  outline: none;
+ 
+  border-color: #4f46e5;
+ 
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+ 
+}
+ 
+/* Form group styling */
+ 
+.job-form form > div {
+ 
+  position: relative;
+ 
+  transition: transform 0.3s ease;
+ 
+}
+ 
+.job-form form > div:hover {
+ 
+  transform: translateY(-2px);
+ 
+}
+ 
+/* Label styling */
+ 
+.job-form label {
+ 
+  display: block;
+ 
+  margin-bottom: 0.5rem;
+ 
+  color: #4f46e5;
+ 
+  font-weight: 600;
+ 
+  font-size: 0.95rem;
+ 
+  letter-spacing: 0.5px;
+ 
+}
+ 
+/* Input and textarea styling */
+ 
+.job-form input,
+ 
+.job-form textarea {
+ 
+  width: 100%;
+ 
+  height: 75px;
+ 
+  padding: 0.8rem 1rem;
+ 
+  border: 2px solid #e5e7eb;
+ 
+  border-radius: 10px;
+ 
+  font-size: 1rem;
+ 
+  transition: all 0.3s ease;
+ 
+  background: rgba(255, 255, 255, 0.9);
+ 
+}
+ 
+.job-form input:focus,
+ 
+.job-form textarea:focus {
+ 
+  outline: none;
+ 
+  border-color: #4f46e5;
+ 
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+ 
+  background: white;
+  animation: highlight 1s ease-out;
+ 
+}
+ 
+/* Button container */
+ 
+.button-container {
+ 
+  grid-column: 1 / -1;
+ 
+  display: flex;
+ 
+  justify-content: center;
+ 
+  gap: 1.5rem;
+ 
+  margin-top: 2rem;
+ 
+  padding-top: 2rem;
+ 
+  border-top: 2px solid #e5e7eb;
+ 
+}
+ 
+/* Button styles */
+ 
+.job-form button {
+ 
+  padding: 1rem 2.5rem;
+ 
+  border: none;
+ 
+  border-radius: 12px;
+ 
+  font-weight: 600;
+ 
+  font-size: 1rem;
+ 
+  cursor: pointer;
+ 
+  transition: all 0.3s ease;
+ 
+  text-transform: uppercase;
+ 
+  letter-spacing: 1px;
+ 
+  min-width: 180px;
+ 
+}
+ 
+/* Submit button */
+ 
+.job-form button[type="submit"] {
+ 
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+ 
+  color: white;
+ 
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+ 
+}
+ 
+.job-form button[type="submit"]:hover {
+ 
+  transform: translateY(-3px);
+ 
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
+ 
+}
+ 
+/* Cancel button */
+ 
+.job-form button[type="button"] {
+ 
+  background: white;
+ 
+  color: #4f46e5;
+ 
+  border: 2px solid #4f46e5;
+ 
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.1);
+ 
+}
+ 
+.job-form button[type="button"]:hover {
+ 
+  background: #4f46e5;
+ 
+  color: white;
+ 
+  transform: translateY(-3px);
+ 
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.2);
+ 
+}
+ 
+/* Responsive design */
+ 
+@media (max-width: 768px) {
+ 
+  .job-form {
+ 
+    padding: 2rem;
+ 
+  }
+ 
+  .job-form form {
+ 
+    grid-template-columns: 1fr;
+ 
+  }
+ 
+  .job-title-container {
+ 
+    flex-direction: column;
+ 
+    gap: 1rem;
+ 
+  }
+ 
+  .job-level-select {
+ 
+    width: 100%;
+ 
+  }
+ 
+  .job-form h2 {
+ 
+    font-size: 1.8rem;
+ 
+  }
+ 
+  .button-container {
+ 
+    flex-direction: column;
+ 
+    gap: 1rem;
+ 
+  }
+ 
+  .job-form button {
+ 
+    width: 100%;
+ 
+  }
+ 
+  .skills-input-container {
+ 
+    flex-direction: column;
+ 
+  }
+ 
+  .add-skill-btn {
+ 
+    width: 100%;
+ 
+  }
+ 
+}
+ 
+/* Animation */
+ 
+@keyframes highlight {
+ 
+  0% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); }
+ 
+  70% { box-shadow: 0 0 0 10px rgba(79, 70, 229, 0); }
+ 
+  100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
+ 
+}
+
+ 
+.job-form button[type="submit"]:disabled {
+  background: linear-gradient(135deg, #c7c7e5 0%, #d5c7ed 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(200, 200, 229, 0.4);
+  cursor: not-allowed;
+  opacity: 0.8;
+  transform: none;
+}
+ 
+.required {
+  color: red;
+  font-weight: bold;
+}
+ 
+small {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+}
+ 
+.alert-danger {
+  color: maroon;            
+  background-color: #ffcccc;
+  border: 1px solid #cc0000;
+  padding: 18px;            
+  border-radius: 5px;      
+  font-size: 14px;                
+  margin-bottom: 15px;            
+}
+ 
+ 
+h1, h2, h3, h4, h5, h6 {
+  font-family: Tahoma, Verdana, Geneva, sans-serif;
+}
+ 
+p {
+  font-family: Cambria, Georgia, "Times New Roman", serif;
+}
+ 
+ 
+ 
+ 
+ 
+ 
+ 

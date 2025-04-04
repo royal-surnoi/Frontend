@@ -1,0 +1,92 @@
+<nav class="headding">
+  <button (click)="navigateToDashboard()"> Back to Dashboard</button>
+  <h4 style="margin-right:500px;margin-top:15px;">Send Assignment</h4>
+</nav>
+<form [formGroup]="assignmentForm" (ngSubmit)="onSubmit()">
+<div>
+  <label for="assignmentTitle">Assignment Title:</label>
+  <input id="assignmentTitle" formControlName="assignmentTitle" type="text" required />
+ 
+  <!-- Error Messages -->
+  <div *ngIf="assignmentForm.get('assignmentTitle')?.invalid && assignmentForm.get('assignmentTitle')?.touched">
+    <small class="error" *ngIf="assignmentForm.get('assignmentTitle')?.errors?.['required']">
+      Title is required.
+    </small>
+    <small class="error" *ngIf="assignmentForm.get('assignmentTitle')?.errors?.['minlength']">
+      Title must be at least 3 characters long.
+    </small>
+    <small class="error" *ngIf="assignmentForm.get('assignmentTitle')?.errors?.['maxlength']">
+      Title cannot exceed 50 characters.
+    </small>
+  </div>
+</div>
+<div>
+  <label for="assignmentTopicName">Assignment Topic Name:</label>
+  <input id="assignmentTopicName" formControlName="assignmentTopicName" type="text" required />
+  <div *ngIf="assignmentForm.get('assignmentTopicName')?.invalid && (assignmentForm.get('assignmentTopicName')?.dirty || assignmentForm.get('assignmentTopicName')?.touched)">
+    <small class="error" *ngIf="assignmentForm.get('assignmentTopicName')?.errors?.['required']">This field is required.</small>
+    <small class="error" *ngIf="assignmentForm.get('assignmentTopicName')?.errors?.['minlength']">Minimum 3 characters required.</small>
+    <small class="error" *ngIf="assignmentForm.get('assignmentTopicName')?.errors?.['maxlength']">Maximum 50 characters allowed.</small>
+  </div>
+</div>
+<div>
+  <label for="assignmentDescription">Assignment Description:</label>
+  <textarea
+    id="assignmentDescription"
+    formControlName="assignmentDescription"
+    required
+  ></textarea>
+ 
+  <div *ngIf="assignmentForm.controls['assignmentDescription'].errors && assignmentForm.controls['assignmentDescription'].touched">
+    <small class="error" *ngIf="assignmentForm.controls['assignmentDescription'].errors['required']">
+      Assignment description is required.
+    </small>
+    <small class="error" *ngIf="assignmentForm.controls['assignmentDescription'].errors['minlength']">
+      Minimum 10 characters required.
+    </small>
+    <small class="error" *ngIf="assignmentForm.controls['assignmentDescription'].errors['maxlength']">
+      Maximum 500 characters allowed.
+    </small>
+  </div>
+</div>
+<div>
+  <label for="maxScore">Max Score:</label>
+  <input id="maxScore" formControlName="maxScore" type="number" required />
+  <div *ngIf="assignmentForm.controls['maxScore'].errors && assignmentForm.controls['maxScore'].touched" class="error">
+    <span *ngIf="assignmentForm.controls['maxScore'].errors['required']">Max Score is required.</span>
+    <span *ngIf="assignmentForm.controls['maxScore'].errors['min']">Score cannot be negative.</span>
+    <span *ngIf="assignmentForm.controls['maxScore'].errors['max']">Score exceeds the maximum limit.</span>
+  </div>
+</div>    
+<div>
+  <label for="startDate">Start Date:</label>
+  <input id="startDate" formControlName="startDate" type="datetime-local" [min]="minDateTime" (change)="updateEndDateMin()" required />
+</div>
+<div>
+  <label for="endDate">End Date:</label>
+  <input id="endDate" formControlName="endDate" type="datetime-local" [min]="minEndDate" (change)="updateReviewDateMin()" required />
+</div>
+<div>
+  <label for="reviewMeetDate">Review Meet Date:</label>
+  <input id="reviewMeetDate" formControlName="reviewMeetDate" type="datetime-local" [min]="minReviewDate" required />
+</div>
+ 
+<div>
+  <label for="assignmentDocument" class="file-button">Choose file</label>
+  <input
+    id="assignmentDocument"
+    type="file"
+    accept=".pdf, .doc, .docx"
+    (change)="onFileSelected($event)"
+    hidden
+  />
+  <span *ngIf="selectedFile">{{ selectedFile.name }}</span>
+  <div class="error-message" *ngIf="fileError">{{ fileError }}</div>
+</div>
+ 
+ 
+  <button type="submit">Submit</button>
+</form>
+ 
+ 
+ 

@@ -1,0 +1,93 @@
+<div class="chat-container">
+    <div class="chat-header">
+        <div class="header-content">
+            <div class="header-left">
+                <h3>Career Guide</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="welcome-message" *ngIf="messages.length === 0">
+        <div class="welcome-icon">
+            <span class="material-icons"><i class="fa fa-graduation-cap" aria-hidden="true"></i>
+            </span>
+        </div>
+        <h5>Welcome to Career Guide!</h5>
+        <p>Ask me anything about:</p>
+        <div class="suggestion-chips">
+            <button (click)="askSuggestion('career path')">
+                <span class="material-icons">timeline</span>
+                Career Path
+            </button>
+            <button (click)="askSuggestion('skills')">
+                <span class="material-icons">psychology</span>
+                Skills Development
+            </button>
+            <button (click)="askSuggestion('education')">
+                <span class="material-icons">school</span>
+                Education
+            </button>
+            <button (click)="askSuggestion('job opportunities')">
+                <span class="material-icons">work</span>
+                Job Opportunities
+            </button>
+        </div>
+    </div>
+
+    <div class="chat-messages" #chatMessages *ngIf="messages.length != 0">
+        <div *ngFor="let message of messages" class="message"
+            [ngClass]="{'user-message': message.isUser, 'bot-message': !message.isUser, 'error-message': message.isError}">
+            <div class="message-avatar" *ngIf="!message.isUser">
+                <div class="avatar-text">AI</div>
+            </div>
+            <div class="message-content">
+                <div class="message-header" *ngIf="!message.isUser">
+                    <span class="bot-name">Career Guide</span>
+                    <span class="message-time">{{ message.timestamp | date:'shortTime' }}</span>
+                </div>
+                <div class="message-text" [innerHTML]="message.text"></div>
+                <button *ngIf="message.isError" class="retry-button" (click)="retryLastQuestion()">
+                    <span class="material-icons"><i class="fa fa-refresh" aria-hidden="true"></i>
+                    </span>
+                    Retry
+                </button>
+            </div>
+            <div class="message-avatar user-avatar" *ngIf="message.isUser">
+                <div class="avatar-text">i</div>
+            </div>
+        </div>
+        <div class="typing-indicator" *ngIf="isTyping">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+
+
+
+    <div class="chat-input">
+        <div class="input-container">
+            <button class="input-icon" (click)="clearChat()">
+                <span class="material-icons"><i class="fa fa-refresh" aria-hidden="true"></i>
+                </span>
+            </button>
+
+
+
+            <input type="text" [(ngModel)]="userQuestion" placeholder="Ask about your career journey..."
+                (keyup.enter)="askQuestion()">
+
+            <div class="quick-suggestions" *ngIf="!messages.length && userQuestion.length== 0">
+                <div class="suggestion-pills">
+                    <span (click)="fillQuestion('What skills should I develop?')">Skills to develop</span>
+                    <span (click)="fillQuestion('How to prepare for interviews?')">Interview prep</span>
+                    <span (click)="fillQuestion('What certifications are valuable?')">Certifications</span>
+                </div>
+            </div>
+
+            <button class="send-btn" [class.active]="userQuestion.trim()" (click)="askQuestion()">
+                <span class="material-icons">send</span>
+            </button>
+        </div>
+    </div>
+</div>

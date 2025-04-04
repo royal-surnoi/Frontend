@@ -1,0 +1,24 @@
+::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface {
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 90vw;
+    width: 400px;
+    height: 60dvh;
+  }
+ 
+  ::ng-deep .mat-mdc-dialog-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+ 
+  .error-message {
+    color: #f44336;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+ .fields{
+    width: 90%;
+    margin: 2px;
+ }
+ 

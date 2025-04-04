@@ -1,0 +1,218 @@
+ 
+/* Card container styling */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-evenly;
+  margin: 10px;
+}
+
+.card-container-known {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+}
+ 
+ 
+ 
+.spl-card {
+  width: 250px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  background: white;
+  padding: 10px;
+  text-align: center;
+  position: relative;
+}
+
+.spl-image-container {
+  position: relative;
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.spl-image-container img {
+  width: 100%;
+  height: 200px;
+  display: block;
+  border-radius: 10px;
+}
+
+.spl-rating {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #ff9800;
+  color: white;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 15px;
+}
+
+.spl-details {
+  padding: 10px;
+  text-align: left;
+}
+
+.spl-price {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.spl-title {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.spl-sizes {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.spl-size {
+  border: 1px solid #ddd;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.spl-size:hover {
+  background: #eee;
+}
+
+.spl-book-now {
+  width: 100%;
+  background: #452758a0;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.spl-book-now:hover {
+  background: #452758;
+}
+
+.loader {
+  margin-top: 40vh;
+  width: 50px;
+  padding: 8px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #452758e0;
+  --_m: 
+    conic-gradient(#0000 10%,#000),
+    linear-gradient(#000 0 0) content-box;
+  -webkit-mask: var(--_m);
+          mask: var(--_m);
+  -webkit-mask-composite: source-out;
+          mask-composite: subtract;
+  animation: l3 1s infinite linear;
+}
+@keyframes l3 {to{transform: rotate(1turn)}}
+
+.button-container {
+  position: absolute;
+  top: 15vh;
+  left: 60%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  z-index: 1;
+}
+
+.zaxis-button {
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  background: white;
+  color: black;
+  border: 1px solid #452758;
+}
+
+/* Hover Effect */
+.zaxis-button:hover {
+  background: #452758a0;
+  color: white;
+  
+}
+
+/* Active State */
+.zaxis-button.active {
+  background: #452758;
+  color: white;
+}
+
+.Master{
+    margin: 20px 0 0 0;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(10px);
+}
+
+.popup-content {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+  width: 300px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+button {
+  background: #452758;
+  border: none;
+  padding: 10px 15px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: #452758e0;
+}
+
+.button-spl{
+  gap: 10px;
+  display: flex;
+  flex-direction: row;
+  margin: 0 30% 0 0;
+}

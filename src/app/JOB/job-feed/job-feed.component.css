@@ -1,0 +1,246 @@
+.feed-section {
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: #f0f2f5;
+    padding: 20px;
+}
+
+.posts-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.post-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    overflow: hidden;
+}
+
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f2f5;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    margin: 0;
+    font-weight: 600;
+    color: #1c1e21;
+    font-size: 0.95rem;
+}
+
+.post-time {
+    color: #65676b;
+    font-size: 0.8rem;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.post-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.dots-icon {
+    background: none;
+    border: none;
+    color: #65676b;
+    font-size: 1.2rem;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.dots-icon:hover {
+    background-color: #f0f2f5;
+}
+
+.content-container {
+    padding: 0;
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+}
+
+.video-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-container {
+    width: 100%;
+}
+
+.post-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.video-duration {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.post-content {
+    padding: 16px;
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #1c1e21;
+}
+
+.post-category {
+    padding: 0 16px 8px;
+    color: #1876f2;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.post-actions {
+    display: flex;
+    padding: 4px 16px 12px;
+    border-top: 1px solid #f0f2f5;
+    gap: 8px;
+}
+
+.action-button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px;
+    background: none;
+    border: none;
+    border-radius: 8px;
+    color: #65676b;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.action-button:hover {
+    background-color: #f0f2f5;
+}
+
+.action-button i {
+    font-size: 1.1rem;
+}
+
+.like-button:hover {
+    color: #1876f2;
+}
+
+.comment-button:hover {
+    color: #1876f2;
+}
+
+.share-button:hover {
+    color: #1876f2;
+}
+
+@media (max-width: 768px) {
+    .feed-section {
+        margin: 0;
+        padding: 10px;
+    }
+    
+    .post-card {
+        border-radius: 0;
+    }
+    
+    .action-button span {
+        font-size: 0.8rem;
+    }
+}
+
+
+.body {
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    height: 100vh;
+    margin: 0;
+    background-color: var(--grey);
+    font-family: Arial, sans-serif;
+    margin-top: 20vh;
+  }
+  .loader {
+    position: relative;
+    width: 100px;
+    height: 100px;
+  }
+  .f-letter {
+    position: absolute;
+    font-size: 80px;
+    font-weight: bold;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  .f-letter:nth-child(1) {
+    color: #5DA2D5;
+    animation-delay: 0s;
+  }
+  .f-letter:nth-child(2) {
+    color: #f3d250;
+    animation-delay: 0.2s;
+  }
+  .f-letter:nth-child(3) {
+    color: #f78888;
+    animation-delay: 0.4s;
+  }
+  @keyframes pulse {
+    0%, 100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2) rotate(10deg);
+        opacity: 0.7;
+    }
+  }
+   
+  h1, h2, h3, h4, h5, h6 {
+    font-family: Tahoma, Verdana, Geneva, sans-serif;
+  }
+   
+  p {
+    font-family: Cambria, Georgia, "Times New Roman", serif;
+  }
+   
+   

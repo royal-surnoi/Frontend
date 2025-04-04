@@ -1,0 +1,53 @@
+<div class="container" *ngIf="subject">
+  <!-- Main Card -->
+  <div class="card">
+    <div class="avatar">{{ subject.classSubject[0] }}</div>
+    <div class="card-content">
+      <h2>{{ subject.classSubject }}</h2>
+      <p><b>Teachers:</b> {{ subject.teacherName }}</p>
+      <p><strong>Class:</strong> {{ subject.className }}</p>
+    </div>
+  </div>
+ 
+  <!-- Button Card -->
+  <div class="button-card">
+    <div class="button" *ngFor="let button of buttons" (click)="onButtonClick(button)">
+      <span class="icon">{{ button.icon }}</span>
+      <p>{{ button.label }}</p>
+    </div>
+  </div>
+</div>
+ 
+<!-- Navbar -->
+<div class="navbar">
+  <ul>
+    <li><a (click)="currentSection = 'classmates'">Classmates</a></li>
+    <li><a (click)="currentSection = 'sessions'">Sessions</a></li>
+    <li><a href="#">Exam</a></li>
+    <li><a href="#">Assignments</a></li>
+  </ul>
+</div>
+ 
+<!-- Content -->
+<div class="content">
+  <!-- Classmates Section -->
+  <div *ngIf="currentSection === 'classmates'" class="classmates-section">
+    <h2>Classmates</h2>
+    <input type="text" [(ngModel)]="searchQuery" placeholder="Search Classmates" />
+    <ul>
+      <li *ngFor="let classmate of filteredClassmates()">{{ classmate }}</li>
+    </ul>
+  </div>
+ 
+  <!-- Sessions Section -->
+  <div *ngIf="currentSection === 'sessions'" class="sessions-container">
+    <h2>Sessions</h2>
+    <div *ngFor="let session of sessions" class="session-card">
+      <h3>{{ session.title }}</h3>
+      <p><strong>Start Time:</strong> {{ session.startTime }}</p>
+      <p><strong>End Time:</strong> {{ session.endTime }}</p>
+      <p><strong>Duration:</strong> {{ session.duration }} mins</p>
+      <button (click)="joinSession(session.title)">Join</button>
+    </div>
+  </div>
+</div>

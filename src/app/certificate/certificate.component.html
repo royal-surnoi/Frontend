@@ -1,0 +1,20 @@
+<button [routerLink]="['/studentdashboard']" style="display: flex; justify-content: start; border: none; width: 30px;"  ><i class="fa-solid fa-arrow-left"></i></button>
+<div class="certificate" *ngIf="course && user">
+    <div class="certificate-header">
+      <h1>Certificate of Course Completion</h1>
+    </div>
+    <div class="certificate-body">
+      <p>This certifies that</p>
+      <p class="name">{{ user.name }}</p>
+      <p>has successfully completed the course</p>
+      <p class="course-title"><strong>{{ course.courseTitle }}</strong></p>
+      <p>Course Duration: <strong>{{ course.courseDuration }}</strong> weeks</p>
+    </div>
+    <div class="certificate-footer">
+      <p class="date">Awarded on {{ awardDate | date:'longDate' }}</p>
+      <p>Instructor: <strong>{{ course.user.name }}</strong></p>
+    </div>
+    <button (click)="downloadCertificate()">Download Certificate</button>
+  </div>
+  
+  

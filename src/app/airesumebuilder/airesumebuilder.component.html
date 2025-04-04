@@ -1,0 +1,370 @@
+<div class="resume-container">
+    <form [formGroup]="resumeForm" class="resume-form">
+        <!-- Personal Details Section -->
+        <div class="section" formGroupName="personalDetails">
+            <h5>Personal Details</h5>
+            <div class="form-group">
+                <div class="details">
+                    <div class="name">
+                        <label for="name">Name</label>
+                        <input type="text" formControlName="name" placeholder="Full Name">
+                    </div>
+                    <div class="location">
+                        <label for="location">Location</label>
+                        <input type="text" formControlName="location" placeholder="Location">
+                    </div>
+                </div>
+                <div class="details">
+                    <div class="emial">
+                        <label for="email">Email</label>
+                        <input type="email" formControlName="email" placeholder="Email">
+                    </div>
+                    <div class="phone">
+                        <label for="phone">Phone</label>
+                        <input type="tel" formControlName="phone" placeholder="Phone">
+                    </div>
+                </div>
+
+                <label for="website">Website</label>
+                <input type="url" formControlName="website" placeholder="Website">
+
+                <div class="objective">
+                    <div class="obj-button">
+                        <button type="button" (click)="generateObjective()" class="generate-btn" [disabled]="loadingStates.objective">
+                            <span *ngIf="!loadingStates.objective">  <img src="https://d12araoe7z5xxk.cloudfront.net/landing-page/images/resumeEditor/ai_star.png"
+
+                                alt="">AI Generate</span>
+                            <span *ngIf="loadingStates.objective" class="loading-spinner">
+                                <svg class="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Generating...
+                            </span>
+                        </button>
+                    </div>
+                    <div class="obj-content">
+                        <label for="objective">Objective</label>
+                        <textarea id="objective" formControlName="objective" placeholder="Career Objective" class="description-input">
+                        </textarea>
+                    </div>
+
+                    <div class="suggestion-container" *ngIf="aiResponses['objective']">
+                        <div class="suggestion-type-buttons">
+                            <button (click)="showSuggestion('objective', 'suggestions')" [class.active]="selectedSuggestions['objective'] === aiResponses['objective'].suggestions" class="type-btn">
+                                suggestions
+                            </button>
+                            <button (click)="showSuggestion('objective', 'condensed')" [class.active]="selectedSuggestions['objective'] === aiResponses['objective'].condensed" class="type-btn">
+                                condensed
+                            </button>
+                            <button (click)="showSuggestion('objective', 'extended')" [class.active]="selectedSuggestions['objective'] === aiResponses['objective'].extended" class="type-btn">
+                                extended
+                            </button>
+                        </div>
+
+                        <div class="suggestion-content" *ngIf="selectedSuggestions['objective']">
+                            <div class="content-preview">
+                                {{ selectedSuggestions['objective'] }}
+                            </div>
+                            <button (click)="applySelectedSuggestion('objective')" class="apply-btn">
+                                Apply This Suggestion
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Work Experience Section -->
+        <div class="section">
+            <h5>Work Experience</h5>
+            <div formArrayName="workExperiences">
+                <div *ngFor="let exp of workExperiences.controls; let i=index" [formGroupName]="i" class="experience-item">
+                    <label for="companyName">Comapny Name</label>
+                    <input type="text" formControlName="companyName" placeholder="Company Name">
+                    <label for="role"></label>
+                    <input type="text" formControlName="role" placeholder="Role">
+                    <div class="date-inputs">
+                        <div class="start-date">
+                            <label for="startDate">Start date</label>
+                            <input type="month" formControlName="startDate" placeholder="Start Date">
+                        </div>
+                        <div class="end-date">
+                            <label for="endDate">End date</label>
+                            <input type="month" formControlName="endDate" placeholder="End Date">
+                        </div>
+                    </div>
+                    <div class="objective">
+                        <div class="obj-button">
+                            <button type="button" (click)="generateWorkDescription(i)" class="generate-btn" [disabled]="loadingStates.work[i]">
+                                <span *ngIf="!loadingStates.work[i]">  <img src="https://d12araoe7z5xxk.cloudfront.net/landing-page/images/resumeEditor/ai_star.png"
+
+                                    alt="">AI Generate</span>
+                                <span *ngIf="loadingStates.work[i]" class="loading-spinner">
+                                    <svg class="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Generating...
+                                </span>
+                            </button>
+                        </div>
+                        <div class="obj-content">
+                            <label [for]="'workDesc_' + i">Description</label>
+                            <textarea [id]="'workDesc_' + i" formControlName="description" placeholder="Job Description" class="description-input">
+                            </textarea>
+                        </div>
+
+                        <div class="suggestion-container" *ngIf="aiResponses['work_' + i]">
+                            <div class="suggestion-type-buttons">
+                                <button (click)="showSuggestion('work_' + i, 'suggestions')" [class.active]="selectedSuggestions['work_' + i] === aiResponses['work_' + i].suggestions" class="type-btn">
+                                    suggestions
+                                </button>
+                                <button (click)="showSuggestion('work_' + i, 'condensed')" [class.active]="selectedSuggestions['work_' + i] === aiResponses['work_' + i].condensed" class="type-btn">
+                                    condensed
+                                </button>
+                                <button (click)="showSuggestion('work_' + i, 'extended')" [class.active]="selectedSuggestions['work_' + i] === aiResponses['work_' + i].extended" class="type-btn">
+                                    extended
+                                </button>
+                            </div>
+
+                            <div class="suggestion-content" *ngIf="selectedSuggestions['work_' + i]">
+                                <div class="content-preview">
+                                    {{ selectedSuggestions['work_' + i] }}
+                                </div>
+                                <button (click)="applySelectedSuggestion('work_' + i)" class="apply-btn">
+                                    Apply This Suggestion
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <button type="button" (click)="addExperience()" class="add-btn">Add Experience</button>
+        </div>
+
+        <!-- Education Section -->
+        <div class="section">
+            <h5>Education</h5>
+            <div formArrayName="education">
+                <div *ngFor="let edu of educationDetails.controls; let i=index" [formGroupName]="i" class="education-item">
+                    <div class="details">
+                        <div class="I-name">
+                            <label for="instituteName">InstituteName</label>
+                            <input type="text" formControlName="instituteName" placeholder="Institute Name">
+                        </div>
+                        <div class="degree">
+                            <label for="Degree">Degree</label>
+                            <input type="text" formControlName="degree" placeholder="Degree">
+                        </div>
+                    </div>
+                    <div class="details">
+                        <div class="spl">
+                            <label for="specialization">Specialization</label>
+                            <input type="text" formControlName="specialization" placeholder="Specialization">
+                        </div>
+                        <div class="branch">
+                            <label for="percentage">Percentage</label>
+                            <input type="text" formControlName="percentage" placeholder="Percentage">
+                        </div>
+                    </div>
+                    <div class="date-inputs">
+                        <div class="start-date">
+                            <label for="startDate">StartDate</label>
+                            <input type="month" formControlName="startDate" placeholder="Start Date">
+                        </div>
+                        <div class="end-date">
+                            <label for="endDate">EndDate</label>
+                            <input type="month" formControlName="endDate" placeholder="End Date">
+                        </div>
+                    </div>
+                    <div class="objective">
+                        <div class="obj-button">
+                            <button type="button" (click)="generateEducationDescription(i)" class="generate-btn" [disabled]="loadingStates.education[i]">
+                                <span *ngIf="!loadingStates.education[i]"> <img src="https://d12araoe7z5xxk.cloudfront.net/landing-page/images/resumeEditor/ai_star.png"
+
+                                    alt=""> AI Generate</span>
+                                <span *ngIf="loadingStates.education[i]" class="loading-spinner">
+                                    <svg class="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Generating...
+                                </span>
+                            </button>
+                        </div>
+                        <div class="obj-content">
+                            <label [for]="'eduInfo_' + i">Additional Info</label>
+                            <textarea [id]="'eduInfo_' + i" formControlName="additionalInfo" placeholder="Additional Information" class="description-input">
+                            </textarea>
+                        </div>
+
+                        <div class="suggestion-container" *ngIf="aiResponses['education_' + i]">
+                            <div class="suggestion-type-buttons">
+                                <button (click)="showSuggestion('education_' + i, 'suggestions')" [class.active]="selectedSuggestions['education_' + i] === aiResponses['education_' + i].suggestions" class="type-btn">
+                                    suggestions
+                                </button>
+                                <button (click)="showSuggestion('education_' + i, 'condensed')" [class.active]="selectedSuggestions['education_' + i] === aiResponses['education_' + i].condensed" class="type-btn">
+                                    condensed
+                                </button>
+                                <button (click)="showSuggestion('education_' + i, 'extended')" [class.active]="selectedSuggestions['education_' + i] === aiResponses['education_' + i].extended" class="type-btn">
+                                    extended
+                                </button>
+                            </div>
+
+                            <div class="suggestion-content" *ngIf="selectedSuggestions['education_' + i]">
+                                <div class="content-preview">
+                                    {{ selectedSuggestions['education_' + i] }}
+                                </div>
+                                <button (click)="applySelectedSuggestion('education_' + i)" class="apply-btn">
+                                    Apply This Suggestion
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" (click)="addEducation()" class="add-btn">Add Education</button>
+        </div>
+
+        <!-- Projects Section -->
+        <div class="section">
+            <h5>Projects</h5>
+            <div formArrayName="projects">
+                <div *ngFor="let proj of projectDetails.controls; let i=index" [formGroupName]="i" class="project-item">
+                    <label for="name">Project Name</label>
+                    <input type="text" formControlName="name" placeholder="Project Name">
+                    <div class="objective">
+                        <div class="obj-button">
+                            <button type="button" (click)="generateProjectDescription(i)" class="generate-btn" [disabled]="loadingStates.project[i]">
+                                <span *ngIf="!loadingStates.project[i]">  <img src="https://d12araoe7z5xxk.cloudfront.net/landing-page/images/resumeEditor/ai_star.png"
+
+                                    alt="">AI Generate</span>
+                                <span *ngIf="loadingStates.project[i]" class="loading-spinner">
+                                    <svg class="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Generating...
+                                </span>
+                            </button>
+                        </div>
+                        <div class="obj-content">
+                            <label [for]="'projDesc_' + i">Description</label>
+                            <textarea [id]="'projDesc_' + i" formControlName="description" placeholder="Project Description" class="description-input">
+                            </textarea>
+                        </div>
+
+                        <div class="suggestion-container" *ngIf="aiResponses['project_' + i]">
+                            <div class="suggestion-type-buttons">
+                                <button (click)="showSuggestion('project_' + i, 'suggestions')" [class.active]="selectedSuggestions['project_' + i] === aiResponses['project_' + i].suggestions" class="type-btn">
+                                    suggestions
+                                </button>
+                                <button (click)="showSuggestion('project_' + i, 'condensed')" [class.active]="selectedSuggestions['project_' + i] === aiResponses['project_' + i].condensed" class="type-btn">
+                                    condensed
+                                </button>
+                                <button (click)="showSuggestion('project_' + i, 'extended')" [class.active]="selectedSuggestions['project_' + i] === aiResponses['project_' + i].extended" class="type-btn">
+                                    extended
+                                </button>
+                            </div>
+
+                            <div class="suggestion-content" *ngIf="selectedSuggestions['project_' + i]">
+                                <div class="content-preview">
+                                    {{ selectedSuggestions['project_' + i] }}
+                                </div>
+                                <button (click)="applySelectedSuggestion('project_' + i)" class="apply-btn">
+                                    Apply This Suggestion
+                                </button>
+                            </div>
+                        </div>
+                      
+                        <div class="date-inputs">
+                            <div class="start-date">
+                                <label for="startDate">StartDate</label>
+                                <input type="month" formControlName="startDate" placeholder="Start Date">
+                            </div>
+                            <div class="end-date">
+                                <label for="endDate">EndDate</label>
+                                <input type="month" formControlName="endDate" placeholder="End Date">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" (click)="addProject()" class="add-btn">Add Project</button>
+        </div>
+
+        <!-- Skills Section -->
+        <div class="section">
+            <h5>Skills</h5>
+            <div formArrayName="skills">
+                <div *ngFor="let skill of skillDetails; let i=index" [formGroupName]="i" class="skill-item">
+                    <input type="text" formControlName="name" placeholder="Skill Name">
+                    <select formControlName="level">
+                        <option value="BEGINNER">Beginner</option>
+                        <option value="AVERAGE">Average</option>
+                        <option value="EXPERT">Expert</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="button" (click)="addSkill()" class="add-btn">Add Skill</button>
+        </div>
+    </form>
+
+    <!-- Resume Preview -->
+    <div class="resume">
+        <button (click)="downloadResume()" class="download-btn">Download PDF</button>
+        <div class="resume-preview">
+           
+            <div class="preview-content">
+                <div class="header">
+                    <h5>{{ resumeForm.get('personalDetails.name')?.value }}</h5>
+                    <p>{{ resumeForm.get('personalDetails.email')?.value }}|{{ resumeForm.get('personalDetails.phone')?.value }}| {{ resumeForm.get('personalDetails.location')?.value }}</p>
+
+                </div>
+
+                <div class="preview-section">
+                    <h6>Objective</h6>
+                    <hr>
+                    <p>{{ resumeForm.get('personalDetails.objective')?.value }}</p>
+                    <h6>Work Experience</h6>
+                    <hr>
+                    <div *ngFor="let exp of workExperiences.controls">
+                        <p><span>{{ exp.get('companyName')?.value }}</span> {{ formatDate(exp.get('startDate')?.value) }} - {{ exp.get('endDate')?.value ? formatDate(exp.get('endDate')?.value) : 'Present' }}</p>
+                        <p class="role">{{ exp.get('role')?.value }}</p>
+                        <p [innerHTML]="formatDescription(exp.get('description')?.value)"></p>
+                    </div>
+                </div>
+
+                <div class="preview-section">
+                    <h6>Education</h6>
+                    <hr>
+                    <div *ngFor="let edu of educationDetails.controls">
+                        <p><span>{{ edu.get('instituteName')?.value }}</span> {{ formatDate(edu.get('startDate')?.value) }} - {{ formatDate(edu.get('endDate')?.value) }}</p>
+                        <p class="degree">{{ edu.get('degree')?.value }} - {{ edu.get('specialization')?.value }} - {{ edu.get('percentage')?.value }}</p>
+                        <p *ngIf="edu.get('additionalInfo')?.value" class="additional-info" [innerHTML]="formatDescription(edu.get('additionalInfo')?.value)"></p>
+                    </div>
+                </div>
+
+                <div class="preview-section">
+                    <h6>Projects</h6>
+                    <hr>
+                    <div *ngFor="let proj of projectDetails.controls">
+                        <p><span>{{ proj.get('name')?.value }}</span>{{proj.get('endDate')?.value}}</p>
+                        <p>{{ proj.get('description')?.value }}</p>
+                    </div>
+                </div>
+
+                <div class="preview-section">
+                    <h6>Skills</h6>
+                    <hr>
+                    <div *ngFor="let skill of skillDetails">
+                        <p>{{ skill.get('name')?.value }} - {{ skill.get('level')?.value }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

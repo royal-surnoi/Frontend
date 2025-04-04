@@ -1,0 +1,142 @@
+<!-- Add required CSS in head -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+<nav class="navbar navbar-expand-lg fixed-top custom-navbar py-0">
+  <div class="container-fluid px-4">
+    <!-- Logo Section -->
+    <a class="navbar-brand my-2" [routerLink]="isLoggedIn ? ['/candidateview/learningPage',''] : null" 
+       [class.disabled]="!isLoggedIn">
+      <img src="../../assets/fusion8.png" alt="Logo" height="45" class="d-inline-block align-text-top">
+    </a>
+
+    <!-- Search Bar - Center aligned on desktop -->
+    <div class="search-container order-lg-2 mx-auto">
+      <div class="position-relative">
+        <input class="form-control search-input" type="search" placeholder="Search users..." 
+               [(ngModel)]="query" (input)="search(query)" (focus)="showSuggestions = true" 
+               [disabled]="!isLoggedIn">
+        <i class="fas fa-search search-icon"></i>
+        
+        <!-- Search Suggestions -->
+        <div class="search-suggestions" *ngIf="showSuggestions && isLoggedIn">
+          <div class="card border-0 shadow-lg">
+            <div class="card-body p-0">
+              <div *ngIf="isLoading" class="p-3 text-center">
+                <div class="spinner-border text-primary spinner-border-sm me-2"></div>
+                Searching...
+              </div>
+              <ul class="list-group list-group-flush" *ngIf="!isLoading && filteredUsers.length > 0">
+                <li class="list-group-item list-group-item-action py-3" *ngFor="let user of filteredUsers" 
+                    (click)="onUserSelect(user)">
+                  <div class="d-flex align-items-center">
+                    <img [src]="getSafeImageUrl(user.userImage)" class="rounded-circle me-3" 
+                         style="width: 45px; height: 45px; object-fit: cover;" alt="User">
+                    <div>
+                      <div class="fw-semibold">{{ user.name }}</div>
+                      <small class="text-muted">{{ user.profession }}</small>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <div *ngIf="!isLoading && filteredUsers.length === 0 && query.trim() !== ''" 
+                   class="p-4 text-center text-muted">
+                <i class="fas fa-search fa-lg mb-2"></i>
+                <p class="mb-0">No users found</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Toggle -->
+    <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse" 
+            data-bs-target="#navbarContent">
+      <i class="fas fa-bars text-white"></i>
+    </button>
+
+    <!-- Navigation Items -->
+    <div class="collapse navbar-collapse order-lg-3" id="navbarContent">
+      <ul class="navbar-nav ms-auto align-items-center gap-1">
+        <!-- Home -->
+        <li class="nav-item dropdown">
+          <a class="nav-link custom-nav-link px-3" href="#" data-bs-toggle="dropdown" 
+             [class.disabled]="!isLoggedIn">
+            <div class="nav-icon-container">
+              <i class="fas fa-home"></i>
+              <span class="mt-2">Home</span>
+            </div>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end animate slideIn mt-2">
+            <li><a class="dropdown-item" [routerLink]="['/candidateview/learningPage', '']">Home</a></li>
+            <li><a class="dropdown-item" (click)="onSelectView('As a user')">As a user</a></li>
+            <li><a class="dropdown-item" (click)="onSelectView('As a mentor')">As a mentor</a></li>
+          </ul>
+        </li>
+
+        <!-- Notifications -->
+        <li class="nav-item">
+          <a class="nav-link custom-nav-link px-3" [class.disabled]="!isLoggedIn" 
+             (click)="toggleNotifications()">
+            <div class="nav-icon-container nav-icon-container2">
+              <app-notification [isOpen]="isNotificationOpen"></app-notification>
+              <span class="mt-2">Notifications</span>
+            </div>
+          </a>
+        </li>
+
+        <!-- Jobs -->
+        <li class="nav-item dropdown">
+          <a class="nav-link custom-nav-link px-3" href="#" data-bs-toggle="dropdown" 
+             [class.disabled]="!isLoggedIn">
+            <div class="nav-icon-container">
+              <i class="fas fa-briefcase"></i>
+              <span class="mt-2">Jobs</span>
+            </div>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end animate slideIn mt-2">
+            <li><a class="dropdown-item" [routerLink]="['/Job']">View Jobs</a></li>
+            <li><a class="dropdown-item" (click)="onSelectView('As a Admin')">Admin Dashboard</a></li>
+            <li><a class="dropdown-item" (click)="onSelectView('As a recruiter')">Recruiter Portal</a></li>
+          </ul>
+        </li>
+
+        <!-- Profile -->
+        <li class="nav-item dropdown ms-3" *ngIf="isLoggedIn">
+          <a class="nav-link profile-link p-0" href="#" data-bs-toggle="dropdown">
+            <img [src]="userImage || '../../assets/download.png'" 
+                 class="profile-image rounded-circle border border-2 border-white" 
+                 alt="Profile">
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end animate slideIn  mt-3 ">
+            <li class="px-3 py-2 d-flex align-items-center">
+              <img [src]="userImage || '../../assets/download.png'" 
+                   class="rounded-circle me-2" style="width: 32px; height: 32px;" alt="Profile">
+              <div class="text-white">
+                <div class="fw-semibold">{{name}}</div>
+                <small class="text-white-50" (click)="goToProfile()">View profile</small>
+              </div>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" (click)="goToProfile()">
+              <i class="fas fa-user me-2"></i>Profile
+            </a></li>
+            <li><a class="dropdown-item" (click)="goTosettings()">
+              <i class="fas fa-cog me-2"></i>Settings
+            </a></li>
+            <li *ngIf="showDashboard">
+              <a class="dropdown-item" (click)="goToDashboard()">
+                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+              </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" (click)="logout()">
+              <i class="fas fa-sign-out-alt me-2"></i>Logout
+            </a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

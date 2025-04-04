@@ -1,0 +1,116 @@
+<div class="dashboard-container" [class.folded]="isFolded()">
+    <div class="sidebar-menu">
+      <div class="fold-toggle" (click)="toggleFold()">
+        <i class="fas fa-bars"></i>
+      </div>
+      
+      <h2 class="portal-title" [class.hidden]="isFolded()">
+        Student Portal
+      </h2>
+      
+      <div class="sidebar-menu-items">
+        @for (item of menuItems; track item.label) {
+          <div 
+            class="menu-item" 
+            (click)="navigateTo(item.label)"
+            [title]="isFolded() ? item.label : ''"
+            [ngClass]="item.label==tab?'active':''"
+          >
+            <i [class]="item.icon"></i>
+            @if (!isFolded()) {
+              <span class="menu-label" [ngClass]="item.label==tab?'active':''">{{ item.label }}</span>
+            }
+          </div>
+        }
+      </div>
+    
+    </div>
+
+    <app-student-home *ngIf="tab=='Home'"></app-student-home>
+    
+    <div class="dashboard-content" *ngIf="tab=='Routine'">
+        <app-timeline-with-dates></app-timeline-with-dates>
+    </div>
+    
+    <div class="subjects-container" *ngIf="tab == 'Subjects'">
+      <div class="header">
+        <h1>My Subjects</h1>
+        <div class="actions">
+          <input type="text" placeholder="Search subjects..." class="search-bar" />
+          </div>
+      </div>
+      <ul class="subjects-list">
+        <li *ngFor="let subject of Subjects">
+          <span (click)="GotoClassroom(subject.id)">{{ subject.classroom.className }}</span>
+        </li>
+      </ul>
+    </div>
+    
+    <div class="classmates-container" *ngIf="tab == 'Classmates'">
+      <div class="header">
+        <h1>Classmates</h1>
+        <input type="text" placeholder="Search classmates..." class="search-bar" />
+      </div>
+      <ul class="classmates-list" *ngIf="classmates.length; else noData">
+        <li *ngFor="let classmate of classmates" class="classmate-item">
+          <strong>{{ classmate.name }}</strong> 
+          <span>(Age: {{ classmate.age }}, Subject: {{ classmate.subject }})</span>
+        </li>
+      </ul>
+      <ng-template #noData>
+        <p class="no-data">No classmates found.</p>
+      </ng-template>
+    </div>
+    
+
+
+  <div class="liveClass-container" *ngIf="tab == 'LiveClass'">
+    <div class="liveClass-live-class">
+      <div class="liveClass-video-container">
+        <video src="https://www.w3schools.com/html/mov_bbb.mp4" controls>
+          <track kind="subtitles" src="https://example.com/subtitles-en.vtt" srclang="en" label="English" default>
+        </video>
+      </div>
+      <div class="liveClass-live-info">
+        <h2 id="liveClass-live-class-title">{{ liveClass.title }}</h2>
+        <button class="liveClass-invite-btn">Invite</button>
+      </div>
+    </div>
+  
+    <div class="liveClass-calendar">
+      <h3>Upcoming Live Classes</h3>
+      <div class="liveClass-class-timeline">
+        <div *ngFor="let upcomingClass of upcomingClasses">
+          <strong>{{ upcomingClass.title }}</strong><br>{{ upcomingClass.time }}
+        </div>
+      </div>
+    </div>
+  
+    <div class="liveClass-chat">
+      <h3>Group Chat</h3>
+      <div class="liveClass-messages">
+        <p *ngFor="let chat of chatMessages">
+          <strong>{{ chat.user }}:</strong> {{ chat.message }}
+        </p>
+      </div>
+      <div class="liveClass-chat-input">
+        <input type="text" [(ngModel)]="newMessage" placeholder="Write your message..." />
+        <button (click)="sendMessage()">Send</button>
+      </div>
+    </div>
+  
+    <div class="liveClass-previous-classes">
+      <h3>Previous Classes</h3>
+      <div>
+        <div *ngFor="let previousClass of previousClasses">
+          {{ previousClass.title }} ({{ previousClass.date }})
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-exams-page *ngIf="tab=='Exam'"></app-exams-page>
+  <app-results-page *ngIf="tab=='Result'"></app-results-page>
+  <app-certificates-page *ngIf="tab=='Certificates'"></app-certificates-page>
+  </div>
+

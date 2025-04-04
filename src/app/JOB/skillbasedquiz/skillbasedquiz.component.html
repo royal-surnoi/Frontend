@@ -1,0 +1,108 @@
+<!-- Celebration Container -->
+<div class="celebration-container" *ngIf="showCelebration">
+  <div class="celebration-item" *ngFor="let item of celebrationItems" [style.left]="item.left"
+    [style.animation-duration]="item.animationDuration" [style.animation-delay]="item.animationDelay">
+    <svg xmlns="http://www.w3.org/2000/svg" [attr.width]="item.size" [attr.height]="item.size" viewBox="0 0 100 100">
+      <ng-container [ngSwitch]="item.type">
+        <g *ngSwitchCase="'flower'">
+          <circle cx="50" cy="50" r="20" [attr.fill]="item.color" [attr.stroke-width]="item.strokeWidth"
+            stroke="black" />
+          <g *ngFor="let i of [0,1,2,3,4]">
+            <ellipse [attr.cx]="50 + 22 * getCoordinate(i, 5, 'cos')" [attr.cy]="50 + 22 * getCoordinate(i, 5, 'sin')"
+              rx="15" ry="7" [attr.fill]="item.color" [attr.transform]="'rotate(' + (i * 72) + ' 50 50)'"
+              [attr.stroke-width]="item.strokeWidth" stroke="black" />
+          </g>
+        </g>
+        <polygon *ngSwitchCase="'star'" points="50,10 61,35 90,35 65,55 75,80 50,65 25,80 35,55 10,35 39,35"
+          [attr.fill]="item.color" [attr.stroke-width]="item.strokeWidth" stroke="black" />
+        <circle *ngSwitchCase="'circle'" cx="50" cy="50" r="40" [attr.fill]="item.color"
+          [attr.stroke-width]="item.strokeWidth" stroke="black" />
+        <path *ngSwitchCase="'heart'"
+          d="M50,30 A20,20,0,0,1,90,30 A20,20,0,0,1,50,70 A20,20,0,0,1,10,30 A20,20,0,0,1,50,30 Z"
+          [attr.fill]="item.color" [attr.stroke-width]="item.strokeWidth" stroke="black" />
+        <polygon *ngSwitchCase="'triangle'" points="50,10 90,90 10,90" [attr.fill]="item.color"
+          [attr.stroke-width]="item.strokeWidth" stroke="black" />
+      </ng-container>
+    </svg>
+  </div>
+</div>
+ 
+<div class="quiz-wrapper">
+  <div class="quiz-container">
+    <!-- Quiz Header -->
+    <div class="quiz-header">
+      <h2>{{ skillName }} Quiz</h2>
+      <div class="progress-indicator" *ngIf="!loading && !quizCompleted && questions.length > 0">
+        Question {{ currentQuestionIndex + 1 }} of {{ questions.length }}
+      </div>
+    </div>
+ 
+    <!-- Error State -->
+    <div *ngIf="errorMessage" class="error-container">
+      <div class="error-message">
+        <h3>Oops! Something went wrong</h3>
+        <p>{{ errorMessage }}</p>
+        <button (click)="retryQuizGeneration()" class="retry-button">
+          Retry Quiz Generation
+        </button>
+      </div>
+    </div>
+ 
+    <!-- Loading State -->
+    <div *ngIf="loading && !errorMessage" class="quiz-content loading">
+      <div class="spinner"></div>
+      <p>{{ currentLoadingStatement }}</p>
+    </div>
+ 
+    <!-- Quiz Questions -->
+    <div *ngIf="!loading && !quizCompleted && questions.length > 0" class="quiz-content">
+      <div class="question-card" *ngIf="currentQuestion">
+        <h3>{{ currentQuestion.text }}</h3>
+        <div class="options-grid">
+          <button *ngFor="let option of currentQuestion.options" class="option-button"
+            [class.selected]="selectedAnswer === option" (click)="selectAnswer(option)">
+            {{ option }}
+          </button>
+        </div>
+      </div>
+ 
+      <div class="navigation-buttons">
+        <button *ngIf="currentQuestionIndex > 0" (click)="previousQuestion()" class="nav-button">
+          Previous
+        </button>
+        <button *ngIf="currentQuestionIndex < questions.length - 1" (click)="nextQuestion()" class="nav-button"
+          [disabled]="!selectedAnswer">
+          Next
+        </button>
+        <button *ngIf="currentQuestionIndex === questions.length - 1" (click)="submitQuiz()" class="submit-button"
+          [disabled]="!selectedAnswer">
+          Submit Quiz
+        </button>
+      </div>
+    </div>
+ 
+    <!-- Results State -->
+    <!-- Modified Results State to trigger celebration -->
+    <div *ngIf="quizCompleted" class="quiz-results">
+      <h2>Quiz Results</h2>
+      <div class="result-summary">
+        <p>You scored {{ correctAnswers }} out of {{ questions.length }}</p>
+        <p class="result-percentage">
+          Percentage: {{ calculatePercentage() }}%
+        </p>
+        <p class="result-message">
+          {{ getResultMessage() }}
+        </p>
+        <div class="result-actions">
+          <button (click)="restartQuiz()" class="restart-button">
+            Restart Quiz
+          </button>
+          <button (click)="saveResults()" class="save-button" [disabled]="!canSaveResults()">
+            Save Results
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+ 

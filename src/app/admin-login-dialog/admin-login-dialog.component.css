@@ -1,0 +1,31 @@
+mat-form-field {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  mat-form-field input{
+    width: 90%;
+    height: 7dvh;
+    margin: 0px;
+  }
+  .error-message {
+    color: red;
+    margin-bottom: 15px;
+  }
+  mat-dialog-actions {
+    justify-content: space-between;
+  }
+  .signup-link a{
+    cursor: pointer;
+    color: cornflowerblue;
+ 
+  }
+  .mat-mdc-form-field-infix{
+    padding: 0%;
+    border: 1px solid brown;
+  }
+  .no-padding .mat-mdc-form-field {
+    padding: 0 ;
+    border: 1px solid rgb(179, 34, 131);
+  }
+ 
+ 

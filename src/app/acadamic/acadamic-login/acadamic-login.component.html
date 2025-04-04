@@ -1,0 +1,134 @@
+<div class="hero">
+  <div class="form-box">
+    <div class="button-box" *ngIf="activeForm === 'student' || activeForm === 'teacher' || activeForm === 'organization'">
+      <button class="toggle-btn" (click)="onLoginClick('student')" [ngClass]="{'active': activeForm === 'student'}">Student Login</button>
+      <button class="toggle-btn" (click)="onLoginClick('teacher')" [ngClass]="{'active': activeForm === 'teacher'}">Teacher Login</button>
+      <button class="toggle-btn" (click)="onLoginClick('organization')" [ngClass]="{'active': activeForm === 'organization'}">Organization Login</button>
+    </div>
+ 
+    <!-- Student Form -->
+    <div class="login-form" *ngIf="activeForm === 'student'">
+      <form #studentForm="ngForm" class="student-form">
+        <h3>Student Registration</h3>
+        <input type="text" name="StudentName" ngModel required placeholder="Student Name" class="input-field" />
+        <input type="text" name="instituteRegistrationNo" ngModel required placeholder="Institute Registration No." class="input-field" />
+        <input type="text" name="studentClass" ngModel required placeholder="Class" class="input-field" />
+        <input type="text" name="section" ngModel required placeholder="Section" class="input-field" />
+ 
+        <div class="dropdown-container">
+          <input
+            type="text"
+            class="input-field"
+            placeholder="Type or select an institute"
+            ngModel
+            required
+            [(ngModel)]="selectedInstituteStudent"
+            name="institute_Type"
+            required
+            (input)="onInputChange($event)"
+            (click)="toggleStudentDropdown()"
+          />
+          <ul *ngIf="isStudentDropdownVisible && filteredInstitutes.length > 0" class="dropdown">
+            <li *ngFor="let institute of filteredInstitutes" (click)="selectInstitute(institute, 'student')">
+              {{ institute.institute_Name }} - {{ institute.location }} - {{ institute.pincode }}
+            </li>
+          </ul>
+        </div>
+ 
+        <div class="location-info">
+          <input type="text" name="location" [(ngModel)]="selectedStudentLocation" required placeholder="Location" class="input-field" (focus)="closeDropdowns()" />
+          <input type="text" name="pincode" [(ngModel)]="selectedStudentPincode" required placeholder="Pincode" class="input-field" (focus)="closeDropdowns()" />
+        </div>
+        <input name="password" ngModel required type="password" placeholder="Password" class="input-field" />
+        <input name="confirmPassword" ngModel required type="password" placeholder="Confirm Password" class="input-field" />
+        <input name="email" ngModel required type="email" placeholder="Email" class="input-field" />
+ 
+       
+       
+        <button type="button" (click)="registerStudent(studentForm)" class="register-btn">Register</button>
+      </form>
+    </div>
+ 
+ 
+    <!-- Teacher Form -->
+    <div class="login-form" *ngIf="activeForm === 'teacher'">
+      <form #teacherForm="ngForm" class="teacher-form">
+        <h3>Teacher Registration</h3>
+        <input type="text" name="teacher_Name" ngModel required placeholder="Teacher Name" class="input-field" />
+        <input type="text" name="teacherId" ngModel required placeholder="Teacher ID" class="input-field" />
+        <input type="text" name="subject" ngModel required placeholder="Subject" class="input-field" />
+ 
+        <div class="dropdown-container">
+          <input
+            type="text"
+            class="input-field"
+            placeholder="Type or select an institute"
+            [(ngModel)]="selectedInstituteTeacher"
+            name="institute"
+            required
+            (input)="onInputChange($event)"
+            (click)="toggleTeacherDropdown()"
+          />
+          <ul *ngIf="isTeacherDropdownVisible && filteredInstitutes.length > 0" class="dropdown">
+            <li *ngFor="let institute of filteredInstitutes" (click)="selectInstitute(institute, 'teacher')">
+              {{ institute.institute_Name }} - {{ institute.location }} - {{ institute.pincode }}
+            </li>
+          </ul>
+        </div>
+ 
+        <div class="location-info">
+          <input type="text" name="location" [(ngModel)]="selectedTeacherLocation" required placeholder="Location" class="input-field" (focus)="closeDropdowns()" />
+          <input type="text" name="pincode" [(ngModel)]="selectedTeacherPincode" required placeholder="Pincode" class="input-field" (focus)="closeDropdowns()" />
+        </div><input name="password" ngModel required type="password" placeholder="Password" class="input-field" />
+        <input name="confirmPassword" ngModel required type="password" placeholder="Confirm Password" class="input-field" />
+        <input type="text" name="email" ngModel required placeholder="email" class="input-field" />
+        <input type="text" name="pincode" ngModel required placeholder="pincode" class="input-field" />
+       
+        <button type="button" (click)="registerTeacher(teacherForm)" class="register-btn">Register</button>
+      </form>
+    </div>
+ 
+ 
+     <!-- Organization Form -->
+     <div class="login-form" *ngIf="activeForm === 'organization'">
+      <form #InstituteForm="ngForm" class="organization-form">
+        <h3>Institute Registration</h3>
+        <input type="text" name="username" ngModel required placeholder="Institute Name" class="input-field" />
+        <input type="text" name="location" ngModel required placeholder="Location" class="input-field" />
+        <input type="text" name="principal" ngModel required placeholder="Principal Name" class="input-field" />
+        <input type="text" name="orgRegNo" ngModel required placeholder="Institute Registration No." class="input-field" />
+        <select name="orgType" ngModel required class="input-field">
+          <option value="" disabled selected>Institute Type</option>
+          <option value="school">School</option>
+          <option value="college">College</option>
+          <option value="university">University</option>
+          <option value="preschool">Pre-school</option>
+          <option value="open-university">Open University</option>
+        </select>
+        <input type="text" name="board" ngModel required placeholder="Board" class="input-field" />
+        <input name="password" ngModel required type="password" placeholder="Password" class="input-field" />
+        <input name="confirmPassword" ngModel required type="password" placeholder="Confirm Password" class="input-field" />
+        <button type="button" (click)="registerInstitute(InstituteForm)" class="register-btn">Register</button>
+      </form>
+    </div>
+ 
+    <div class="login-form" *ngIf="activeForm === 'otpStudent'">
+    <form #otpstudentForm="ngForm" class="Student-otp-form"  >
+      <label for="otp">We Sent Otp To Your Register Email Address</label>
+      <input type="text" name="otp" ngModel required placeholder="Enter Otp Here" class="input-field" />
+      <button class="register-btn" (click)="SubmitStudentOtp(otpstudentForm)">Submit</button>
+    </form>
+  </div>
+ 
+  <div class="login-form" *ngIf="activeForm === 'otpTeacher'">
+    <form #otpteacherForm="ngForm" class="Teacher-otp-form"  >
+      <label for="otp">We Sent Otp To Your Register Email Address</label>
+      <input type="text" name="otp" ngModel required placeholder="Enter Otp Here" class="input-field" />
+      <button class="register-btn" (click)="SubmitTeacherOtp(otpteacherForm)">Submit</button>
+    </form>
+  </div>
+    </div>
+ 
+</div>
+ 
+ 

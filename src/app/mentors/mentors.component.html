@@ -1,0 +1,108 @@
+<div class="grid-container" [ngClass]="selectedMentor ? 'Grid1' : 'Grid2'">
+ 
+
+  <!-- Column 2: Mentor List -->
+  <div class="column column-2">
+    <div class="options">
+      <button [class.active]="currentOption == 'findTeachers'" (click)="changetab()">Find
+        Teachers</button>
+      <button [class.active]="currentOption != 'findTeachers'" (click)="changetab()">My
+        Teachers</button>
+    </div>
+
+    <div class="search-bar">
+      <input type="text" [(ngModel)]="searchQuery" placeholder="Search mentors by name or profession"
+        (input)="currentOption == 'myTeachers'?filterFollowMentors():filterMentors()" />
+    </div>
+
+    <div class="mentor-list" *ngIf="currentOption == 'findTeachers'">
+      <div *ngFor="let mentor of filteredMentorList">
+        <div *ngIf="mentor.isVisible" class="mentor-card">
+          <img [src]="'data:image/png;base64,'+mentor.user.userImage" alt="Mentor Image" class="mentor-image" />
+          <div class="mentor-details">
+            <p class="mentor-name">{{ mentor.user.name }}</p>
+            <p class="mentor-subject">{{ mentor.profession }}</p>
+            <div class="mentor-stats">
+              <p class="mentor-subject">{{ mentor.permanentCity }}</p>
+              <p class="mentor-subject">{{ mentor.age}}</p>
+            </div>
+            <div class="mentor-stats">
+              <p class="mentor-subject">Avg Rate: INR {{ roundUp(mentor.courseStats.averageCost) }}/course</p>
+              <p class="mentor-subject">Rating: ⭐ {{ 5 }}/5</p>
+            </div>
+          </div>
+          <button class="hire-button" (click)="selectMentor(mentor)">view</button>
+        </div>
+      </div>
+      <div class="loader-2">
+        <div class="loader"></div>
+        <p>Find Your Mentors...</p>
+      </div>
+    </div>
+
+    <div class="mentor-list" *ngIf="currentOption != 'findTeachers'">
+
+      <div class="mentor-card" *ngFor="let mentor of filteredfollowmentorList">
+        <img [src]="'data:image/png;base64,'+mentor.user.userImage" alt="Mentor Image" class="mentor-image" />
+        <div class="mentor-details">
+          <p class="mentor-name">{{ mentor.user.name }}</p>
+          <p class="mentor-subject">{{ mentor.profession }}</p>
+          <div class="mentor-stats">
+            <p class="mentor-subject">{{ mentor.permanentCity }}</p>
+            <p class="mentor-subject">{{ mentor.age}}</p>
+          </div>
+          <div class="mentor-stats">
+            <p class="mentor-subject">Avg Rate: INR {{ roundUp(mentor.courseStats.averageCost) }}/course</p>
+            <p class="mentor-subject">Rating: ⭐ {{ 5 }}/5</p>
+          </div>
+        </div>
+        <button class="hire-button" (click)="selectMentor(mentor)">View</button>
+      </div>
+
+      <div class="loader-2">
+      <div class="loader"></div>
+      <p>Loading Your Mentors...</p>
+    </div>
+    </div>
+  </div>
+
+  <!-- Column 3: Mentor Details -->
+  <div class="column column-3" *ngIf="selectedMentor">
+    <div class="mentor-info">
+      <button class="close-button" (click)="closeMentorDetails()">✕</button>
+      <img [src]="'data:image/png;base64,'+selectedMentor.user.userImage" alt="Mentor Image"
+        class="mentor-info-image" />
+      <div class="mentor-info-details">
+        <h6 class="mentor-info-name">{{ selectedMentor.user.name }}</h6>
+        <p class="mentor-info-subject">{{ selectedMentor.profession }}</p>
+        <p class="mentor-info-lang">Languages: {{
+          selectedMentor.user.userLanguage?selectedMentor.user.userLanguage:"English" }}</p>
+         <p class="mentor-info-site">On this site: {{ selectedMentor.onThisSite?selectedMentor.onThisSite:"recently Joined"}}</p>
+        <p class="mentor-info-desc" [title]="selectedMentor.userDescription" *ngIf="(selectedMentor?.userDescription || '')?.length > 0">{{
+          (selectedMentor?.userDescription || '')?.length >80?selectedMentor.userDescription.slice(0,77)+"...":selectedMentor.userDescription}}>
+        </p>
+          <p class="mentor-rate-detail">Avg Rate: INR {{ roundUp(selectedMentor.courseStats.averageCost) }}/course</p>
+          <p class="mentor-rating-detail">Rating: ⭐ {{ 5 }}/5</p>
+
+          <div class="course-tabs">
+            <div 
+              *ngFor="let course of selectedMentor.courseStats.courseNames.reverse().slice(0,6); let i = index" 
+              class="course-tab">
+              <p [title]="course">{{ course.length>=5? course.slice(0,5)+"..":course}}</p>
+            </div>
+          </div>
+        
+
+      </div>
+      <div class="mentor-info-actions">
+        <button class="action-button" [routerLink]="['/MentorProfile',selectedMentor.user.id]">see Profile</button>
+        <button class="action-button"
+          *ngIf="currentOption == 'findTeachers' && selectedMentor.isVisible && !selectedMentor.isLoading">
+          <span class="person-symbol" (click)="sendingFollowRequest($event, selectedMentor.user.id)">
+            Follow
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

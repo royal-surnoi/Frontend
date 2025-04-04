@@ -1,0 +1,425 @@
+<p-toast></p-toast>
+
+<div class="main" [ngClass]="user.theme" *ngIf="isloaded">
+
+  <div class="main-2" id="jobs">
+
+    <nav class="navbar sticky-header" *ngIf="activeTab != 'personalInfo'">
+      <!-- Left Arrow -->
+     
+   
+      <!-- Navbar Container with List Items -->
+      <ul class="navbar-tabs" [class.pendulum]="isPendulumActive">
+        <li [class.active]="activeTab === 'Home'" (click)="activeTab = 'Home'">
+          <i class="fas fa-briefcase"></i><span>Home</span>
+        </li>
+        <li [class.active]="activeTab === 'jobs'" (click)="activeTab = 'jobs'">
+          <i class="fas fa-briefcase"></i><span>Jobs</span>
+        </li>
+        <li [class.active]="activeTab === 'myApplications'" (click)="activeTab = 'myApplications'">
+          <i class="fas fa-file-alt"></i><span>Applications</span>
+        </li>
+        <li [class.active]="activeTab === 'Upcoming'" (click)="activeTab = 'Upcoming'">
+          <i class="fa fa-calendar" aria-hidden="true"></i><span>Upcoming Interviews</span>
+        </li>
+    
+        <li [class.active]="activeTab === 'personalInfo'" (click)="activeTab = 'personalInfo'">
+          <i class="fas fa-user"></i><span>Details</span>
+        </li>
+        <li [class.active]="activeTab === 'community'" (click)="activeTab = 'community'">
+          <i class="fas fa-users"></i><span>Community</span>
+        </li>
+        <li [class.active]="activeTab === 'feed'" (click)="activeTab = 'feed'">
+          <i class="fas fa-rss"></i><span>Feed</span>
+        </li>
+        <li [class.active]="activeTab === 'Document'" (click)="activeTab = 'Document'">
+          <i class="fas fa-file-pdf"></i><span>Documents</span>
+        </li>
+        <li [class.active]="activeTab === 'SavedJobs'" (click)="activeTab = 'SavedJobs'">
+          <i class="fas fa-briefcase"></i><span>SavedJobs</span>
+        </li>
+      </ul>
+
+    
+    </nav>
+
+  </div>
+
+
+
+  <div class="portfolio-container" *ngIf="activeTab === 'Home'">
+    <div class="parent-div">
+    
+
+      <div class="sections-container">
+        <!-- Video Section -->
+        <div class="child-section video-section">
+          <div class="introduction-section">
+            <div class="intro-description">
+              <p class="welcome-container">
+                <span class="greeting-text">
+                  {{ setGreetingMessage().timeGreeting }}, {{ user.user.name }}
+                </span>
+                <span class="welcome-message">
+                  {{ setGreetingMessage().welcomeMessage }}
+                </span>
+              </p>
+            </div>
+          </div>
+
+          <!-- Video Player -->
+          <div>
+            <div class="video-container" *ngIf="currentVideoSrc">
+              <video #videoPlayer [src]="currentVideoSrc" controls class="main-video" (timeupdate)="onTimeUpdate()"
+                (loadedmetadata)="onMetadataLoaded()">
+                <track kind="subtitles" src="https://example.com/subtitles-en.vtt" srclang="en" label="English" default>
+              </video>
+
+              <div class="custom-progress-container" (click)="onProgressBarClick($event)">
+                <div class="progress-segments">
+                  <div *ngFor="let segment of videoSegments" class="segment" [style.width.%]="getSegmentWidth(segment)"
+                    (click)="seekToSegment(segment.startTime)">
+                    <div class="segment-tooltip">
+                      {{segment.label}}
+                    </div>
+                  </div>
+                </div>
+                <div class="progress-bar-combinedVideo" [style.width.%]="progressPercentage"></div>
+              </div>
+            </div>
+            
+            <!-- From Uiverse.io by satyamchaudharydev -->
+            <div class="video-container2" *ngIf="!currentVideoSrc">
+              <div class="card-selfintro">
+                <div class="icon-selfintro">
+                  <svg viewBox="0 0 24 24" height="40" width="40" xmlns="http://www.w3.org/2000/svg"
+                    style="color: #452758;">
+                    <path fill="currentColor"
+                      d="M11.984 16.815c2.596 0 4.706-2.111 4.706-4.707 0-1.409-.623-2.674-1.606-3.538-.346-.303-.735-.556-1.158-.748-.593-.27-1.249-.421-1.941-.421s-1.349.151-1.941.421c-.424.194-.814.447-1.158.749-.985.864-1.608 2.129-1.608 3.538 0 2.595 2.112 4.706 4.706 4.706zm.016-8.184c1.921 0 3.479 1.557 3.479 3.478 0 1.921-1.558 3.479-3.479 3.479s-3.479-1.557-3.479-3.479c0-1.921 1.558-3.478 3.479-3.478zm5.223.369h6.777v10.278c0 2.608-2.114 4.722-4.722 4.722h-14.493c-2.608 0-4.785-2.114-4.785-4.722v-10.278h6.747c-.544.913-.872 1.969-.872 3.109 0 3.374 2.735 6.109 6.109 6.109s6.109-2.735 6.109-6.109c.001-1.14-.327-2.196-.87-3.109zm2.055-9h-12.278v5h-1v-5h-1v5h-1v-4.923c-.346.057-.682.143-1 .27v4.653h-1v-4.102c-1.202.857-2 2.246-2 3.824v3.278h7.473c1.167-1.282 2.798-2 4.511-2 1.722 0 3.351.725 4.511 2h7.505v-3.278c0-2.608-2.114-4.722-4.722-4.722zm2.722 5.265c0 .406-.333.735-.745.735h-2.511c-.411 0-.744-.329-.744-.735v-2.53c0-.406.333-.735.744-.735h2.511c.412 0 .745.329.745.735v2.53z">
+                    </path>
+                  </svg>
+                </div>
+
+
+                <div class="card-selfintro__body">
+                  self introduction videos are required to be uploaded
+                </div>
+                <span style="cursor: pointer;" (click)="ShowOverlay=true">upload</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Profile Section -->
+ 
+
+        <div class="card">
+
+
+
+          <div class="profile-pic">
+            <img [src]="user.user.userImage" alt="User Image" class="profile-image">
+          </div>
+
+          <div class="bottom">
+            <div class="content">
+              <span class="name">{{ user.user.name }}</span>
+              <span class="about-me">
+                <p class="user-location" (click)="openMap()">
+                  <i class="fa-solid fa-location-dot"></i> {{ user.permanentCity }}
+                </p>
+                <p class="user-phone" (click)="openPhone()">
+                  <i class="fa-solid fa-phone-volume"></i> {{ user.phoneNumber }}
+                </p>
+                <span class="email-text"> <svg class="lucide lucide-mail" stroke-linejoin="round" stroke-linecap="round"
+                    stroke-width="2" stroke="currentColor" fill="none" viewBox="0 0 24 24" height="24" width="24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <rect rx="2" y="4" x="2" height="16" width="20"></rect>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                  </svg> {{ user.user.email }}</span>
+              </span>
+            </div>
+
+            <div class="bottom-bottom">
+              <div class="contact-info">
+
+
+
+
+
+
+
+
+                <button class="resume" (click)="ShowOverlay=true">
+                  <i class="fa fa-file" aria-hidden="true"></i>
+                  <span>Resume</span>
+                </button>
+              </div>
+
+           
+            </div>
+          </div>
+        </div>
+
+
+
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="main-2" id="jobs">
+
+    <app-jobs *ngIf="activeTab === 'jobs'" [theme]="user.theme" />
+
+    <app-my-applications *ngIf="activeTab == 'myApplications'" />
+
+    <section *ngIf="activeTab=='Upcoming'">
+      <div class="calendar">
+        <div class="calendar-header">
+          <h6>Upcoming Scheduled interviews</h6>
+        </div>
+        <div class="calendar-grid">
+          <div class="calendar-slot" *ngFor="let interview of interviews">
+            <p class="slot-time">Interview on {{ formatTimeForInteview(interview.interviewTimestamp)}}</p>
+            <div class="slot-details">
+              <p [title]="interview.interviewerName"><strong>Interviewer:</strong> {{
+                interview.interviewerName.length>6?interview.interviewerName.slice(0,6)+"...":interview.interviewerName
+                }}</p>
+              <p [title]="interview.interviewDescription"><strong>Description:</strong> {{
+                interview.interviewDescription.length>150?interview.interviewDescription.slice(0,150)+"...":interview.interviewDescription
+                }}</p>
+              <a [href]="interview.interviewLink" target="_blank" class="join-button">Join Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+ 
+
+    <app-personal-info *ngIf="activeTab == 'personalInfo'" [user_deatils]="user" />
+
+    <app-job-community *ngIf="activeTab == 'community'" />
+
+    <app-job-feed *ngIf="activeTab == 'feed'" />
+
+    <app-documents-component *ngIf="activeTab=='Document'" [theme]="user.theme"></app-documents-component>
+
+    <app-savedjobs *ngIf="activeTab=='SavedJobs'"></app-savedjobs>
+  </div>
+</div>
+
+
+
+<div id="overlay" class="overlay" *ngIf="ShowOverlay" [ngClass]="user.theme">
+  <div class="overlay-content">
+    <div class="layout-container">
+
+      <!-- Left column (20% width) -->
+      <div class="left-column">
+        <!-- Navigation sections -->
+        <div class="section-buttons">
+          <button class="upload-all-button" (click)="ShowOverlay=false">Back To Profile</button>
+          <button class="upload-all-button" (click)="displayContent('intro')">Self Introduction</button>
+          <button class="upload-all-button" (click)="displayContent('resume')">Resume</button>
+          <button class="upload-all-button" (click)="navigateToAiresume()">AI Resume builder</button>
+        </div>
+      </div>
+
+      <!-- Right column (80% width) to display dynamic content -->
+      <div class="right-column">
+        <button class="cross-button" aria-label="Close" (click)="ShowOverlay=false">×</button>
+
+        <!-- Self Introduction video content -->
+        <div *ngIf="selectedContent === 'intro'" class="video-containers">
+
+          <div class="video-upload-container">
+            <h2>Upload Self Introduction Videos</h2>
+
+            <!-- Overall error message -->
+            <div *ngIf="overallError" class="alert alert-danger">
+              {{ overallError }}
+            </div>
+
+            <!-- Video upload sections -->
+            <div class="video-grid">
+              <div *ngFor="let video of videos" class="video-item">
+                <div class="video-card" [class.has-error]="video.error">
+                  <h3>{{ video.title }}</h3>
+
+                  <!-- Existing uploaded video -->
+                  <div *ngIf="video.url" class="video-preview-section">
+                    <video controls class="video-preview">
+                      <source [src]="video.url" type="video/mp4">
+                      Your browser does not support the video tag.
+                      <track kind="subtitles" src="https://example.com/subtitles-en.vtt" srclang="en" label="English" default>
+                    </video>
+
+
+
+
+                    <!-- Replace video option -->
+                    <div class="video-actions">
+                      <input type="file" [id]="'replace-' + video.id" accept="video/*"
+                        (change)="onVideoFileSelected($event, video.id)" [disabled]="uploading" hidden>
+                      <label [for]="'replace-' + video.id" class="replace-button">
+                        <i class="fas fa-sync-alt"></i>
+                        Replace Video
+                      </label>
+                    </div>
+                  </div>
+
+                  <!-- File input section -->
+                  <div *ngIf="!video.url && !video.preview" class="file-input-section">
+                    <input type="file" [id]="video.id" accept="video/*" (change)="onVideoFileSelected($event, video.id)"
+                      [disabled]="uploading" hidden>
+                    <label [for]="video.id" class="upload-button">
+                      <i class="fas fa-cloud-upload-alt"></i>
+                      Select Video
+                    </label>
+                  </div>
+
+                  <!-- Preview section -->
+                  <div *ngIf="!video.url && video.preview" class="preview-section">
+                    <video controls class="video-preview" [attr.controlsList]="'nodownload'">
+                      <source [src]="video.preview" type="video/mp4">
+                      Your browser does not support the video tag.
+                      <track kind="subtitles" src="https://example.com/subtitles-en.vtt" srclang="en" label="English" default>
+                    </video>
+
+                    <div class="video-actions">
+                      <button class="remove-button" (click)="removeVideo(video.id)" [disabled]="uploading">
+                        <i class="fas fa-trash"></i>
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Error message -->
+                  <div *ngIf="video.error" class="error-message">
+                    {{ video.error }}
+                  </div>
+
+                  <!-- Progress bar -->
+                  <div *ngIf="video.progress > 0" class="progress-bar">
+                    <div class="progress-fill" [style.width.%]="video.progress"></div>
+                    <span class="progress-text">{{ video.progress }}%</span>
+                  </div>
+
+                  <!-- File requirements -->
+                  <div class="file-requirements">
+                    <small>
+                      Supported formats: MP4, WebM, OGG
+                      <br>
+                      Maximum size: 100MB
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Upload button -->
+            <div class="upload-actions">
+              <button class="upload-all-button" (click)="uploadAll()" [disabled]="uploading" [disabled]="videosExist">
+                <i class="fas fa-upload"></i>
+                {{ uploading ? 'Uploading...' : 'Upload All Videos' }}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- /////////////AI self introduction video integration/////// -->
+        <!-- Video Player -->
+        <div class="video-container" *ngIf="selectedContent === 'intro'">
+          <video #videoPlayer [src]="currentVideoSrc" controls class="main-video" (timeupdate)="onTimeUpdate()"
+            (loadedmetadata)="onMetadataLoaded()">
+            <track kind="subtitles" src="https://example.com/subtitles-en.vtt" srclang="en" label="English" default>
+          </video>
+
+
+          <div class="custom-progress-container" (click)="onProgressBarClick($event)">
+            <div class="progress-segments">
+              <div *ngFor="let segment of videoSegments" class="segment" [style.width.%]="getSegmentWidth(segment)"
+                (click)="seekToSegment(segment.startTime)">
+                <div class="segment-tooltip">
+                  {{segment.label}}
+                </div>
+              </div>
+            </div>
+            <div class="progress-bar-combinedVideo" [style.width.%]="progressPercentage"></div>
+          </div>
+        </div>
+
+        <!-- ///////////////////////////// -->
+
+
+        <!-- Resume PDF content -->
+        <div *ngIf="selectedContent === 'resume'" class="pdf-container">
+          <div class="pdf-header">
+            <i class="file-icon"></i>
+            <span>Resume</span>
+          </div>
+          <div *ngIf="!safeResumeUrl" class="resume-upload">
+            <p>No resume uploaded yet</p>
+            <input type="file" #resumeInput accept=".pdf" style="display: none;" (change)="uploadResume($event)">
+            <button class="upload-button" [disabled]="isUploadingResume" (click)="resumeInput.click()">
+              <i class="fas fa-upload"></i>
+              {{ isUploadingResume ? 'Uploading...' : 'Upload Resume' }}
+            </button>
+
+            <!-- Error message display -->
+            <div *ngIf="uploadError" class="error-message">
+              {{ uploadError }}
+            </div>
+
+            <!-- File requirements info -->
+            <div class="file-requirements">
+              <p>Supported formats: PDF</p>
+              <p>Maximum file size: 5MB</p>
+            </div>
+          </div>
+
+          <!-- Show resume if it exists -->
+          <div *ngIf="safeResumeUrl" class="resume-viewer">
+            <iframe [src]="safeResumeUrl" title="PDF Viewer" width="100%" height="600px"></iframe>
+
+            <!-- Option to replace existing resume -->
+            <div class="replace-resume">
+              <input type="file" #replaceResumeInput accept=".pdf,.doc,.docx" style="display: none;"
+                (change)="uploadResume($event)">
+              <button class="replace-button" [disabled]="isUploadingResume" (click)="replaceResumeInput.click()">
+                <i class="fas fa-sync-alt"></i>
+                Replace Resume
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="popup-overlay" *ngIf="ShowPopup">
+  <div class="popup-content">
+    <h2>Profile Data Required</h2>
+    <p>Please complete your profile information and Profile Picture to continue. Missing profile data may limit your
+      access to Job
+      features.</p>
+      <p class="blinking-text" style="color:red">Note: Please fill all the mandatory fields along with profile picture*</p>
+    <button class="fill-profile-btn" routerLink="/profile-sett">Fill Profile</button>
+  </div>
+</div>
+
+
+
+<div class="body" *ngIf="!isloaded">
+  <div class="loader">
+    <div class="f-letter">F</div>
+    <div class="f-letter">F</div>
+    <div class="f-letter">F</div>
+  </div>
+</div>

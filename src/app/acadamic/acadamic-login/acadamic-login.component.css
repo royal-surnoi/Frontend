@@ -1,0 +1,215 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+}
+ 
+/* Hero Section */
+.hero {
+    height: 100%;
+    width: 100%;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://i.postimg.cc/C5dVWngw/banner.jpg');
+    background-position: center;
+    background-size: cover;
+    position: absolute;
+}
+ 
+/* Form Box */
+.form-box {
+    width: 450px;
+    height: 480px;
+    position: relative;
+    margin: 6% auto;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    /* overflow: hidden; */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+ 
+.button-box {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 35px auto;
+    position: relative;
+    box-shadow: 0 0 20px 9px #ff61241f;
+    border-radius: 30px;
+    font-size: 10px;
+}
+ 
+.toggle-btn {
+    padding: 10px 10px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    outline: none;
+    position: relative;
+    flex: 1;
+    margin: 0 5px;
+    border-radius: 30px;
+    transition: background-color 0.3s ease;
+}
+ 
+.toggle-btn:hover {
+    background-color: #ffad06;
+}
+
+.active{
+    background-color: #ffad06;
+}
+/* Input Fields */
+.input-field {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-bottom: 2px solid #999;
+    background: transparent;
+    outline: none;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+ 
+.input-field:focus {
+    border-color: #ffad06;
+}
+ 
+.submit-btn {
+    width: 85%;
+    padding: 12px 30px;
+    cursor: pointer;
+    display: block;
+    margin: 20px auto;
+    background: linear-gradient(to right, #ff105f, #ffad06);
+    border: none;
+    outline: none;
+    border-radius: 30px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+ 
+.submit-btn:hover {
+    background-color: #ff6124;
+}
+ 
+/* Checkbox */
+.check-box {
+    margin: 30px 0;
+}
+ 
+/* Placeholder text and span */
+span {
+    color: #777;
+    font-size: 12px;
+}
+ 
+/* Dropdown Container */
+.dropdown-container {
+    position: relative;
+    width: 100%;
+}
+ 
+.dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: max-height 0.3s ease-in-out;
+}
+ 
+.dropdown li {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
+}
+ 
+.dropdown li:hover {
+    background-color: #f7a1cb;
+    color: #fff;
+}
+ 
+.dropdown li:active {
+    background-color: #e9a4d6;
+    color: #fff;
+}
+ 
+/* Italic text for empty dropdown */
+.dropdown p {
+    padding: 10px;
+    color: #666;
+    font-style: italic;
+}
+ 
+/* Form Layout */
+#login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+ 
+/* Input field adjustments */
+#login-form input {
+    margin-bottom: 10px;
+}
+ 
+/* Button styling in form */
+#login-form button {
+    margin-top: 20px;
+}
+ 
+ 
+/* Register Button Styling */
+.register-btn {
+    width: 85%;
+    padding: 12px 30px;
+    cursor: pointer;
+    display: block;
+    margin: 20px auto;
+    background: linear-gradient(to right, #ff105f, #ffad06);
+    border: none;
+    outline: none;
+    border-radius: 30px;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+ 
+/* Hover Effect */
+.register-btn:hover {
+    background: linear-gradient(to right, #ffad06, #ff6124);
+    transform: translateY(-3px); /* Adds a subtle lift effect */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+ 
+/* Active Effect */
+.register-btn:active {
+    background: linear-gradient(to right, #ff6124, #ff105f);
+    transform: translateY(1px); /* Adds a pressed effect */
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.location-info{
+    display: flex;
+    gap: 1%;
+}

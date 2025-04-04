@@ -1,0 +1,137 @@
+<div class="recommendations">
+    <div (mouseenter)="NavigatorChange()" (mouseleave)="NavigatorChangeout()" *ngIf="courses.length>=1">
+        <h2 class="recommendations-heading">Skill Recommendations</h2>
+        <div class="recommendation-slider-container" *ngIf="courses.length>=1">
+            <div #recommendationSlider class="recommendations-container">
+                <div *ngFor="let course of courses" class="spl-course-card">
+                    <div class="spl-course-image">
+                      <div class="spl-course-type">{{ course.courseTitle }}</div>
+                      <img 
+                      [src]="image(course.courseImage)" [alt]="course.courseTitle"
+                        class="spl-course-image-element" 
+                      />
+                      <div class="spl-course-level">{{ course.level }}</div>
+                      <h6 
+                      [title]="course.courseTitle" 
+                      class="spl-course-title-short">
+                      {{ course.courseTitle.length > 20 ? (course.courseTitle.slice(0, 20) + '...') : course.courseTitle }}
+                    </h6>
+
+                    </div>
+                    <div class="spl-course-content">
+                      <h3 class="spl-course-title">{{ course.courseTitle }}</h3>
+                      <p>Language: {{ course.courseLanguage }}</p>
+                      <p class="spl-course-instructor">
+                        <a (click)="onInstructorSelect2(course.user.id)">
+                          {{ course.user.name || 'Unknown Instructor' }}
+                        </a>
+                      </p>
+                      <div class="spl-course-stats">
+                        <span class="spl-course-rating">
+                            <ng-container *ngIf="(course.courseRating) === 0 || 0.0">
+                              <i class="far fa-star" *ngFor="let _ of generateEmptyStarsArrayonly()"></i>
+                            </ng-container>
+                            <ng-container *ngIf="course.courseRating != 0 || 0.0">
+                              <i class="fas fa-star" *ngFor="let _ of generateStarsArray(course.courseRating)"></i>
+                              <i class="far fa-star" *ngFor="let _ of generateEmptyStarsArray(course.courseRating)"></i>
+                            </ng-container>
+                          </span>
+                          <span class="spl-course-students">
+                            <i class="fas fa-user"></i> {{ course.enrollments == null ? 0 : course.enrollments }}
+                          </span>
+                      </div>
+                      <p class="spl-course-duration">
+                        <span>{{ formatDuration(course.courseDuration) }}</span>
+                        <span class="spl-move-left">Term: {{ course.courseTerm }}</span>
+                      </p>
+                    </div>
+                    <div class="spl-course-footer">
+                      <span class="spl-course-price">{{ course.currency + course.currency }}</span>
+                      <button 
+                    class="spl-action-button spl-enroll-button" [routerLink]="['/courseland']"
+                    [queryParams]="{ courseId: course.course_id }">
+                    Enroll Now
+                    </button>
+                    </div>
+                    <div class="spl-progress-card">
+                      <p-progressBar [value]="course.projectProgress" class="spl-slim-progress-bar"></p-progressBar>
+                    </div>
+                  </div>
+        </div>
+        <div *ngIf="courses.length==0" class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+
+    </div>
+
+
+    <div *ngIf="relcourses.length>=1" (mouseenter)="NavigatorChange2()" (mouseleave)="NavigatorChangeout2()">
+        <h2 class="recommendations-heading">Related Course Recommendations</h2>
+        <div class="recommendation-slider-container" *ngIf="relcourses.length>=1">
+
+            <div #languageRecommendationSlider class="recommendations-container">
+
+            <div *ngFor="let course of relcourses" class="spl-course-card">
+                <div class="spl-course-image">
+                  <div class="spl-course-type">{{ course.courseTitle }}</div>
+                  <img 
+                  [src]="image(course.courseImage)" [alt]="course.courseTitle" 
+                    class="spl-course-image-element" 
+                  />
+                  <div class="spl-course-level">{{ course.level }}</div>
+                  <h6 
+          [title]="course.courseTitle" 
+          class="spl-course-title-short">
+          {{ course.courseTitle.length > 20 ? (course.courseTitle.slice(0, 20) + '...') : course.courseTitle }}
+        </h6>
+                </div>
+                <div class="spl-course-content">
+                  <h3 class="spl-course-title">{{ course.courseTitle }}</h3>
+                  <p>Language: {{ course.courseLanguage }}</p>
+                  <p class="spl-course-instructor">
+                    <a (click)="onInstructorSelect2(course.mentorId)">
+                      {{ course.mentorName || 'Unknown Instructor' }}
+                    </a>
+                  </p>
+                  <div class="spl-course-stats">
+                        <span class="spl-course-rating">
+                            <ng-container *ngIf="(course.courseRating) === 0 || 0.0">
+                              <i class="far fa-star" *ngFor="let _ of generateEmptyStarsArrayonly()"></i>
+                            </ng-container>
+                            <ng-container *ngIf="course.courseRating != 0 || 0.0">
+                              <i class="fas fa-star" *ngFor="let _ of generateStarsArray(course.courseRating)"></i>
+                              <i class="far fa-star" *ngFor="let _ of generateEmptyStarsArray(course.courseRating)"></i>
+                            </ng-container>
+                          </span>
+                          <span class="spl-course-students">
+                            <i class="fas fa-user"></i> {{ course.enrollments == null ? 0 : course.enrollments }}
+                          </span>
+                  </div>
+                  <p class="spl-course-duration">
+                    <span>{{ formatDuration(course.courseDuration) }}</span>
+                    <span class="spl-move-left">Term: {{ course.courseTerm }}</span>
+                  </p>
+                </div>
+                <div class="spl-course-footer">
+                  <span class="spl-course-price">{{ course.courseFee + course.currency }}</span>
+                  <button 
+                    class="spl-action-button spl-enroll-button" [routerLink]="['/courseland']"
+                    [queryParams]="{ courseId: course.course_id }">
+                    Enroll Now
+                    </button>
+                </div>
+                <div class="spl-progress-card">
+                    <p-progressBar [value]="course.projectProgress" class="spl-slim-progress-bar"></p-progressBar>
+                  </div>
+              </div>
+            </div>
+          
+        </div>
+        <div *ngIf="paginatedRelCourses.length==0" class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+    </div>
+
+</div>

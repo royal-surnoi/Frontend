@@ -1,0 +1,39 @@
+<div class="container">
+  <!-- Heading -->
+<div class="header">
+ <i (click)="goBack()" class="fas fa-arrow-left back-icon"></i>
+
+ <h2>Select Your Company Location</h2>
+ </div>
+  
+   <!-- Form to get coordinates -->
+   <form (submit)="geocodeAddress()" class="location-form">
+     <label for="address">Address:</label>
+     <div class="input-wrapper">
+       <input type="text" [(ngModel)]="address" name="address" placeholder="Enter address" />
+       <button type="submit" class="search-icon">
+         <i class="fas fa-search"></i>
+       </button>
+     </div>
+   </form>
+  
+   <!-- Map Container -->
+   <div id="map"></div>
+  
+   <!-- Latitude and Longitude Input Fields -->
+   <form (submit)="saveCoordinates()" class="coordinates-form">
+     <div class="coordinates">
+       <label for="latitude">Latitude:</label>
+       <input type="text" id="latitude" [(ngModel)]="companyLatitude" name="latitude" readonly />
+  
+       <label for="longitude">Longitude:</label>
+       <input type="text" id="longitude" [(ngModel)]="companyLongitude" name="longitude" readonly />
+     </div>
+  
+     <!-- Save Button -->
+     <button type="submit" class="save-button">Save</button>
+   </form>
+ </div>
+  
+  
+  

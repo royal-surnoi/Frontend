@@ -1,0 +1,12 @@
+<div class="exam-container">
+    <h1>Available Exams</h1>
+    <div class="exam-row">
+      <div *ngFor="let exam of exams" class="exam-card">
+        <h2>{{ exam.name }}</h2>
+        <p>{{ exam.description }}</p>
+        <p><strong>Duration:</strong> {{ exam.duration }}</p>
+        <button (click)="takeExam(exam.id)" class="take-exam-btn">Take Exam</button>
+      </div>
+    </div>
+  </div>
+  

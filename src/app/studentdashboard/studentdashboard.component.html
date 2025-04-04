@@ -1,0 +1,54 @@
+<div class="body">
+  <div class="main">
+    <div class="container2">
+        <!-- Column 1 -->
+        <div class="card col-1">
+            <div class="menu-container">
+                <h3>Menu</h3>
+                <ul>
+                    <li  [routerLink]="['/candidateview/learningPage', term]" routerLinkActive="active"><i class="fa-solid fa-house"></i>Dashboard</li>
+                    <li  routerLink="/candidateview/home" routerLinkActive="active"><i class="fa-solid fa-photo-film"></i>Feed</li>
+                    <li routerLink="/candidateview/AcadamicHome"><i class="fa-solid fa-chalkboard"></i>Acadamic<span class="badge">New</span></li>
+                    <li routerLink="/candidateview/mentors"><i class="fa-solid fa-chalkboard-user"></i>Mentors</li>
+                    <li  routerLink="/candidateview/AILanguageLearning" routerLinkActive="active"><i class="fa-solid fa-language"></i>Language Learning</li>
+                    <li  routerLink="/candidateview/AiCarearGuidance" routerLinkActive="active"><i class="fa fa-graduation-cap" aria-hidden="true"></i>Carear Guidance</li>
+                    <li  routerLink="/candidateview/courses"><i class="fa-solid fa-book-open-reader"></i>Enrolled Courses</li>
+                    <li routerLink="/candidateview/studentmock"><i class="fa-solid fa-pen-nib"></i>Mock Test</li>
+                </ul>
+            </div>
+            <!-- Mentors Section -->
+<div class="mentors-container">
+                <h4>My Mentors</h4>
+                <div *ngIf="mentorsFollowed.length > 0; else noMentors">
+                  <ul>
+                    <li
+                      *ngFor="let mentor of mentorsFollowed"
+                      class="mentor-item"
+                      (click)="onUserSelect(mentor)"
+                    >
+                      <img
+                        [src]="'data:image/jpeg;base64,' + mentor.userImage"
+                        alt="{{ mentor.name }}"
+                        class="mentor-photo"
+                      />
+                      <div class="mentor-name">
+                        {{ mentor.name }}
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <ng-template #noMentors>
+                  <p>No mentors followed by you.</p>
+                </ng-template>
+              </div>
+ 
+        </div>
+  
+        <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+  </div>
+  
+  

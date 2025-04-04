@@ -1,0 +1,45 @@
+<div class="Container">
+<h1>Upcoming Live Class's Timeline</h1>
+<div class="timeline-container">
+    <div class="timeline-grid">
+      <!-- Dates on Y-axis -->
+      <div class="y-axis">
+        <div *ngFor="let date of dates" class="date">
+          {{ date }}
+        </div>
+      </div>
+      <!-- Timeline Content -->
+      <div class="timeline-content">
+        <!-- Time on X-axis -->
+        <div class="x-axis">
+          <div *ngFor="let time of timeSlots" class="time">
+            <p>{{ time }}</p>
+          </div>
+        </div>
+        <!-- Events -->
+        <div
+          *ngFor="let event of events"
+          class="event"
+          [ngStyle]="{
+            top: calculateTop(event.date),
+            left: calculateLeft(event.startTime),
+            width: calculateWidth(event.startTime, event.endTime),
+            backgroundColor: event.color
+          }"
+          (mouseenter)="showDetails(event)"
+          (mouseleave)="hideDetails()"
+        >
+          <span>{{ event.title }}</span>
+        </div>
+      </div>
+    </div>
+    <!-- Details on Hover -->
+    <div class="details" *ngIf="hoveredEvent">
+      <h3>{{ hoveredEvent.title }}</h3>
+      <p><strong>Professor:</strong> {{ hoveredEvent.professor }}</p>
+      <p><strong>Total Classes:</strong> {{ hoveredEvent.totalClasses }}</p>
+      <p><strong>Remaining Classes:</strong> {{ hoveredEvent.remainingClasses }}</p>
+      <button>Apply Leave</button>
+    </div>
+  </div>
+</div>

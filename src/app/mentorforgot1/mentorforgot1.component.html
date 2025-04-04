@@ -1,0 +1,14 @@
+<!-- Forgot Username Form -->
+<div class="forgot-password-container" *ngIf="showForgotUsernameForm">
+    <h2>Forgot Username?</h2>
+    <form (ngSubmit)="onSubmitUsernameRequest()">
+        <div class="form-group">
+            <label for="email">Enter your email address to receive your username.</label>
+            <input type="email" id="email" [(ngModel)]="email" name="email" required placeholder="Enter your email" />
+        </div>
+        <button type="submit" class="submit-button">Send Username</button>
+ 
+    </form>
+</div>
+ 
+ 

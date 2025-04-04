@@ -1,0 +1,72 @@
+<div class="container">
+  <h2>{{ jobRole }}</h2>
+  <p><strong>Description:</strong> {{ jobDescription }}</p>
+  <p><strong>Experience:</strong> {{ experience }} years</p>
+
+  <h3>Mock Assignment</h3>
+  <div *ngIf="loading">Loading questions...</div>
+  <div *ngIf="errorMessage">{{ errorMessage }}</div>
+  <div *ngIf="unansweredQuestions.length > 0 && !showResults" class="alert">
+      Please answer all questions. Unanswered questions: {{ unansweredQuestions.join(', ') }}
+  </div>
+
+  <!-- Quiz Questions Section -->
+  <div *ngIf="questions.length > 0 && !showResults">
+      <div *ngFor="let question of questions; let i = index" class="question">
+          <p><strong>Q{{ i + 1 }}:</strong> {{ question.text }}</p>
+          <ul class="options">
+              <li *ngFor="let option of getOptions(question)">
+                  <label [ngClass]="{'selected': question.user_answer === option.key}">
+            <input style="color: #472754;"
+              type="radio"
+              name="q{{ i }}"
+              [value]="option.key"
+              (click)="selectAnswer(i, option.key)"
+              [checked]="question.user_answer === option.key"
+              [disabled]="quizSubmitted"
+            />
+            {{ option.key }}: {{ option.value }}
+          </label>
+              </li>
+          </ul>
+      </div>
+
+      <div class="actions">
+          <button (click)="submitQuiz()" class="submit-btn">Submit Quiz</button>
+      </div>
+  </div>
+
+  <!-- Results Section -->
+  <div *ngIf="showResults" class="results">
+      <h3>Quiz Results</h3>
+      <div class="score-summary">
+          <p>Your Score: <strong>{{ score }} / {{ questions.length }}</strong></p>
+          <p>Percentage: <strong>{{ getScorePercentage() }}%</strong></p>
+      </div>
+
+      <h4>Review Your Answers</h4>
+      <div *ngFor="let question of questions; let i = index" class="question result-item">
+          <p>
+              <strong>Q{{ i + 1 }}:</strong> {{ question.text }}
+              <span class="result-indicator" [ngClass]="isCorrect(question) ? 'correct' : 'incorrect'">
+          {{ isCorrect(question) ? '✓' : '✗' }}
+        </span>
+          </p>
+          <ul class="options">
+              <li *ngFor="let option of getOptions(question)">
+                  <label [ngClass]="{
+            'selected': question.user_answer === option.key,
+            'correct-answer': question.correct_answer === option.key,
+            'wrong-answer': question.user_answer === option.key && question.user_answer !== question.correct_answer
+          }">
+            {{ option.key }}: {{ option.value }}
+          </label>
+              </li>
+          </ul>
+      </div>
+
+      <div class="actions">
+          <button (click)="resetQuiz()" class="reset-btn">Retake Quiz</button>
+      </div>
+  </div>
+</div>

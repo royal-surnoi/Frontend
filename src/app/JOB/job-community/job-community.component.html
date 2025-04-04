@@ -1,0 +1,182 @@
+<p-toast></p-toast>
+<div class="communities-container">
+    <!-- Left side communities list -->
+    <div class="communities-list" *ngIf="!selectedCommunityId">
+      <!-- Joined Communities Section -->
+      <div class="communities-section">
+        <div class="section-header">
+          <h2>My Communities</h2>
+          <button class="create-btn" (click)="openCreateCommunityModal()">
+            <i class="fas fa-plus"></i> Create New Community
+          </button>
+        </div>
+        <div *ngIf="isLoading" class="loading-indicator">
+          <i class="fas fa-spinner fa-spin"></i> Loading communities...
+        </div>
+        <div *ngIf="!isLoading && joinedCommunities.length === 0" class="no-communities">
+          No communities joined yet.
+        </div>
+        <div class="communities-grid">
+          <div *ngFor="let community of joinedCommunities" class="community-card" [class.selected]="community.id === selectedCommunityId">
+            <div class="card-image">
+              <img [src]="getSafeImageUrl(community.image)" alt="{{ community.name }} Image">
+            </div>
+            <div class="card-content">
+              <h3>{{ community.name }}</h3>
+              <p class="description">{{ community.description || 'No description available' }}</p>
+              <div class="similarity-score" *ngIf="community.similarity_score !== undefined">
+                <i class="fas fa-chart-line"></i>
+                Match: {{ (community.similarity_score * 100).toFixed(1) }}%
+              </div>
+              <div class="card-actions">
+                <button class="message-btn" (click)="selectCommunity(community.id)">
+                  <i class="fas fa-comment"></i> Message
+                </button>
+                <button
+                  class="follow-btn"
+                  (click)="toggleFollow(community.id)"
+                  [class.following]="isFollowing(community.id)"
+                  [class.remove-btn]="isFollowing(community.id)">
+                  <i class="fas" [class.fa-user-plus]="!isFollowing(community.id)" [class.fa-user-minus]="isFollowing(community.id)"></i>
+                  {{ isFollowing(community.id) ? 'Unfollow' : 'Follow' }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+ 
+      <!-- Available Communities Section -->
+      <div class="communities-section">
+        <h2>Available Communities</h2>
+        <div class="communities-grid">
+          <div *ngFor="let community of availableCommunities" class="community-card">
+            <div class="card-image">
+              <img [src]="getSafeImageUrl(community.image)" alt="{{ community.name }} Image">
+            </div>
+            <div class="card-content">
+              <h3>{{ community.name }}</h3>
+              <p class="description">{{ community.description || 'No description available' }}</p>
+              <div class="similarity-score" *ngIf="community.similarity_score !== undefined">
+                <i class="fas fa-chart-line"></i>
+                Match: {{ (community.similarity_score * 100).toFixed(1) }}%
+              </div>
+              <div class="card-actions">
+                <button
+                  class="follow-btn"
+                  (click)="toggleFollow(community.id)"
+                  *ngIf="!isAdmin(community.id) || !isFollowing(community.id)"
+                  [class.following]="isFollowing(community.id)"
+                  [class.remove-btn]="isFollowing(community.id)">
+                  <i class="fas" [class.fa-user-plus]="!isFollowing(community.id)" [class.fa-user-minus]="isFollowing(community.id)"></i>
+                  {{ isFollowing(community.id) ? 'Remove' : 'Follow' }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+    <!-- Right side message section -->
+    <div class="messages-section" *ngIf="selectedCommunityId">
+      <div class="messages-header">
+        <div class="selected-community-info">
+          <img [src]="getSafeCommunityImage(selectedCommunity)"
+               [alt]="selectedCommunity?.name + ' Image'"
+               class="community-image">
+          <h3>{{ selectedCommunity?.name }}</h3>
+        </div>
+        <div class="header-actions">
+          <button class="tab-btn" [class.active]="activeTab === 'messages'" (click)="switchTab('messages')">
+            <i class="fas fa-comments"></i> Messages
+          </button>
+          <button class="tab-btn" [class.active]="activeTab === 'members'" (click)="switchTab('members')">
+            <i class="fas fa-users"></i> Members
+          </button>
+          <button class="remove-btn" (click)="unselectCommunity()">Close</button>
+        </div>
+      </div>
+ 
+      <!-- Messages Tab -->
+      <div class="tab-content" *ngIf="activeTab === 'messages'">
+        <div class="messages-container" #messagesContainer>
+          <div *ngFor="let message of communityMessages" class="message-item">
+            <div class="message-header">
+              <div class="message-sender-info">
+                <img [src]="getSafeImageUrl(message.sender?.userImage)"
+                     [alt]="message.sender?.name + ' Avatar'"
+                     class="user-avatar">
+                <div class="sender-details">
+                  <span class="sender-name">{{ message.sender?.name }}</span>
+                  <span class="message-time">{{ getMessageTime(message.createdAt) }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="message-content">{{ message.messageContent }}</div>
+          </div>
+        </div>
+        <div class="message-input">
+          <input type="text"
+                 [(ngModel)]="newMessage"
+                 placeholder="Type a message..."
+                 (keyup.enter)="sendMessage()">
+          <button (click)="sendMessage()" [disabled]="!newMessage?.trim()">
+            <i class="fas fa-paper-plane"></i> Send
+          </button>
+        </div>
+      </div>
+ 
+      <!-- Members Tab -->
+      <div class="tab-content" *ngIf="activeTab === 'members'">
+        <div class="members-list">
+          <div *ngFor="let member of communityMembers" class="member-item">
+            <div class="member-info">
+              <div class="member-name">{{ member.name }}</div>
+              <div class="member-email">{{ member.email }}</div>
+              <span class="member-badge" *ngIf="member.isAdmin">Admin</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+    <!-- Create Community Modal -->
+    <div class="modal" *ngIf="showCreateCommunityModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Create New Community</h2>
+          <button class="close-btn" (click)="closeCreateCommunityModal()">×</button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="createCommunity()">
+            <div class="form-group">
+              <label for="communityName">Community Name</label>
+              <input type="text"
+                     id="communityName"
+                     [(ngModel)]="newCommunity.name"
+                     name="name"
+                     required>
+            </div>
+            <div class="form-group">
+              <label for="communityDescription">Description</label>
+              <textarea id="communityDescription"
+                        [(ngModel)]="newCommunity.description"
+                        name="description"
+                        rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="communityImage">Community Image</label>
+              <input type="file"
+                     id="communityImage"
+                     (change)="onImageSelected($event)"
+                     accept="image/*">
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="create-btn">Create Community</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

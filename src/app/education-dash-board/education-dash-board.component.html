@@ -1,0 +1,353 @@
+<div class="main">
+    <div class='master-container'>
+        <!-- Column 2 -->
+        <div class="card col-2 ">
+            <div class="search-bar">
+                <input type="text" [(ngModel)]="searchTerm" name="search"
+                    placeholder="Search for courses, mentors, or content..." class="search-input" />
+                <button type="submit" class="search-button" (click)="handleSearch()">
+                    Search
+                </button>
+
+                <button type="submit" class="search-button" (click)="togglePopup()">
+                    Post
+                </button>
+
+                <button class="expandable-btn" [routerLink]="['/AICourse']">
+                    <i class="fas fa-magic"></i>
+                    <span class="text"> AI Course</span>
+                </button>
+            </div>
+
+            <div class="feed-section" *ngIf="isloaded">
+
+
+                <div class="feed-section" *ngIf="posts.length>=1">
+                    <div class="posts-container">
+                        <div *ngFor="let post of posts" class="post-card">
+                            <!-- Post Header with User Info -->
+                            <div class="post-header">
+                                <div class="user-info">
+                                    <img *ngIf="post?.user || post?.jobadmin" 
+                                    [src]="getimage(post.user?.userImage || post.jobadmin?.companyLogo) || 'assets/default-avatar.png'"
+                                        [alt]="post.user?.name || post.jobadmin?.jobAdminCompanyName" class="user-avatar">
+                                    <div class="user-details">
+                                        <h6 class="user-name">{{post.user?.name || post.jobadmin?.jobAdminCompanyName}}({{post.jobadmin?.jobAdminCompanyName?"Org":"user"}})</h6>
+                                        <small class="post-time">{{post.postDate || post.updatedDate |
+                                            date:'mediumDate'}}</small>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Post Content -->
+                            <div class="content-container">
+                                <!-- Video Content -->
+                                <div *ngIf="isShortVideo(post) || isLongVideo(post)" class="video-container">
+                                    <video #videoEl controls [src]="post.s3Url" (play)="incrementView(post, videoEl)">
+                                        <source [src]="post.s3Url" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                        <track kind="subtitles" src="https://example.com/subtitles-en.vtt" srclang="en" label="English" default>
+                                    </video>
+                                    <div class="video-duration">
+                                        {{isShortVideo(post) ? post.shortVideoDuration : post.longVideoDuration}}
+                                    </div>
+                                </div>
+
+                                <!-- Image Content -->
+                                <div *ngIf="isImagePost(post)" class="image-container">
+                                    <img [src]="'data:image/jpeg;base64,' + post.photo" class="post-image"
+                                        alt="Post image">
+                                </div>
+
+                                <!-- Text Content -->
+                                <p class="post-content" [innerHTML]="getContent(post)"></p>
+
+                                <!-- Engagement Actions -->
+                                <div class="post-actions">
+                                    <button (click)="toggleLike(post)" class="action-button like-button"
+                                        [ngClass]="{'liked': post.isLiked}">
+                                        <i class="fa-thumbs-up"
+                                            [ngClass]="post.isLiked ? 'fa-solid' : 'fa-regular'"></i>
+                                        <span>{{ getLikes(post)>=0?getLikes(post):0 }}</span>
+                                    </button>
+                                    <button class="action-button comment-button" (click)="viewComments(post)">
+                                        <i class="fas fa-comment"></i>
+                                        <span>Comment</span>
+                                    </button>
+                                    <button class="action-button share-button">
+                                        <i class="fas fa-share"></i>
+                                        <span>{{getLikes(post)>=0?getLikes(post):0}}</span>
+                                    </button>
+                                    <button *ngIf="isShortVideo(post) || isLongVideo(post)"
+                                        class="action-button view-button">
+                                        <i class="fas fa-eye"></i>
+                                        <span>{{getLikes(post)>=0?getLikes(post):0}}</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skeleton-container">
+                    <div *ngFor="let i of [1,2,3,4]" class="post-card skeleton">
+                        <!-- Skeleton Post Header -->
+                        <div class="post-header">
+                            <div class="user-info">
+                                <div class="skeleton-avatar"></div>
+                                <div class="user-details">
+                                    <div class="skeleton-text skeleton-name"></div>
+                                    <div class="skeleton-text skeleton-time"></div>
+                                </div>
+                            </div>
+                            <div class="post-controls">
+                                <div class="skeleton-dots"></div>
+                            </div>
+                        </div>
+
+                        <!-- Skeleton Post Content -->
+                        <div class="content-container">
+                            <div class="skeleton-media"></div>
+                            <div class="skeleton-text skeleton-content"></div>
+                        </div>
+
+                        <!-- Skeleton Engagement Actions -->
+                        <div class="post-actions">
+                            <div class="skeleton-button"></div>
+                            <div class="skeleton-button"></div>
+                            <div class="skeleton-button"></div>
+                            <div class="skeleton-button"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Column 3 (Profile & Mentors) -->
+        <div class="card col-3">
+            <!-- Profile Section -->
+            <div class="profile-container">
+                <h4 class="greeting">{{Greetings}} {{personalDetails.user.name}}</h4>
+
+                <div class="profile-container-image">
+                    <img [src]="getimage(personalDetails.user.userImage || '')" alt="Profile Image">
+                </div>
+
+                <!-- Greetings -->
+
+                <div class="Heading">
+                    <div class="quote-container">
+                        <p class="quote">{{tempquote.length>120?tempquote.slice(0,120):tempquote}} <a href="#"
+                                class="quote-a" *ngIf="tempquote.length>120" (click)="showQuotePopup($event)">Read
+                                more...</a></p>
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- Mentors Section -->
+            <div class="followers">
+                <div class="sidebar-header">
+                    <p class="head-mentor">Mentor Connection</p>
+                    <input type="text" [(ngModel)]="searchText" (input)="filterMentors()"
+                        placeholder="Search mentors...">
+                </div>
+                <div class="following-list-container">
+                    <ul class="following-list">
+                        <li *ngFor="let person of filteredMentorList" (click)="togglePerson(person)"
+                            [class.active]="person.isActive" [attr.data-person-id]="person.id">
+                            <span class="person-name">{{ person.name }}</span>
+                            <span class="person-symbol"
+                                [ngClass]="{'active': person.isActive, 'loading': person.isLoading}"
+                                (click)="sendingFollowRequest($event, person.id)" *ngIf="!person.isActive">
+                                {{ person.isLoading ? 'Loading...' : 'Follow' }}
+                            </span>
+                        </li>
+                    </ul>
+                    <p>
+                        <span class="viewmore" routerLink="/candidateview/mentors">
+                            view More..
+                        </span>
+                    <p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="popup" *ngIf="showPopup">
+        <button class="popup-close-btn" (click)="togglePopup()">×</button>
+        <h2 class="popup-title">Create New Content</h2>
+
+        <!-- Options to select content type -->
+        <div class="popup-options">
+            <button [class.selected]="selectedOption === 'article'" (click)="selectOption('article')">Article</button>
+            <button [class.selected]="selectedOption === 'image'" (click)="selectOption('image')">Image</button>
+            <button [class.selected]="selectedOption === 'video'" (click)="selectOption('video')">Video</button>
+            <button [class.selected]="selectedOption === 'shortVideo'" (click)="selectOption('shortVideo')">Short
+                Video</button>
+        </div>
+
+        <div class="popup-form" *ngIf="!isuploading">
+            <!-- Article Input -->
+            <div *ngIf="selectedOption === 'article'">
+                <textarea placeholder="Write your article here..." rows="5" [(ngModel)]="Description"></textarea>
+            </div>
+
+            <!-- Image Input with Drag-and-Drop -->
+            <div *ngIf="selectedOption === 'image'" (click)="triggerFileInput('image')">
+                <div class="drag-drop-area" *ngIf="!droppedImage" (dragover)="onDragOver($event)"
+                    (drop)="onDrop($event, 'image')">
+                    <p>Drag and drop an image here, or click to select one</p>
+                    <input type="file" accept="image/*" hidden (change)="onFileSelect($event, 'image')" #imageFileInput>
+                </div>
+                <div class="Preview-area">
+                    <img *ngIf="droppedImage" [src]="preview" alt="Preview" class="preview-image">
+                </div>
+                <textarea placeholder="Add a description..." rows="3" [(ngModel)]="Description"></textarea>
+                <input type="text" placeholder="#Trending..." [(ngModel)]="tag">
+            </div>
+
+            <!-- Video Input with Drag-and-Drop -->
+            <div *ngIf="selectedOption === 'video'" (click)="triggerFileInput('video')">
+                <input type="text" placeholder="Video Name" [(ngModel)]="title">
+                <div class="drag-drop-area" *ngIf="!droppedVideo" (dragover)="onDragOver($event)"
+                    (drop)="onDrop($event, 'video')">
+                    <p>Drag and drop a video here, or click to select one</p>
+                    <input type="file" accept="video/*" hidden (change)="onFileSelect($event, 'video')" #videoFileInput>
+                </div>
+                <div class="Preview-area">
+                    <video *ngIf="droppedVideo" [src]="preview" controls class="preview-video">
+                        <track kind="subtitles" src="https://example.com/subtitles-en.vtt" srclang="en" label="English" default>
+                    </video>
+                </div>
+                <textarea placeholder="Add a description..." rows="3" [(ngModel)]="Description"></textarea>
+                <input type="text" placeholder="#Trending..." [(ngModel)]="tag">
+            </div>
+
+            <!-- Short Video Input with Drag-and-Drop -->
+            <div *ngIf="selectedOption === 'shortVideo'" (click)="triggerFileInput('shortVideo')">
+                <input type="text" placeholder="Short Video Name" [(ngModel)]="title">
+                <div class="drag-drop-area" *ngIf="!droppedShortVideo" (dragover)="onDragOver($event)"
+                    (drop)="onDrop($event, 'shortVideo')">
+                    <p>Drag and drop a short video here, or click to select one</p>
+                    <input type="file" accept="video/*" hidden (change)="onFileSelect($event, 'shortVideo')"
+                        #shortVideoFileInput>
+                </div>
+                <div class="Preview-area">
+                    <video *ngIf="droppedShortVideo" [src]="preview" controls class="preview-video">
+                        <track kind="subtitles" src="https://example.com/subtitles-en.vtt" srclang="en" label="English" default>
+                    </video>
+                </div>
+                <textarea placeholder="Add a description..." rows="3" [(ngModel)]="Description"></textarea>
+                <input type="text" placeholder="#Trending..." [(ngModel)]="tag">
+            </div>
+
+
+            <!-- Submit Button -->
+            <button class="submit-btn" (click)="AddPost()">Submit</button>
+        </div>
+
+        <div class="popup-form" *ngIf="isuploading">
+            <div class="loader2"></div>
+        </div>
+
+    </div>
+
+    <div class="popup" *ngIf="showquotepopup">
+        <button class="popup-close-btn-quote" (click)="showquotepopup=false">×</button>
+        <p class="quote add-space">{{tempquote}}</p>
+    </div>
+
+
+
+
+</div>
+<div class="popup-spl-feed-section" *ngIf="selectedPost">
+    <div class="popup-spl-posts-container">
+        <div class="popup-spl-post-header">
+            <div class="popup-spl-user-info">
+                <img [src]="getimage(selectedPost.user.userImage) || 'assets/default-avatar.png'"
+                    [alt]="selectedPost.user.name" class="popup-spl-user-avatar">
+                <div class="popup-spl-user-details">
+                    <h6 class="popup-spl-user-name">{{selectedPost.user.name}}</h6>
+                    <small class="popup-spl-post-time">{{selectedPost.postDate || selectedPost.updatedDate |
+                        date:'mediumDate'}}</small>
+                </div>
+            </div>
+            <button class="popup-close-btn" (click)="closeComments()">×</button>
+        </div>
+        <div class="popup-spl-post-card">
+            <!-- Post Header with User Info -->
+
+            <!-- Post Content -->
+            <div class="popup-spl-content-container">
+                <!-- Video Content -->
+                <div *ngIf="isShortVideo(selectedPost) || isLongVideo(selectedPost)" class="popup-spl-video-container">
+                    <video #videoEl controls [src]="selectedPost.s3Url" (play)="incrementView(selectedPost, videoEl)">
+                        <source [src]="selectedPost.s3Url" type="video/mp4">
+                        Your browser does not support the video tag.
+                        <track kind="subtitles" src="https://example.com/subtitles-en.vtt" srclang="en" label="English" default>
+                    </video>
+                </div>
+
+                <!-- Image Content -->
+                <div *ngIf="isImagePost(selectedPost)" class="popup-spl-image-container">
+                    <img [src]="'data:image/jpeg;base64,' + selectedPost.photo" class="popup-spl-post-image"
+                        alt="Post image">
+                </div>
+
+                <!-- Text Content -->
+                <p class="popup-spl-post-content" [innerHTML]="getContent(selectedPost)"></p>
+
+
+                <!-- Engagement Actions -->
+                <div class="post-actions">
+                    <button (click)="toggleLike(selectedPost)" class="action-button like-button"
+                        [ngClass]="{'liked': selectedPost.isLiked}">
+                        <i class="fa-thumbs-up" [ngClass]="selectedPost.isLiked ? 'fa-solid' : 'fa-regular'"></i>
+                        <span>{{ getLikes(selectedPost)>=0?getLikes(selectedPost):0 }}</span>
+                    </button>
+                    <button class="action-button share-button">
+                        <i class="fas fa-share"></i>
+                        <span>{{getShares(selectedPost)}}</span>
+                    </button>
+                    <button *ngIf="isShortVideo(selectedPost) || isLongVideo(selectedPost)"
+                        class="action-button view-button">
+                        <i class="fas fa-eye"></i>
+                        <span>{{getViews(selectedPost)}}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="popup-spl-comments-container" *ngIf="selectedPost">
+        <h3>Comments</h3>
+
+        <div class="popup-spl-comments-list">
+            <div *ngFor="let comment of selectedPost.comments" class="popup-spl-comment"
+                (dblclick)='toggleLike2(comment.id)' (mouseenter)="hoveredComment = comment.id"
+                (mouseleave)="hoveredComment = null">
+                <img [src]="getimage(comment.user.userImage) || 'default-avatar.png'" class="comment-user-img"
+                    alt="User Image">
+                <div class="comment-content">
+                    <strong>{{ comment.user.name }} <span class="fontsize">{{ comment.likeCount>0?comment.likeCount+"
+                            members likes this":"" }}</span></strong>
+                    <p>{{ comment.videoCommentContent || comment.text }}</p>
+                </div>
+                <span class="like-icon" *ngIf="likedComments[comment.id]" (click)='toggleLike2(comment.id)'>❤️</span>
+                <span class="like-icon" *ngIf="!likedComments[comment.id] && hoveredComment == comment.id"
+                    (click)='toggleLike2(comment.id)'>❤️</span>
+
+            </div>
+        </div>
+
+        <!-- Comment Input Box at the End -->
+        <div class="popup-spl-comment-input">
+            <input type="text" [(ngModel)]="newComment" placeholder="Write a comment..." />
+            <button (click)="addComment()"><i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+</div>

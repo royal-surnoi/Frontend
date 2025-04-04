@@ -1,0 +1,39 @@
+<h2 mat-dialog-title>Admin Login</h2>
+<mat-dialog-content >
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" class="fields">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" placeholder="Enter your email">
+      <mat-error *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+        Please enter a valid email
+      </mat-error>
+    </mat-form-field>
+   
+    <mat-form-field appearance="outline" class="fields">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password" placeholder="Enter your password">
+      <mat-error *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+        Password is required
+      </mat-error>
+    </mat-form-field>
+   
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+ 
+    <div class="signup-link">
+      <p>Don't have an account?</p>
+      <a (click)="onSignup()">Create an account</a>
+    </div>
+   
+    <div mat-dialog-actions>
+      <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">
+        Login
+      </button>
+      <button mat-button (click)="onCancel()">Cancel</button>
+    </div>
+  </form>
+</mat-dialog-content>
+ 
+ 
+ 

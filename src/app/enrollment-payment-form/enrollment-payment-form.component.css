@@ -1,0 +1,97 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #F5F5F5;
+  }
+ 
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 350px;
+    padding: 20px;
+    margin: 50px 0;
+    margin-left: 500px;
+    text-align: center;
+    box-shadow: 0 1px 2px #8b8eb0;
+    border-radius: 10px;
+    background-color: white;
+  }
+ 
+  .content {
+    width: 100%;
+  }
+ 
+  .input-fields {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+ 
+  .input-fields label {
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 5px;
+    text-align: left;
+  }
+ 
+  .input-fields input {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    box-shadow: 0 1px 2px #8b8eb0;
+  }
+ 
+  button {
+    user-select: none;
+    border: none;
+    outline: none;
+    color: white;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    background-color: #007BFF;
+    border-radius: 0.5rem;
+    width: fit-content;
+    text-shadow: 0px 4px 18px #2c3442;
+    cursor: pointer;
+    padding: 10px 20px;
+    margin-top: 10px;
+  }
+ 
+  button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  .email-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+ 
+  .email-display {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    font-size: 16px;
+    cursor: default;
+    user-select: text;
+  }
+
+  .small-spinner {
+    width: 30px;
+    height: 30px;
+  }
+ 

@@ -1,0 +1,99 @@
+
+<p-toast></p-toast>
+  
+
+<div class="container" [ngClass]="theme">
+  <!-- Document Upload Section -->
+  <div class="container" [ngClass]="theme">
+    <!-- Document Upload Section -->
+    <div *ngIf="ShowAddDoc" class="upload-section"
+         [class.drag-active]="dragActive"
+         (dragover)="onDragOver($event)"
+         (dragleave)="onDragLeave($event)"
+         (drop)="onDrop($event)">
+     
+      <div class="upload-area">
+        <input type="file"
+               #fileInput
+               (change)="onFileInput($event)"
+               accept=".pdf"
+               style="display: none">
+       
+        <button (click)="fileInput.click()">Choose File</button>
+        <p>or drag and drop your PDF here</p>
+       
+        <div *ngIf="warning" class="selected-file" >
+          File Must Be Less Than 1MB
+        </div>
+       
+        <div *ngIf="selectedFile && !warning" class="selected-file">
+          Selected: {{selectedFile.name}}
+          <button (click)="clearSelectedFile()"><i class="fa-solid fa-xmark"></i></button>
+          <button (click)="addDocument()"><i class="fa-solid fa-upload"></i></button>
+        </div>
+   
+        <div *ngIf="isUploading" class="upload-status">
+          Uploading...
+        </div>
+       
+        <div *ngIf="uploadError" class="error-message">
+          {{uploadError}}
+        </div>
+      </div>
+    </div>
+   
+ 
+  <!-- Documents List -->
+  <div class="documents-list">
+    <h3>Your Documents</h3>
+    <div class="documents-Boxes">
+    <div *ngFor="let doc of documents" class="document-item" (click)="openPreview(doc)">
+      <span [title]="doc.documentName">{{ doc.documentName.length > 10 ? (doc.documentName | slice:0:10) + '...' : doc.documentName }}</span>
+      <div class="document-actions">
+       <button (click)="deleteDocument(doc)"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+  <!-- PDF Preview Modal -->
+  <div *ngIf="selectedDocument && pdfUrl" class="preview-modal">
+    <div class="preview-content">
+      <div class="preview-header">
+        <h3>{{selectedDocument.documentName}}</h3>
+        <button (click)="closePreview()"><i class="fa fa-window-close" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="preview-body">
+        <object
+          [data]="pdfUrl"
+          type="application/pdf"
+          width="100%"
+          height="600px"
+          class="pdf-viewer">
+          <div class="pdf-fallback">
+            <p>Unable to display PDF. <a [href]="pdfUrl" target="_blank">Download Instead</a></p>
+          </div>
+        </object>
+      </div>
+    </div>
+  </div>
+ 
+   <!-- Preview Modal -->
+   <div *ngIf="selectedDocument && wordData" class="preview-modal" (click)="closePreview()">
+    <div class="preview-content" (click)="$event.stopPropagation()">
+      <div class="preview-header">
+        <h3>{{ selectedDocument.documentName }}</h3>
+        <button (click)="closePreview()">Close</button>
+      </div>
+      <div class="preview-body">
+        <div *ngIf="wordData" class="word-preview">
+          <div [innerHTML]="wordData" class="excel-preview"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+ 
+ 

@@ -1,0 +1,130 @@
+<nav class="navbar" [class.hidden]="isNavbarHidden">
+  <div class="logo-container">
+    <img [src]="companyLogo" alt="Company Logo" class="company-logo" />
+  </div>
+  <ul>
+    <li><a (click)="navigateTo('home')">Home</a></li>
+    <li><a (click)="navigateTo('about')">About Us</a></li>
+    <li><a (click)="navigateTo('industry')">Industry</a></li>
+    <li><a (click)="navigateTo('contact')">Contact Us</a></li>
+  </ul>
+  
+</nav>
+
+<section id="home" class="page-section home-page">
+  <div class="homepage-content">
+    <h2>{{ sections['home'].title }}</h2>
+    <p class="company-description">
+      {{ getShortDescription(sections['home'].description, 'home', 'description') }}
+      <ng-container *ngIf="sections['home'].description.split(' ').length > 50">
+        <span *ngIf="!showFullDescription['home']['description']" (click)="toggleDescription('home', 'description')"
+          class="view-more">... View More</span>
+        <span *ngIf="showFullDescription['home']['description']" (click)="toggleDescription('home', 'description')"
+          class="view-less">View Less</span>
+      </ng-container>
+    </p>
+
+    <div *ngIf="sections['home'].additionalInfo">
+      <div *ngFor="let key of objectKeys(sections['home'].additionalInfo)">
+        <p>
+          <strong>{{ key }}</strong>
+          {{ getShortDescription(sections['home'].additionalInfo[key], 'home', key) }}
+          <ng-container *ngIf="sections['home'].additionalInfo[key].split(' ').length > 50">
+            <span *ngIf="!showFullDescription['home'][key]" (click)="toggleDescription('home', key)"
+              class="view-more">... View More</span>
+            <span *ngIf="showFullDescription['home'][key]" (click)="toggleDescription('home', key)"
+              class="view-less">View Less</span>
+          </ng-container>
+        </p>
+      </div>
+    </div>
+
+  
+  </div>
+</section>
+
+
+<section id="about" class="page-section about-page">
+  <div class="about-content">
+    <h2>{{ sections['about'].title }}</h2>
+    <p class="company-description">
+      {{ getShortDescription(sections['about'].description, 'about', 'description') }}
+      <ng-container *ngIf="sections['about'].description.split(' ').length > 50">
+        <span *ngIf="!showFullDescription['about']['description']" (click)="toggleDescription('about', 'description')"
+          class="view-more">... View More</span>
+        <span *ngIf="showFullDescription['about']['description']" (click)="toggleDescription('about', 'description')"
+          class="view-less">View Less</span>
+      </ng-container>
+    </p>
+
+    <div *ngIf="sections['about'].additionalInfo">
+      <div *ngFor="let key of objectKeys(sections['about'].additionalInfo)">
+        <p>
+          <strong>{{ key }} </strong>
+          {{ getShortDescription(sections['about'].additionalInfo[key], 'about', key) }}
+          <ng-container *ngIf="sections['about'].additionalInfo[key].split(' ').length > 50">
+            <span *ngIf="!showFullDescription['about'][key]" (click)="toggleDescription('about', key)"
+              class="view-more">... View More</span>
+            <span *ngIf="showFullDescription['about'][key]" (click)="toggleDescription('about', key)"
+              class="view-less">View Less</span>
+          </ng-container>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- New Industry section -->
+<section id="industry" class="page-section industry-page">
+  <div class="content">
+    <h2>{{ sections['industry'].title }}</h2>
+    <p class="company-description">
+      {{ getShortDescription(sections['industry'].description, 'industry', 'description') }}
+      <ng-container *ngIf="sections['industry'].description.split(' ').length > 50">
+        <span *ngIf="!showFullDescription['industry']['description']"
+          (click)="toggleDescription('industry', 'description')" class="view-more">... View More</span>
+        <span *ngIf="showFullDescription['industry']['description']"
+          (click)="toggleDescription('industry', 'description')" class="view-less">View Less</span>
+      </ng-container>
+    </p>
+    <div *ngIf="sections['industry'].additionalInfo">
+      <div *ngFor="let key of objectKeys(sections['industry'].additionalInfo)">
+        <p>
+          <strong>{{ key }} </strong>
+          {{ getShortDescription(sections['industry'].additionalInfo[key], 'industry', key) }}
+          <ng-container *ngIf="sections['industry'].additionalInfo[key].split(' ').length > 50">
+            <span *ngIf="!showFullDescription['industry'][key]" (click)="toggleDescription('industry', key)"
+              class="view-more">... View More</span>
+            <span *ngIf="showFullDescription['industry'][key]" (click)="toggleDescription('industry', key)"
+              class="view-less">View Less</span>
+          </ng-container>
+
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section id="contact" class="page-section contact-page">
+  <div class="content">
+    <div class="contact-content">
+      <div id="map" style="width:'600';height:'450';border:0;"></div>
+      <div class="contact-details">
+        <h2>{{ sections['contact'].title }}</h2>
+        <p class="company-description">{{ sections['contact'].description }}</p>
+        <div *ngIf="sections['contact'].additionalInfo">
+          <div *ngFor="let key of objectKeys(sections['contact'].additionalInfo)">
+            <p><strong>{{ key }}:</strong> {{ sections['contact'].additionalInfo[key] }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+

@@ -1,0 +1,243 @@
+/* Navbar Base Styles */
+.custom-navbar {
+  background-color: #452758;
+  height: 64px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  z-index:1000
+}
+
+/* Container sizing */
+@media (min-width: 1400px) {
+  .container-fluid {
+    max-width: 1320px;
+  }
+}
+
+/* Search Bar Styling */
+.search-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 2rem;
+}
+
+.search-input {
+  height: 40px;
+  border-radius: 20px;
+  padding: 0.5rem 1rem 0.5rem 2.5rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.search-input:focus {
+  background-color: white;
+  border-color: white;
+  color: #452758;
+  box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
+}
+
+.search-input:focus::placeholder {
+  color: #666;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.7);
+  pointer-events: none;
+  transition: color 0.3s ease;
+}
+
+.search-input:focus + .search-icon {
+  color: #452758;
+}
+
+/* Search Suggestions */
+.search-suggestions {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.search-suggestions .card {
+  border-radius: 12px;
+}
+
+.search-suggestions .list-group-item {
+  border-left: none;
+  border-right: none;
+  transition: all 0.2s ease;
+}
+
+.search-suggestions .list-group-item:first-child {
+  border-top: none;
+}
+
+.search-suggestions .list-group-item:last-child {
+  border-bottom: none;
+}
+
+.search-suggestions .list-group-item:hover {
+  background-color: rgba(69, 39, 88, 0.05);
+  cursor: pointer;
+}
+
+/* Navigation Items */
+.nav-icon-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  font-size: 0.9rem;
+  gap: 5px;
+}
+
+.nav-icon-container2{
+  gap: 0px
+}
+
+.nav-icon-container i {
+  font-size: 16px;
+}
+
+.custom-nav-link {
+  /* padding: 0.4rem 0.9rem; */
+  transition: all 0.2s ease;
+}
+
+.custom-nav-link:hover {
+  color: rgb(0, 0, 0);
+  border-radius: 8px;
+}
+
+/* Notification Badge */
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -8px;
+  background-color: #dc3545;
+  color: white;
+  border-radius: 10px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  min-width: 18px;
+  text-align: center;
+}
+
+/* Profile Section */
+.profile-image {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+}
+
+.profile-link:hover .profile-image {
+  transform: scale(1.05);
+}
+
+/* Dropdown Menus */
+.dropdown-menu {
+  background-color: #452758;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  padding: 0.5rem 0;
+  margin-top: 0.5rem;
+  min-width: 200px;
+}
+
+.dropdown-item {
+  color: white;
+  padding: 0.75rem 1rem;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.dropdown-divider {
+  border-color: rgba(255, 255, 255, 0.1);
+  margin: 0.5rem 0;
+}
+
+/* Animation */
+.animate {
+  animation-duration: 0.3s;
+  animation-fill-mode: both;
+}
+
+.slideIn {
+  animation-name: slideIn;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(1rem);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 991.98px) {
+  .custom-navbar {
+    height: auto;
+  }
+
+  .search-container {
+    margin: 1rem 0;
+    order: -1;
+  }
+
+  .navbar-collapse {
+    background-color: #452758;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-top: 1rem;
+  }
+
+  .nav-icon-container {
+    flex-direction: row;
+    gap: 10px;
+  }
+  .custom-nav-link {
+    padding: 0.75rem 1rem;
+  }
+
+  .dropdown-menu {
+    position: static !important;
+    margin-top: 0.5rem;
+    width: 100%;
+  }
+}
+
+/* Custom Toggler */
+.custom-toggler {
+  border: none;
+  padding: 0.5rem;
+}
+
+.custom-toggler:focus {
+  box-shadow: none;
+}
+
+/* Disabled State */
+.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}

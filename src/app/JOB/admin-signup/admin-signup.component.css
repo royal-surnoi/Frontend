@@ -1,0 +1,204 @@
+.main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: row;
+  max-width: 800px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-panel {
+  flex: 1;
+  background: linear-gradient(135deg, #452758, #a09ed4);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.welcome-panel h2 {
+  margin-bottom: 10px;
+}
+
+.welcome-panel p {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.login-panel h2 {
+  margin-bottom: 20px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form input {
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.login-button {
+  padding: 10px;
+  background-color: #A09Ed4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.signup-link {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.signup-link a {
+  /* background-color: #A09Ed4; */
+  text-decoration: none;
+}
+
+.signup-link a:hover {
+  text-decoration: underline;
+}
+
+
+
+/* Admin role */
+#adminrole option[disabled] {
+  color: #aaa; /* Lighter color for the placeholder */
+  text-decoration: none;
+ 
+}
+
+
+
+#adminrole {
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: #333333b3; /* Set the text color to match other form fields */
+ 
+}
+
+
+/* General Form and Error Styling */
+.login-panel {
+font-family: Arial, sans-serif;
+max-width: 500px;
+margin: 0 auto;
+padding: 20px;
+background-color: #f9f9f9;
+border-radius: 8px;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+flex: 1;
+display: flex;
+flex-direction: column;
+justify-content: center;
+}
+
+.login-form input,
+.login-form select {
+width: 100%;
+padding: 12px;
+margin: 8px 0 12px 0;
+border-radius: 4px;
+border: 1px solid #ccc;
+font-size: 1rem;
+}
+
+.login-form input.ng-invalid.ng-touched,
+.login-form select.ng-invalid.ng-touched {
+border-color: red;
+background-color: #ffebeb;
+}
+
+button.login-button {
+width: 100%;
+padding: 12px;
+background-color: #007bff;
+color: white;
+border: none;
+border-radius: 4px;
+font-size: 1rem;
+cursor: pointer;
+transition: background-color 0.3s;
+}
+
+button.login-button:hover {
+background-color: #0056b3;
+}
+
+button:disabled {
+background-color: #cccccc;
+cursor: not-allowed;
+}
+
+/* Error Message Styling */
+small {
+display: block;
+font-size: 0.875rem;
+color: red;
+margin-top: 4px;
+padding-left: 2px;
+}
+
+/* Error Message Container */
+div[formGroupName] {
+position: relative;
+}
+
+div[formGroupName] small {
+font-style: italic;
+}
+
+/* Optional: Styling for role select and other inputs */
+select.ng-invalid.ng-touched {
+border-color: red;
+background-color: #ffebeb;
+}
+
+input.ng-valid.ng-touched {
+border-color: green;
+background-color: #e6ffe6;
+}
+
+input.ng-invalid.ng-touched {
+border-color: red;
+background-color: #ffe6e6;
+}
+
+/* Success styling (optional) */
+input.ng-valid.ng-touched,
+select.ng-valid.ng-touched {
+border-color: green;
+background-color: #e6ffe6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: Tahoma, Verdana, Geneva, sans-serif;
+}
+ 
+p {
+  font-family: Cambria, Georgia, "Times New Roman", serif;
+}
+ 
+ 

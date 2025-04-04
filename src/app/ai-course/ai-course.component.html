@@ -1,0 +1,119 @@
+<div class="course-container">
+    <!-- Add Course Card -->
+    <div class="course-card spl-bg" (click)="showForm()">
+      <div class="course-card-header">
+        <h3>Add Course</h3>
+        <p>Create Your Own Course</p>
+      </div>
+    </div>
+  
+    <!-- Existing Courses -->
+    <div
+      class="course-card"
+      *ngFor="let course of courses"
+      [style.background]="course.backgroundImage"
+      [routerLink]="course.id != 0? ['/AICourseDashBoard', course.id] : null"
+    >
+      <div class="course-card-header">
+        <h5>{{ course.coursePlanName }}</h5>
+        <p>{{ course.id == 0?"We are Cooking Your Course Please Comeback AFter Some Time":course.learningGoal }}</p>
+      </div>
+    </div>
+  <!-- Overlay Form -->
+  <div class="course-form-overlay" *ngIf="isFormVisible">
+    <div class="course-form">
+        <div class="close-btn" (click)="hideForm()">✖</div>
+
+        <!-- Step Indicator -->
+        <div class="step-indicator">
+            <div class="step-bubble" *ngFor="let step of steps; let i = index"
+                [class.active]="currentStep === i + 1">
+            </div>
+        </div>
+
+
+        <div *ngIf="currentStep === 1" class="question-box">
+            <h3>🎯 What is Your Learning Goal?</h3>
+            <p>Identify the specific knowledge or skills you wish to learn, and how you want to apply them.</p>
+            <textarea [(ngModel)]="form.learningGoal" placeholder="Write your learning goal here"></textarea>
+            <div class="action-buttons">
+                <button class="btn-next" (click)="nextStep()">Next</button>
+            </div>
+        </div>
+
+        <div *ngIf="currentStep === 2" class="question-box">
+            <h3>🌱 Where Are You Starting From?</h3>
+            <p>Describe your existing knowledge or skill level related to your learning goal.</p>
+            <textarea [(ngModel)]="form.startingPoint" placeholder="Describe your starting point here"></textarea>
+            <div class="action-buttons">
+                <button class="btn-prev" (click)="previousStep()">Previous</button>
+                <button class="btn-next" (click)="nextStep()">Next</button>
+            </div>
+        </div>
+
+        <div *ngIf="currentStep === 3" class="question-box">
+            <h3>📚 Select Your Preferred Learning Resources</h3>
+            <p>Choose the type of resources you'd like to include in your learning plan.</p>
+            <div class="radio-group">
+                <label>
+                    <input type="radio" [(ngModel)]="form.resources" value="Video&Assignment" />
+                    Video & Assignment
+                </label>
+                <label>
+                    <input type="radio" [(ngModel)]="form.resources" value="Project" />
+                    Project
+                </label>
+                <label>
+                    <input type="radio" [(ngModel)]="form.resources" value="Video&Assignment,Project" />
+                    Video, Assignment & Project
+                </label>
+            </div>
+            <div class="action-buttons">
+                <button class="btn-prev" (click)="previousStep()">Previous</button>
+                <button class="btn-next" (click)="nextStep()">Next</button>
+            </div>
+        </div>
+
+        <div *ngIf="currentStep === 4" class="question-box">
+            <h3>⏳ Add Time to Your Plan</h3>
+            <p>Set deadlines and allocate time for your learning plan.</p>
+            <label>
+                Deadline:
+                <input type="date" [(ngModel)]="form.deadline" max="{{ maxDate }}" min="{{mindate}}" />
+            </label>
+            <div class="slider-container">
+                <label for="weekly-hours">Hours Per Week:</label>
+                <input
+                  id="weekly-hours"
+                  type="range"
+                  min="1"
+                  max="20"
+                  [(ngModel)]="form.weeklyHours"
+                  class="slider"
+                />
+                <div class="slider-value">
+                  <span>{{ form.weeklyHours }}</span> hours
+                </div>
+              </div>
+              
+            <div class="action-buttons">
+                <button class="btn-prev" (click)="previousStep()">Previous</button>
+                <button class="btn-next" (click)="nextStep()">Next</button>
+            </div>
+        </div>
+
+        <div *ngIf="currentStep === 5" class="question-box">
+            <h3>Name Your Learning Plan</h3>
+            <p>Set Name for your learning plan.</p>
+
+            <label for="Title">Name here:</label>
+            <input type="text" id="Title"  [(ngModel)]="form.Title" placeholder="Describe your starting point here" />
+              
+            <div class="action-buttons">
+                <button class="btn-prev" (click)="previousStep()">Previous</button>
+                <button class="btn-submit" (click)="submitForm()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

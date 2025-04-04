@@ -1,0 +1,199 @@
+/* Form styling */
+.location-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+ 
+label {
+  font-size: 16px;
+  /* margin-right: 10px; */
+  color: #555;
+}
+ 
+/* Input styling */
+input[type="text"] {
+  width: 77%;
+  padding: 5px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  margin-right: 10px;
+  transition: border-color 0.3s ease;
+}
+ 
+.coordinates input[type="text"] {
+  width: 20%;
+  padding: 8px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  margin: -10px 20% 0 0;
+ 
+  transition: border-color 0.3s ease;
+}
+ 
+input[type="text"]:focus {
+  border-color: #007bff;
+}
+ 
+ 
+.save-button:hover{
+  background-color: #452758;
+  transform: scale(1.1);
+}
+ 
+button.search-icon:hover {
+  background-color: #452758;
+  transform: scale(1.1)
+}
+ 
+.search-icon i {
+  font-size: 12px;
+}
+ 
+/* Coordinates display styling */
+.coordinates {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  /* gap: 20px; */
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+}
+ 
+.coordinates p {
+  color: #555;
+}
+ 
+/* Responsive styling */
+@media screen and (max-width: 600px) {
+  .location-form {
+    flex-direction: column;
+  }
+ 
+  input[type="text"] {
+    width: 90%;
+    margin-bottom: 10px;
+  }
+ 
+  button.search-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #452758;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+ 
+  .coordinates {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+ 
+ 
+ 
+    /*-------------new-----------------*/
+ 
+ /* Header container styling */
+ 
+.header {
+ 
+display: flex;
+ 
+align-items: center;
+ 
+justify-content: flex-start;
+ 
+gap: 29%; /* Spacing between the icon and the heading */
+ 
+}
+ 
+/* Heading styling (already in your CSS) */
+ 
+h2 {
+ 
+font-size: 28px;
+ 
+color: #333;
+ 
+font-weight: 500;
+ 
+text-transform: uppercase;
+ 
+margin: 0; /* Remove extra margin for alignment */
+ 
+margin-bottom: 20px;
+}
+ 
+/*new changes//////////////////////////*/
+.container {
+  max-width: 85%;
+  margin: 2% auto 0;
+  padding: 20px;
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  background-color:#a09ed4;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 2px solid #0D0C12;
+  color:black
+}
+
+.save-button{
+  margin: -2.8% 7% 0 4%;
+  float: inline-end;
+  background-color: #452758;
+  color: white;
+  padding: 1px 20px 2px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  border-color: white;
+}
+
+ 
+.back-icon {
+ 
+  font-size: 24px; /* Adjust icon size */
+ 
+  color: #452758; /* Icon color */
+ 
+  cursor: pointer;
+ 
+  transition: color 0.3s ease, transform 0.3s ease;
+ 
+  }
+
+  .back-icon:hover {
+ 
+  color: #452758e0;  /* Darker shade on hover */
+ 
+  transform: scale(1.1); /* Slight zoom on hover */
+ 
+  }
+  #map {
+    width: 100%;
+    height: 400px;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #0D0C12;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: Tahoma, Verdana, Geneva, sans-serif;
+  }
+   
+  p {
+    font-family: Cambria, Georgia, "Times New Roman", serif;
+  }
+   
+ 

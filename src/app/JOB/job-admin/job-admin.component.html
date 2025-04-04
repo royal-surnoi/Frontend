@@ -1,0 +1,1453 @@
+<nav class="navbar" [class.hidden]="isNavbarHidden">
+  <div class="logo-container">
+    <img [src]="companyLogo" alt="Company Logo" class="company-logo" />
+    <a class="EditOption">
+      <i class="fa-solid fa-square-pen" (click)="EditpopUp()"></i>
+    </a>
+  </div>
+  <ul>
+    <li><a (click)="navigateTo('home')">Home</a></li>
+    <li><a (click)="navigateTo('about')">About Us</a></li>
+    <li><a (click)="navigateTo('recruit')">My Recruiter</a></li>
+    <li><a (click)="navigateTo('New-Job')">add Job</a></li>
+    <li><a (click)="navigateTo('industry')">Industry</a></li>
+    <li><a (click)="navigateTo('contact')">Contact Us</a></li>
+    <li> <a (click)="logoutpopshow()">
+        <i class="fa-solid fa-power-off"></i>
+      </a></li>
+  </ul>
+</nav>
+
+<section id="home" class="page-section home-page">
+  <div class="homepage-content">
+    <h2>{{ sections['home'].title }}</h2>
+    <p class="company-description">
+      {{ getShortDescription(sections['home'].description, 'home', 'description') }}
+      <ng-container *ngIf="sections['home'].description.split(' ').length > 50">
+        <span *ngIf="!showFullDescription['home']['description']" (click)="toggleDescription('home', 'description')"
+          class="view-more">... View More</span>
+        <span *ngIf="showFullDescription['home']['description']" (click)="toggleDescription('home', 'description')"
+          class="view-less">View Less</span>
+      </ng-container>
+    </p>
+
+    <div *ngIf="sections['home'].additionalInfo">
+      <div *ngFor="let key of objectKeys(sections['home'].additionalInfo)">
+        <p>
+          <strong>{{ key }}</strong>
+          {{ getShortDescription(sections['home'].additionalInfo[key], 'home', key) }}
+          <ng-container *ngIf="sections['home'].additionalInfo[key].split(' ').length > 50">
+            <span *ngIf="!showFullDescription['home'][key]" (click)="toggleDescription('home', key)"
+              class="view-more">... View More</span>
+            <span *ngIf="showFullDescription['home'][key]" (click)="toggleDescription('home', key)"
+              class="view-less">View Less</span>
+          </ng-container>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="about" class="page-section about-page">
+  <div class="about-content">
+    <h2>{{ sections['about'].title }}</h2>
+    <p class="company-description">
+      {{ getShortDescription(sections['about'].description, 'about', 'description') }}
+      <ng-container *ngIf="sections['about'].description.split(' ').length > 50">
+        <span *ngIf="!showFullDescription['about']['description']" (click)="toggleDescription('about', 'description')"
+          class="view-more">... View More</span>
+        <span *ngIf="showFullDescription['about']['description']" (click)="toggleDescription('about', 'description')"
+          class="view-less">View Less</span>
+      </ng-container>
+    </p>
+
+    <div *ngIf="sections['about'].additionalInfo">
+      <div *ngFor="let key of objectKeys(sections['about'].additionalInfo)">
+        <p>
+          <strong>{{ key }} </strong>
+          {{ getShortDescription(sections['about'].additionalInfo[key], 'about', key) }}
+          <ng-container *ngIf="sections['about'].additionalInfo[key].split(' ').length > 50">
+            <span *ngIf="!showFullDescription['about'][key]" (click)="toggleDescription('about', key)"
+              class="view-more">... View More</span>
+            <span *ngIf="showFullDescription['about'][key]" (click)="toggleDescription('about', key)"
+              class="view-less">View Less</span>
+          </ng-container>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="recruit">
+  <!-- ADMIN UI  -->
+
+  <div class="recruit-container">
+    <div class="recruit-list">
+      <div class="myrecurters">
+        <h3>Recruiters</h3>
+        <div class="icon">
+          <i class="fa-solid fa-info-circle"></i>
+          <div class="tooltip">Replaceable text (e.g., Email or Name)</div>
+        </div>
+      </div>
+      <button class="add-recruiter-btn" (click)="openRecruiterForm()">Add Recruiter/Pannel Member</button>
+
+
+      <div class="recruit-item" *ngFor="let recruiter of recruiters">
+        <span>{{ recruiter.recruiterName }} - {{ recruiter.recruiterRole }}</span>
+        <span class="recruit-time" [title]="formatDateFromTimestamp(recruiter.createdAt)">
+          {{ recruiter.relativeTime }}
+        </span>
+        <div class="options" (click)="toggleOptions(recruiter)">
+          <span class="dots">...</span>
+          <div class="option-buttons" *ngIf="recruiter.showOptions" (clickOutside)="closeOptions(recruiter)">
+            <button (click)="viewRecruiter(recruiter)"><i class="fa-solid fa-user-pen"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="job-list">
+      <div class="job-header">
+        <h3>Job Postings</h3>
+      </div>
+      <div class="job-card" *ngFor="let job of jobs.reverse()">
+        <p>
+          <strong>Job: {{ job.jobTitle }}</strong>
+          <i class="fa-solid fa-caret-down dropdown-icon" (click)="toggleDropdown(job.id)"></i>
+        </p>
+        <div class="job-dropdown" [class.open]="isDropdownOpen(job.id)">
+          <p>
+            <strong>Job: {{ job.jobTitle }}</strong>
+          </p>
+          <p><strong>Posted: {{ formatPostedDate(job.createdAt) }}</strong></p>
+          <div class="job-actions">
+            <button [routerLink]="['/JobDetails', job.id, 'Recruiter']">View</button>
+            <button (click)="deleteJob(job)">Delete</button>
+            <button [routerLink]="['/AdminApplicants', job.id]">Applicants</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="New-Job" class="New-Job">
+  <div class="job-content">
+    <div class="sub-navbar">
+      <button class="sub-nav-button" [class.active]="selectedPage === 'addJob'" (click)="selectPage('addJob')">
+        Add Job
+      </button>
+      <button class="sub-nav-button" [class.active]="selectedPage === 'myRecruitments'"
+        (click)="selectPage('myRecruitments')">
+        My Recruitments
+      </button>
+      <button class="sub-nav-button" [class.active]="selectedPage === 'interviews'" (click)="selectPage('interviews')">
+        Interviews
+      </button>
+    </div>
+
+    <div *ngIf="selectedPage === 'addJob'" class="sub-page-content" id="addJob">
+      <div class="new-job-form">
+        <form [formGroup]="jobForm" (ngSubmit)="createNewJOb()">
+          <div class="new-job-row">
+            <!-- Job Title -->
+            <div class="new-job-form-group">
+              <label for="jobTitle">Job Title:</label>
+              <input id="jobTitle" formControlName="jobTitle" type="text" />
+              <div *ngIf="jobForm.get('jobTitle')?.touched && jobForm.get('jobTitle')?.invalid" class="error-message">
+                <div *ngIf="jobForm.get('jobTitle')?.hasError('required')">Job Title is required.
+                </div>
+                <small *ngIf="jobForm.controls['jobTitle'].errors?.['minlength']">
+                  Job Title must be at least 3 characters long.
+                </small>
+                <small *ngIf="jobForm.controls['jobTitle'].errors?.['maxlength']">
+                  Job Title cannot exceed 100 characters.
+                </small>
+              </div>
+            </div>
+
+            <!-- Location -->
+            <div class="new-job-form-group">
+              <label for="location">Location:</label>
+              <input id="location" formControlName="location" type="text" />
+              <div *ngIf="jobForm.get('location')?.touched && jobForm.get('location')?.invalid" class="error-message">
+                <div *ngIf="jobForm.get('location')?.hasError('required')">Location is required.
+                </div>
+                <small *ngIf="jobForm.controls['location'].errors?.['minlength']">
+                  Location must be at least 3 characters long.
+                </small>
+                <small *ngIf="jobForm.controls['location'].errors?.['maxlength']">
+                  Location cannot exceed 100 characters.
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Job Description -->
+          <div class="new-job-form-group">
+            <label for="jobDescription">Job Description:</label>
+            <textarea id="jobDescription" formControlName="jobDescription" rows="4"></textarea>
+            <div *ngIf="jobForm.get('jobDescription')?.touched && jobForm.get('jobDescription')?.invalid"
+              class="error-message">
+              <div *ngIf="jobForm.get('jobDescription')?.hasError('required')">Job Description is required.
+              </div>
+              <small *ngIf="jobForm.controls['jobDescription'].errors?.['minlength']">
+                Job Description must be at least 03 characters long.
+              </small>
+              <small *ngIf="jobForm.controls['jobDescription'].errors?.['maxlength']">
+                Job Description cannot exceed 1500 characters.
+              </small>
+            </div>
+          </div>
+
+          <!-- Basic Job Qualification Editor -->
+          <div>
+            <label>Basic Job Qualification:</label>
+            <div class="toolbar">
+              <button type="button" (click)="execCommand('bold', 'basicJobQualification')"><i
+                  class="fa-solid fa-bold"></i></button>
+              <button type="button" (click)="execCommand('italic', 'basicJobQualification')"><i
+                  class="fas fa-italic"></i></button>
+              <button type="button" (click)="execCommand('insertUnorderedList', 'basicJobQualification')"><i
+                  class="fas fa-list"></i></button>
+              <button type="button" (click)="changeFontSize('increase', 'basicJobQualification')"><i
+                  class="fas fa-font fa-lg"></i><i class="fas fa-arrow-up"></i></button>
+              <button type="button" (click)="changeFontSize('decrease', 'basicJobQualification')"><i
+                  class="fas fa-font fa-lg"></i><i class="fas fa-arrow-down"></i></button>
+              <select (change)="changeColor($event, 'basicJobQualification')">
+                <option value="">Text Color</option>
+                <option value="black">black</option>
+                <option value="red">Red</option>
+                <option value="green">Green</option>
+                <option value="blue">Blue</option>
+                <option value="purple">Purple</option>
+              </select>
+            </div>
+            <div id="basicJobQualification" class="new-job-form-group" contenteditable="true"
+              (input)="updateField('basicJobQualification')">
+              Basic Job qualifications should not exceed 1500 characters.
+            </div>
+         
+          </div>
+
+          <!-- Primary Roles Editor -->
+          <div>
+            <label>Primary Roles:</label>
+            <div class="toolbar">
+              <button type="button" (click)="execCommand('bold', 'primaryRoles')"><i
+                  class="fa-solid fa-bold"></i></button>
+              <button type="button" (click)="execCommand('italic', 'primaryRoles')"><i
+                  class="fas fa-italic"></i></button>
+              <button type="button" (click)="execCommand('insertUnorderedList', 'primaryRoles')"><i
+                  class="fas fa-list"></i></button>
+              <button type="button" (click)="changeFontSize('increase', 'primaryRoles')"><i
+                  class="fas fa-font fa-lg"></i><i class="fas fa-arrow-up"></i></button>
+              <button type="button" (click)="changeFontSize('decrease', 'primaryRoles')"><i
+                  class="fas fa-font fa-lg"></i><i class="fas fa-arrow-down"></i></button>
+              <select (change)="changeColor($event, 'primaryRoles')">
+                <option value="">Text Color</option>
+                <option value="black">black</option>
+                <option value="red">Red</option>
+                <option value="green">Green</option>
+                <option value="blue">Blue</option>
+                <option value="purple">Purple</option>
+              </select>
+            </div>
+            <div id="primaryRoles" class="new-job-form-group" contenteditable="true"
+              (input)="updateField('primaryRoles')">
+              Primary Roles should not exceed 1500 characters.
+            </div>
+          </div>
+
+          <!-- Main Responsibilities Editor -->
+          <div>
+            <label>Main Responsibilities:</label>
+            <div class="toolbar">
+              <button type="button" (click)="execCommand('bold', 'mainResponsibilities')"><i
+                  class="fa-solid fa-bold"></i></button>
+              <button type="button" (click)="execCommand('italic', 'mainResponsibilities')"><i
+                  class="fas fa-italic"></i></button>
+              <button type="button" (click)="execCommand('insertUnorderedList', 'mainResponsibilities')"><i
+                  class="fas fa-list"></i></button>
+              <button type="button" (click)="changeFontSize('increase', 'mainResponsibilities')"><i
+                  class="fas fa-font fa-lg"></i><i class="fas fa-arrow-up"></i></button>
+              <button type="button" (click)="changeFontSize('decrease', 'mainResponsibilities')"><i
+                  class="fas fa-font fa-lg"></i><i class="fas fa-arrow-down"></i></button>
+              <select (change)="changeColor($event, 'mainResponsibilities')">
+                <option value="">Text Color</option>
+                <option value="black">black</option>
+                <option value="red">Red</option>
+                <option value="green">Green</option>
+                <option value="blue">Blue</option>
+                <option value="purple">Purple</option>
+              </select>
+            </div>
+            <div id="mainResponsibilities" class="new-job-form-group" contenteditable="true"
+              (input)="updateField('mainResponsibilities')">
+              Main Responsibilities should not exceed 1500 characters.
+            </div>
+          </div>
+
+          <!-- Required Skills -->
+          <div class="new-job-form-group">
+            <label for="requiredSkills">Required Skills:</label>
+            <input id="requiredSkills" formControlName="requiredSkills" type="text" />
+            <div *ngIf="jobForm.get('requiredSkills')?.touched && jobForm.get('requiredSkills')?.invalid"
+              class="error-message">
+              <div *ngIf="jobForm.get('requiredSkills')?.hasError('required')">Skills are required.
+              </div>
+              <small *ngIf="jobForm.controls['requiredSkills'].errors?.['minlength']">
+                Required Skills must be at least 5 characters long.
+              </small>
+              <small *ngIf="jobForm.controls['requiredSkills'].errors?.['maxlength']">
+                Required Skills cannot exceed 150 characters.
+              </small>
+
+            </div>
+          </div>
+
+          <div class="new-job-row">
+            <!-- Min Salary -->
+            <div class="new-job-form-group">
+              <label for="minSalary">Min Salary:</label>
+              <input id="minSalary" formControlName="minSalary" type="number" [min]="0" />
+              <div *ngIf="jobForm.get('minSalary')?.touched && jobForm.get('minSalary')?.invalid" class="error-message">
+                <div *ngIf="jobForm.get('minSalary')?.hasError('required')">Min Salary is required.
+                </div>
+                <small *ngIf="jobForm.controls['minSalary'].errors?.['min']">
+                  Min Salary must be at least 100.
+                </small>
+                <small *ngIf="jobForm.controls['minSalary'].errors?.['max']">
+                  Min Salary cannot exceed 100000000.
+                </small>
+                <small *ngIf="jobForm.controls['minSalary'].errors?.['pattern']">
+                  Please enter a valid salary.
+                </small>
+              </div>
+
+            </div>
+
+            <!-- Max Salary -->
+            <div class="new-job-form-group">
+              <label for="maxSalary">Max Salary:</label>
+              <input id="maxSalary" formControlName="maxSalary" type="number" [min]="0" />
+              <div *ngIf="jobForm.get('maxSalary')?.touched && jobForm.get('maxSalary')?.invalid" class="error-message">
+                <div *ngIf="jobForm.get('maxSalary')?.hasError('required')">Max Salary is required.
+                </div>
+                <small *ngIf="jobForm.get('maxSalary')?.errors?.['min']">
+                  Max Salary must be at least 100.
+                </small>
+                <small *ngIf="jobForm.get('maxSalary')?.errors?.['max']">
+                  Max Salary cannot exceed 100000000000.
+                </small>
+                <small *ngIf="jobForm.get('maxSalary')?.errors?.['salaryMismatch']">
+                  Max Salary should not be less than Min Salary.
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Job Type -->
+          <!-- Job Type Dropdown -->
+          <div class="new-job-form-group">
+            <label for="jobType">Job Type:</label>
+            <select id="jobType" formControlName="jobType">
+              <option value="" disabled selected>Select Job Type</option>
+              <option value="Full-Time">Full-time</option>
+              <option value="Part-Time">Part-time</option>
+              <option value="Remote">Remote</option>
+              <option value="freelancing">freelancing</option>
+              <option value="internship">internship</option>
+            </select>
+
+            <!-- Error Messages -->
+            <div *ngIf="jobForm.get('jobType')?.touched && jobForm.get('jobType')?.invalid" class="error-message">
+              <div *ngIf="jobForm.get('jobType')?.hasError('required')">Job Type is required.</div>
+            </div>
+          </div>
+
+          <!-- Vacancy Count -->
+          <div class="new-job-form-group">
+            <label for="vacancyCount">Vacancy Count:</label>
+            <input id="vacancyCount" formControlName="vacancyCount" type="number" [min]="1" />
+            <div *ngIf="jobForm.get('vacancyCount')?.touched && jobForm.get('vacancyCount')?.invalid"
+              class="error-message">
+              <div *ngIf="jobForm.get('vacancyCount')?.hasError('required')">Vacancy Count is required.
+              </div>
+              <small *ngIf="jobForm.controls['vacancyCount'].errors?.['min']">
+                Vacancy Count must be at least 1.
+              </small>
+              <small *ngIf="jobForm.controls['vacancyCount'].errors?.['max']">
+                Vacancy Count cannot exceed 1000000.
+              </small>
+            </div>
+          </div>
+
+          <div class="new-job-row">
+            <!-- Required Education -->
+            <div class="new-job-form-group">
+              <label for="requiredEducation">Required Education:</label>
+              <input id="requiredEducation" formControlName="requiredEducation" type="text" />
+              <div *ngIf="jobForm.get('requiredEducation')?.touched && jobForm.get('requiredEducation')?.invalid"
+                class="error-message">
+                <div *ngIf="jobForm.get('requiredEducation')?.hasError('required')">Required Education is required.
+                </div>
+                <small *ngIf="jobForm.controls['requiredEducation'].errors?.['minlength']">
+                  Education title must be at least 5 characters long.
+                </small>
+                <small *ngIf="jobForm.controls['requiredEducation'].errors?.['maxlength']">
+                  Education title cannot exceed 100 characters.
+                </small>
+              </div>
+            </div>
+
+            <!-- Required Education Stream -->
+            <div class="new-job-form-group">
+              <label for="requiredEducationStream">Required Education Stream:</label>
+              <input id="requiredEducationStream" formControlName="requiredEducationStream" type="text" />
+
+              <div
+                *ngIf="jobForm.get('requiredEducationStream')?.touched && jobForm.get('requiredEducationStream')?.invalid"
+                class="error-message">
+                <div *ngIf="jobForm.get('requiredEducationStream')?.hasError('required')">Education Stream is required.
+                </div>
+                <div *ngIf="jobForm.get('requiredEducationStream')?.hasError('minlength')">Minimum 3 characters
+                  required.</div>
+                <div *ngIf="jobForm.get('requiredEducationStream')?.hasError('maxlength')">Maximum 100 characters
+                  allowed.</div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="new-job-row">
+            <!-- Required Percentage -->
+            <div class="new-job-form-group">
+              <label for="requiredPercentage">Required Percentage:</label>
+              <input id="requiredPercentage" formControlName="requiredPercentage" type="number" [min]="0" [max]="100" />
+              <div *ngIf="jobForm.get('requiredPercentage')?.touched && jobForm.get('requiredPercentage')?.invalid"
+                class="error-message">
+                <div *ngIf="jobForm.get('requiredPercentage')?.hasError('required')">Percentage is required.</div>
+                <small *ngIf="jobForm.controls['requiredPercentage'].errors?.['min']">
+                  Percentage must be at least 0.
+                </small>
+                <small *ngIf="jobForm.controls['requiredPercentage'].errors?.['max']">
+                  Percentage cannot exceed 100.
+                </small>
+
+              </div>
+            </div>
+            <!-- Required Passout Year -->
+            <div class="new-job-form-group">
+              <label for="requiredPassoutYear">Required Passout Year:</label>
+              <input id="requiredPassoutYear" formControlName="requiredPassoutYear" type="number" [min]="0" />
+              <div *ngIf="jobForm.get('requiredPassoutYear')?.touched && jobForm.get('requiredPassoutYear')?.invalid"
+                class="error-message">
+                <div *ngIf="jobForm.get('requiredPassoutYear')?.hasError('required')">Passout Year is required.</div>
+                <small *ngIf="jobForm.controls['requiredPassoutYear'].errors?.['min']">
+                  Passout Year cannot be earlier than 1950.
+                </small>
+                <small *ngIf="jobForm.controls['requiredPassoutYear'].errors?.['max']">
+                  Passout Year should not exceed one year morethan current year.
+                </small>
+                <small *ngIf="jobForm.controls['requiredPassoutYear'].errors?.['pattern']">
+                  Passout Year must be a valid number.
+                </small>
+
+              </div>
+            </div>
+          </div>
+          <div class="new-job-row">
+            <!-- Required Work Experience -->
+            <div class="new-job-form-group">
+              <label for="requiredWorkExperience">Required Work Experience:</label>
+              <input id="requiredWorkExperience" formControlName="requiredWorkExperience" type="number" [min]="0" />
+              <div
+                *ngIf="jobForm.get('requiredWorkExperience')?.touched && jobForm.get('requiredWorkExperience')?.invalid"
+                class="error-message">
+                <div *ngIf="jobForm.get('requiredWorkExperience')?.hasError('required')">Work Experience is required.
+                </div>
+                <small *ngIf="jobForm.controls['requiredWorkExperience'].errors?.['min']">
+                  Work experience cannot be negative.
+                </small>
+                <small *ngIf="jobForm.controls['requiredWorkExperience'].errors?.['max']">
+                  Work Experience cannot exceed 50 years.
+                </small>
+
+              </div>
+            </div>
+
+            <div class="new-job-form-group">
+              <label for="numberOfLevels">Number of Interview Rounds:</label>
+              <select id="numberOfLevels" formControlName="numberOfLevels">
+                <option value="" disabled selected>Select rounds</option>
+                <option *ngFor="let round of rounds" [value]="round">{{ round }}</option>
+              </select>
+              <div *ngIf="jobForm.get('numberOfLevels')?.touched && jobForm.get('numberOfLevels')?.invalid"
+                class="error-message">
+                <div *ngIf="jobForm.get('numberOfLevels')?.hasError('required')">Number of Interview Rounds is required.
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+          <!-- Submit Button -->
+          <div class="admin-add">
+            <button type="button" class="Create-Job" (click)="submitJobForm()">Create Job</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+    <div *ngIf="selectedPage === 'myRecruitments'" class="sub-page-content">
+      <div class="scrollable-conetent">
+        <div *ngFor="let job of Adminjobs" class="card">
+
+          <h3>{{ job.jobTitle }}</h3>
+          <hr />
+          <span class="posted-date">Job Released Date : {{ formatPostedDate(job.createdAt) }}</span>
+          <span class="action-icons">
+            <button (click)="openJobPopup(job)"><i class="fa-regular fa-pen-to-square"></i></button>
+            <button (click)="holdJob(job.id)"><i class="fa-solid fa-trash"></i></button>
+          </span>
+          <div class="action-btn-admin">
+            <button (click)="openJobPopup(job)" [routerLink]="['/JobDetails', job.id,'Recruiter']">View Job</button>
+            <button [routerLink]="['/AdminApplicants', job.id]">See Applicants</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <section *ngIf="selectedPage === 'interviews'" class="sub-page-content">
+      <div class="calendar">
+        <div class="calendar-header">
+          <h6>Upcoming Scheduled interviews</h6>
+        </div>
+        <div class="calendar-grid">
+          <div class="calendar-slot" *ngFor="let interview of interviews">
+            <p class="slot-time">Interview on {{ formatTimeForInteview(interview.interviewTimestamp)}}</p>
+            <div class="slot-details">
+              <p [title]="interview.interviewerName"><strong>Interviewer:</strong> {{
+                interview.interviewerName.length>6?interview.interviewerName.slice(0,6)+"...":interview.interviewerName
+                }}</p>
+              <p [title]=" interview.userName +'-'+ interview.userEmail"><strong>Candidate:</strong> {{
+                interview.userName.length>6?interview.userName.slice(0,6)+"...":interview.userName }}</p>
+              <p><strong>Description:</strong> {{
+                interview.interviewDescription.length>20?interview.interviewDescription.slice(0,20)+"...":interview.interviewDescription
+                }}</p>
+              <a [href]="interview.interviewLink" target="_blank" class="join-button">Join Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+  </div>
+</section>
+
+<!-- New Industry section -->
+<section id="industry" class="page-section industry-page">
+  <div class="content">
+    <h2>{{ sections['industry'].title }}</h2>
+    <p class="company-description">
+      {{ getShortDescription(sections['industry'].description, 'industry', 'description') }}
+      <ng-container *ngIf="sections['industry'].description.split(' ').length > 50">
+        <span *ngIf="!showFullDescription['industry']['description']"
+          (click)="toggleDescription('industry', 'description')" class="view-more">... View More</span>
+        <span *ngIf="showFullDescription['industry']['description']"
+          (click)="toggleDescription('industry', 'description')" class="view-less">View Less</span>
+      </ng-container>
+    </p>
+    <div *ngIf="sections['industry'].additionalInfo">
+      <div *ngFor="let key of objectKeys(sections['industry'].additionalInfo)">
+        <p>
+          <strong>{{ key }} </strong>
+          {{ getShortDescription(sections['industry'].additionalInfo[key], 'industry', key) }}
+          <ng-container *ngIf="sections['industry'].additionalInfo[key].split(' ').length > 50">
+            <span *ngIf="!showFullDescription['industry'][key]" (click)="toggleDescription('industry', key)"
+              class="view-more">... View More</span>
+            <span *ngIf="showFullDescription['industry'][key]" (click)="toggleDescription('industry', key)"
+              class="view-less">View Less</span>
+          </ng-container>
+
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section id="contact" class="page-section contact-page">
+  <div class="content">
+    <div class="contact-content">
+      <div id="map" style="width:'600';height:'450';border:0;"></div>
+      <a class="MapEditOption">
+        <i class="fa-solid fa-square-pen" (click)="MapEditpopUp()"></i>
+      </a>
+      <div class="contact-details">
+        <h2>{{ sections['contact'].title }}</h2>
+        <p class="company-description">{{ sections['contact'].description }}</p>
+        <div *ngIf="sections['contact'].additionalInfo">
+          <div *ngFor="let key of objectKeys(sections['contact'].additionalInfo)">
+            <p><strong>{{ key }}:</strong> {{ sections['contact'].additionalInfo[key] }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<div class="recruiter-form-modal" *ngIf="showRecruiterForm">
+  <div class="recruiter-form">
+    <div class="modal-header">
+      <button class="close-button" (click)="closeRecruiterForm()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <h3 class="heading">Add Recruiter/Pannel Member</h3>
+    <form [formGroup]="recruiterForm" (ngSubmit)="addRecruiter()">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" class="form-control"
+          [ngClass]="{'error': recruiterForm.get('recruiterName')?.invalid && recruiterForm.get('recruiterName')?.touched}"
+          formControlName="recruiterName" required />
+        <div class="error-message"
+          *ngIf="recruiterForm.get('recruiterName')?.invalid && recruiterForm.get('recruiterName')?.touched">
+          <span *ngIf="recruiterForm.get('recruiterName')?.errors?.['required']">Name is required</span>
+          <span *ngIf="recruiterForm.get('recruiterName')?.errors?.['pattern']">Name can only contain letters</span>
+          <span *ngIf="recruiterForm.get('recruiterName')?.errors?.['minlength']">Name must be at least 3
+            characters</span>
+          <span *ngIf="recruiterForm.get('recruiterName')?.errors?.['maxlength']">Name cannot exceed 32
+            characters</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" class="form-control"
+        autocomplete="off"
+          [ngClass]="{'error': recruiterForm.get('recruiterEmail')?.invalid && recruiterForm.get('recruiterEmail')?.touched}"
+          formControlName="recruiterEmail" required placeholder="Enter email manually"/>
+      
+        <div class="error-message"
+          *ngIf="recruiterForm.get('recruiterEmail')?.invalid && recruiterForm.get('recruiterEmail')?.touched">
+          <span *ngIf="recruiterForm.get('recruiterEmail')?.errors?.['required']">Email is required</span>
+          <span *ngIf="recruiterForm.get('recruiterEmail')?.errors?.['email']">Must be a valid email address.</span>
+        </div>
+      </div>      
+
+      <div class="form-group">
+        <label for="role">Select Role</label>
+        <select id="role" formControlName="recruiterRole" (change)="onRoleChange($event)"
+          [ngClass]="{'error': recruiterForm.get('recruiterRole')?.invalid && recruiterForm.get('recruiterRole')?.touched}">
+          <option value="" disabled selected>Select a Role</option> <!-- Default unselectable option -->
+          <option value="Recruiter">Recruiter</option>
+          <option value="panelmember">Panel Member</option>
+        </select>
+      
+        <div *ngIf="recruiterForm.get('recruiterRole')?.touched">
+          <small class="error-message" *ngIf="recruiterForm.get('recruiterRole')?.errors?.['required']">
+            Role selection is required.
+          </small>
+        </div>
+      </div>      
+
+      <div class="form-group">
+      <div *ngIf="isPanelMember">
+        <label for="recruiterDeportment">Department Name</label>
+        <input id="recruiterDeportment"
+          [ngClass]="{'error': recruiterForm.get('recruiterDeportment')?.invalid && recruiterForm.get('recruiterDeportment')?.touched}"
+          formControlName="recruiterDeportment" type="text" />
+      
+        <div *ngIf="recruiterForm.get('recruiterDeportment')?.touched">
+          <small class="error-message" *ngIf="recruiterForm.get('recruiterDeportment')?.errors?.['required']">
+            Department Name is required.
+          </small>
+          <small class="error-message" *ngIf="recruiterForm.get('recruiterDeportment')?.errors?.['minlength']">
+            Minimum 2 characters required.
+          </small>
+          <small class="error-message" *ngIf="recruiterForm.get('recruiterDeportment')?.errors?.['maxlength']">
+            Maximum 40 characters allowed.
+          </small>
+        </div>
+      </div>
+    </div>
+      
+
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" class="form-control"
+          [ngClass]="{'error': recruiterForm.get('recruiterPassword')?.invalid && recruiterForm.get('recruiterPassword')?.touched}"
+          formControlName="recruiterPassword" required />
+        <div class="error-message"
+          *ngIf="recruiterForm.get('recruiterPassword')?.invalid && recruiterForm.get('recruiterPassword')?.touched">
+          <span *ngIf="recruiterForm.get('recruiterPassword')?.errors?.['required']">Password is required</span>
+          <span *ngIf="recruiterForm.get('recruiterPassword')?.errors?.['minlength']">Password must be at least 8
+            characters,one upper &lower case & allow one special character</span>
+
+        </div>
+      </div>
+      <div class="form-buttons">
+        <button type="submit" [disabled]="recruiterForm.invalid || process">Add</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+
+<div class="recruiter-view-modal" *ngIf="showRecruiterView">
+
+  <div class="recruiter-view">
+    <div class="Recurter-updater-header">
+      <h3>
+        Recruiter Details
+        <i class="fas fa-info-circle" style="font-size: 0.8em; color: #555; margin-left: 8px; cursor: pointer;"
+          title="The work can be transferred to another recruiter"></i>
+      </h3>
+      <h3> <span (click)="closeRecruiterView()">X</span></h3>
+    </div>
+
+    <div class="recruiter-info" *ngIf="selectedRecruiter">
+      <form [formGroup]="recruiterupdateForm" (ngSubmit)="updateRecruiter()">
+        <label for="recruiterName" class="form-label">recruiterName</label>
+        <input type="text" id="recruiterName" formControlName="recruiterName" />
+
+        <label for="recruiterEmail" class="form-label">recruiterEmail</label>
+        <input type="text" id="recruiterEmail" formControlName="recruiterEmail" />
+        <label for="recruiterRole" class="form-label">recruiterRole</label>
+        <select id="recruiterRole" formControlName="recruiterRole" (change)="onRoleChange2($event)">
+          <option value="Recruiter">Recruiter</option>
+          <option value="panelmember">panelmember</option>
+        </select>
+
+        <div *ngIf="isPanelMember">
+          <label for="recruiterDeportment">Department Name</label>
+          <input id="recruiterDeportment" class="form-control"
+            [ngClass]="{'error': recruiterForm.get('recruiterDeportment')?.invalid && recruiterForm.get('recruiterDeportment')?.touched}"
+            formControlName="recruiterDeportment" type="text" />
+        </div>
+
+        <div class="Update-btn">
+          <button type="submit" class="Btn-Update">Update Recruiter</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+<div *ngIf="isPopupVisible" class="popup-overlay" (click)="closePopup()">
+  <div class="popup-content" (click)="$event.stopPropagation()">
+    <!-- Close Button at the Corner -->
+    <span class="close-btn" (click)="closePopup()">&times;</span>
+
+    <!-- Scrollable Form Container -->
+    <div class="form-container">
+      <div class="container mt-4">
+        <form [formGroup]="companyForm" (ngSubmit)="onSubmit()">
+          <h2 class="mb-4">Company Information</h2>
+
+          <!-- Alert for Form Submission Success -->
+          <div *ngIf="submitted" class="alert alert-success" role="alert">
+            Form submitted successfully!
+          </div>
+
+
+          <!-- Company Logo -->
+          <div class="mb-3">
+            <label for="companyLogo" class="form-label">Select Company Logo</label>
+            <input type="file" class="form-control" id="companyLogo" (change)="onLogoChange($event, 'companyLogo')"
+              accept="image/*" />
+            <small class="text-muted d-block" style="color: #6c757d; font-size: 0.875rem;">The logo should not exceed 1
+              MB.</small>
+            <div *ngIf="companyForm.controls['companyLogo'].invalid && companyForm.controls['companyLogo'].touched"
+              class="text-danger">
+              <small *ngIf="companyForm.controls['companyLogo'].errors?.['required']">Logo is required.</small>
+            </div>
+          </div>
+
+          <!--Company Description-->
+          <div class="mb-3">
+            <label for="companyDescription" class="form-label">Company Description</label>
+            <textarea class="form-control" id="companyDescription" formControlName="companyDescription"
+              rows="3"></textarea>
+            <div
+              *ngIf="companyForm.controls['companyDescription'].invalid && companyForm.controls['companyDescription'].touched"
+              class="text-danger">
+              <small *ngIf="companyForm.controls['companyDescription'].errors?.['required']">Description is
+                required.</small>
+              <small *ngIf="companyForm.controls['companyDescription'].errors?.['minlength']">Description must be at
+                least 10 characters long.</small>
+              <small *ngIf="companyForm.controls['companyDescription'].errors?.['maxlength']">Description cannot
+                exceed 1500 characters.</small>
+              <small *ngIf="companyForm.controls['companyDescription'].errors?.['pattern']">Description should only
+                contain text (letters and spaces).</small>
+            </div>
+          </div>
+
+
+          <!-- Company About Description -->
+
+          <div class="mb-3">
+            <label for="companyAboutDescription" class="form-label">About Description</label>
+            <textarea class="form-control" id="companyAboutDescription" formControlName="companyAboutDescription"
+              rows="3"></textarea>
+            <div
+              *ngIf="companyForm.controls['companyAboutDescription'].invalid && companyForm.controls['companyAboutDescription'].touched"
+              class="text-danger">
+              <small *ngIf="companyForm.controls['companyAboutDescription'].errors?.['required']">About Description is
+                required.</small>
+              <small *ngIf="companyForm.controls['companyAboutDescription'].errors?.['minlength']">About Description
+                must be at least 10 characters long.</small>
+              <small *ngIf="companyForm.controls['companyAboutDescription'].errors?.['maxlength']">About Description
+                cannot exceed 1500 characters.</small>
+              <small *ngIf="companyForm.controls['companyAboutDescription'].errors?.['pattern']">About Description
+                should only contain text (letters and spaces).</small>
+            </div>
+          </div>
+
+
+          <!--Company Overview Description-->
+          <div class="mb-3">
+            <label for="companyOverviewDescription" class="form-label">Overview Description</label>
+            <textarea class="form-control" id="companyOverviewDescription" formControlName="companyOverviewDescription"
+              rows="3"></textarea>
+            <div
+              *ngIf="companyForm.controls['companyOverviewDescription'].invalid && companyForm.controls['companyOverviewDescription'].touched"
+              class="text-danger">
+              <small *ngIf="companyForm.controls['companyOverviewDescription'].errors?.['required']">Overview
+                Description is required.</small>
+              <small *ngIf="companyForm.controls['companyOverviewDescription'].errors?.['minlength']">
+                Overview Description must be at least 10 characters long.
+              </small>
+              <small *ngIf="companyForm.controls['companyOverviewDescription'].errors?.['maxlength']">Overview
+                Description cannot exceed 1500 characters.</small>
+              <small *ngIf="companyForm.controls['companyOverviewDescription'].errors?.['pattern']">Overview
+                Description should only contain text (letters and spaces).</small>
+            </div>
+          </div>
+
+
+
+
+          <!-- Company Type of Industry -->
+
+          <div class="mb-3">
+            <label for="companyTypeOfIndustry" class="form-label">Industry Type</label>
+            <input type="text" class="form-control" id="companyTypeOfIndustry"
+              formControlName="companyTypeOfIndustry" />
+            <div
+              *ngIf="companyForm.controls['companyTypeOfIndustry'].invalid && companyForm.controls['companyTypeOfIndustry'].touched"
+              class="text-danger">
+              <small *ngIf="companyForm.controls['companyTypeOfIndustry'].errors?.['required']">Industry type is
+                required.</small>
+              <small *ngIf="companyForm.controls['companyTypeOfIndustry'].errors?.['minlength']">
+                Industry type must be at least 2 characters long.
+              </small>
+              <small *ngIf="companyForm.controls['companyTypeOfIndustry'].errors?.['maxlength']">Industry type cannot
+                exceed 100 characters.</small>
+            </div>
+          </div>
+
+
+          <!-- Company Website Link -->
+
+          <div class="mb-3">
+            <label for="companyWebsiteLink" class="form-label">Website <i class="fa-solid fa-info-circle"
+                [title]="'Please enter the URL in the format: http://example.com'"></i></label>
+            <input type="url" class="form-control" id="companyWebsiteLink" formControlName="companyWebsiteLink" />
+            <div
+              *ngIf="companyForm.controls['companyWebsiteLink'].invalid && companyForm.controls['companyWebsiteLink'].touched"
+              class="text-danger">
+              <small *ngIf="companyForm.controls['companyWebsiteLink'].errors?.['required']">Website is
+                required.</small>
+              <small *ngIf="companyForm.controls['companyWebsiteLink'].errors?.['pattern']">Invalid URL
+                format.</small>
+            </div>
+          </div>
+          <!-- Company Location -->
+          <div class="mb-3">
+            <label for="companyLocation" class="form-label">Location</label>
+            <input type="text" class="form-control" id="companyLocation" formControlName="companyLocation" />
+
+            <div
+              *ngIf="companyForm.controls['companyLocation'].invalid && companyForm.controls['companyLocation'].touched"
+              class="text-danger">
+              <small *ngIf="companyForm.controls['companyLocation'].errors?.['required']">
+                Location is required.
+              </small>
+              <small *ngIf="companyForm.controls['companyLocation'].errors?.['minlength']">
+                Location should be at least 3 characters long.
+              </small>
+              <small *ngIf="companyForm.controls['companyLocation'].errors?.['maxlength']">
+                Location cannot exceed 200 characters.
+              </small>
+            </div>
+          </div>
+
+          <!--Company Strength-->
+          <div class="mb-3">
+            <label for="companyStrength" class="form-label">Company Strength</label>
+            <input type="number" class="form-control" id="companyStrength" formControlName="companyStrength" />
+            <div
+              *ngIf="companyForm.controls['companyStrength'].invalid && companyForm.controls['companyStrength'].touched"
+              class="text-danger">
+              <small *ngIf="companyForm.controls['companyStrength'].errors?.['required']">Strength is
+                required.</small>
+              <small *ngIf="companyForm.controls['companyStrength'].errors?.['min']">Strength must be greater than
+                0.</small>
+              <small *ngIf="companyForm.controls['companyStrength'].errors?.['max']">Strength must be less than
+                10000000000.</small>
+            </div>
+          </div>
+
+
+          <!--Company License-->
+          <div class="mb-3">
+            <label for="companyLicense" class="form-label">License</label>
+            <input type="text" class="form-control" id="companyLicense" formControlName="companyLicense" />
+
+            <div
+              *ngIf="companyForm.controls['companyLicense'].invalid && companyForm.controls['companyLicense'].touched"
+              class="text-danger">
+              <small *ngIf="companyForm.controls['companyLicense'].errors?.['required']">
+                License is required.
+              </small>
+              <small *ngIf="companyForm.controls['companyLicense'].errors?.['minlength']">
+                License should be at least 3 characters long.
+              </small>
+              <small *ngIf="companyForm.controls['companyLicense'].errors?.['maxlength']">
+                License cannot exceed 100 characters.
+              </small>
+            </div>
+          </div>
+
+          <!-- Company License Document -->
+          <div class="mb-3">
+            <label for="companyLicenseDocument" class="form-label">Upload License Document</label>
+            <input type="file" class="form-control" id="companyLicenseDocument"
+              accept=".pdf,.doc,.docx,.gpg,.jpg,.jpeg,.png,.gif"
+              (change)="onFileChange($event, 'companyLicenseDocument')" />
+            <small class="text-muted d-block" style="color: #6c757d; font-size: 0.875rem;">The License Document should
+              not exceed 5 MB.</small>
+          </div>
+
+
+
+          <!-- Company GST Number -->
+
+          <div class="mb-3">
+            <label for="companyGstNumber" class="form-label">GST Number</label>
+            <input type="text" class="form-control" id="companyGstNumber" formControlName="companyGstNumber" />
+
+            <div
+              *ngIf="companyForm.controls['companyGstNumber'].invalid && companyForm.controls['companyGstNumber'].touched"
+              class="text-danger">
+              <small *ngIf="companyForm.controls['companyGstNumber'].errors?.['required']">
+                GST Number is required.
+              </small>
+              <small *ngIf="companyForm.controls['companyGstNumber'].errors?.['minlength']">
+                GST Number should be at least 3 characters long.
+              </small>
+              <small *ngIf="companyForm.controls['companyGstNumber'].errors?.['maxlength']">
+                GST Number cannot exceed 100 characters.
+              </small>
+            </div>
+          </div>
+
+          <!-- Company GST Document -->
+          <div class="mb-3">
+            <label for="companyGstDocument" class="form-label">Upload GST Document</label>
+            <input type="file" class="form-control" id="companyGstDocument"
+              accept=".pdf,.doc,.docx,.gpg,.jpg,.jpeg,.png,.gif"
+              (change)="onFileChange($event, 'companyGstDocument')" />
+            <small class="text-muted d-block" style="color: #6c757d; font-size: 0.875rem;">The GST Document should not
+              exceed 5 MB.</small>
+          </div>
+
+          <!-- Company CIN Number -->
+
+          <div class="mb-3">
+            <label for="companyCinNumber" class="form-label">CIN Number</label>
+            <input type="text" class="form-control" id="companyCinNumber" formControlName="companyCinNumber" />
+
+            <div
+              *ngIf="companyForm.controls['companyCinNumber'].invalid && companyForm.controls['companyCinNumber'].touched"
+              class="text-danger">
+              <small *ngIf="companyForm.controls['companyCinNumber'].errors?.['required']">
+                CIN Number is required.
+              </small>
+              <small *ngIf="companyForm.controls['companyCinNumber'].errors?.['minlength']">
+                CIN Number should be at least 3 characters long.
+              </small>
+              <small *ngIf="companyForm.controls['companyCinNumber'].errors?.['maxlength']">
+                CIN Number cannot exceed 100 characters.
+              </small>
+            </div>
+          </div>
+          <!-- Company CIN Document -->
+          <div class="mb-3">
+            <label for="companyCinDocument" class="form-label">Upload CIN Document</label>
+            <input type="file" class="form-control" id="companyCinDocument"
+              accept=".pdf,.doc,.docx,.gpg,.jpg,.jpeg,.png,.gif"
+              (change)="onFileChange($event, 'companyCinDocument')" />
+            <small class="text-muted d-block" style="color: #6c757d; font-size: 0.875rem;">The CIN Document should not
+              exceed 5 MB.</small>
+          </div>
+
+          <!-- Company Phone Number -->
+
+          <div class="mb-3">
+            <label for="companyPhoneNumber" class="form-label">Phone Number</label>
+            <input type="text" class="form-control" id="companyPhoneNumber" formControlName="companyPhoneNumber" />
+            <div
+              *ngIf="companyForm.controls['companyPhoneNumber'].invalid && companyForm.controls['companyPhoneNumber'].touched"
+              class="text-danger">
+              <small *ngIf="companyForm.controls['companyPhoneNumber'].errors?.['required']">Phone number is
+                required.</small>
+              <small *ngIf="companyForm.controls['companyPhoneNumber'].errors?.['pattern']">Phone number must be 10
+                digits long.</small>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-primary" [disabled]="companyForm.invalid">Submit</button>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Job Popup Modal -->
+<!-- Job Popup Modal -->
+<div *ngIf="isJobPopupVisible" class="editjobpopup-overlay" (click)="closeJobPopup()">
+  <div class="editjobpopup-content" (click)="$event.stopPropagation()">
+    <span class="editjobclose-btn" (click)="closeJobPopup()">&times;</span>
+    <form [formGroup]="jobForm" (ngSubmit)="updateJob()">
+      <h2>Edit Job</h2>
+
+      <!--Job Title-->
+      <div class="form-group">
+        <label for="jobTitle">Job Title</label>
+        <input id="jobTitle" formControlName="jobTitle" type="text" class="form-control" />
+        <div *ngIf="jobForm.controls['jobTitle'].invalid && jobForm.controls['jobTitle'].touched" class="text-danger">
+          <small *ngIf="jobForm.controls['jobTitle'].errors?.['required']">
+            Job Title is required.
+          </small>
+          <small *ngIf="jobForm.controls['jobTitle'].errors?.['minlength']">
+            Job Title must be at least 3 characters long.
+          </small>
+          <small *ngIf="jobForm.controls['jobTitle'].errors?.['maxlength']">
+            Job Title cannot exceed 100 characters.
+          </small>
+          <small *ngIf="jobForm.controls['jobTitle'].errors?.['pattern']">
+            Job Title should only contain letters and spaces.
+          </small>
+        </div>
+      </div>
+
+      <!---Location--->
+
+      <div class="form-group">
+        <label for="location">Location</label>
+        <input id="location" formControlName="location" type="text" class="form-control" />
+        <div *ngIf="jobForm.controls['location'].invalid && jobForm.controls['location'].touched" class="text-danger">
+          <small *ngIf="jobForm.controls['location'].errors?.['required']">
+            Location is required.
+          </small>
+          <small *ngIf="jobForm.controls['location'].errors?.['minlength']">
+            Location must be at least 3 characters long.
+          </small>
+          <small *ngIf="jobForm.controls['location'].errors?.['maxlength']">
+            Location cannot exceed 100 characters.
+          </small>
+          <small *ngIf="jobForm.controls['location'].errors?.['pattern']">
+            Location should only contain letters, numbers, and spaces.
+          </small>
+        </div>
+      </div>
+
+      <!--Min Salary-->
+      <div>
+        <label for="minSalary" class="form-label">Min Salary</label>
+        <input id="minSalary" formControlName="minSalary" type="number" class="form-control" />
+        <div *ngIf="jobForm.controls['minSalary'].invalid && jobForm.controls['minSalary'].touched" class="text-danger">
+          <small *ngIf="jobForm.controls['minSalary'].errors?.['required']">
+            Min Salary is required.
+          </small>
+          <small *ngIf="jobForm.controls['minSalary'].errors?.['min']">
+            Min Salary must be at least 100.
+          </small>
+          <small *ngIf="jobForm.controls['minSalary'].errors?.['max']">
+            Min Salary cannot exceed 100000000.
+          </small>
+          <small *ngIf="jobForm.controls['minSalary'].errors?.['pattern']">
+            Please enter a valid salary.
+          </small>
+
+        </div>
+      </div>
+
+      <!---Max Salary-->
+
+      <div>
+        <label for="maxSalary" class="form-label">Max Salary</label>
+        <input id="maxSalary" formControlName="maxSalary" type="number" class="form-control" />
+        <div *ngIf="jobForm.controls['maxSalary'].invalid && jobForm.controls['maxSalary'].touched" class="text-danger">
+          <small *ngIf="jobForm.get('maxSalary')?.errors?.['salaryMismatch']">
+            Max Salary should not be less than Min Salary.
+          </small>
+          <small *ngIf="jobForm.controls['maxSalary'].errors?.['required']">
+            Max Salary is required.
+          </small>
+          <small *ngIf="jobForm.controls['maxSalary'].errors?.['min']">
+            Max Salary must be at least 100.
+          </small>
+          <small *ngIf="jobForm.controls['maxSalary'].errors?.['max']">
+            Max Salary cannot exceed 100000000000.
+          </small>
+        </div>
+      </div>
+
+      <!---Job Type-->
+
+      <div>
+        <label for="jobType" class="form-label">Job Type</label>
+        <input type="text" class="form-control" id="jobType" formControlName="jobType" />
+        <div *ngIf="jobForm.controls['jobType'].invalid && jobForm.controls['jobType'].touched" class="text-danger">
+          <small *ngIf="jobForm.controls['jobType'].errors?.['required']">
+            Job Type is required.
+          </small>
+          <small *ngIf="jobForm.controls['jobType'].errors?.['minlength']">
+            Job Type must be at least 3 characters long.
+          </small>
+          <small *ngIf="jobForm.controls['jobType'].errors?.['maxlength']">
+            Job Type cannot exceed 50 characters.
+          </small>
+          <small *ngIf="jobForm.controls['jobType'].errors?.['pattern']">
+            Job Type should only contain letters and spaces.
+          </small>
+        </div>
+      </div>
+
+      <!---Vacancy Count-->
+
+      <div>
+        <label for="vacancyCount" class="form-label">Vacancy Count</label>
+        <input id="vacancyCount" formControlName="vacancyCount" type="number" class="form-control" />
+        <div *ngIf="jobForm.controls['vacancyCount'].invalid && jobForm.controls['vacancyCount'].touched"
+          class="text-danger">
+          <small *ngIf="jobForm.controls['vacancyCount'].errors?.['required']">
+            Vacancy Count is required.
+          </small>
+          <small *ngIf="jobForm.controls['vacancyCount'].errors?.['min']">
+            Vacancy Count must be at least 1.
+          </small>
+          <small *ngIf="jobForm.controls['vacancyCount'].errors?.['max']">
+            Vacancy Count cannot exceed 100.
+          </small>
+        </div>
+      </div>
+
+      <!---Skills-->
+
+      <div>
+        <label for="requiredSkills" class="form-label">Required Skills</label>
+        <input type="text" class="form-control" id="requiredSkills" formControlName="requiredSkills" />
+        <div *ngIf="jobForm.controls['requiredSkills'].invalid && jobForm.controls['requiredSkills'].touched"
+          class="text-danger">
+          <small *ngIf="jobForm.controls['requiredSkills'].errors?.['required']">
+            Required Skills are required.
+          </small>
+          <small *ngIf="jobForm.controls['requiredSkills'].errors?.['minlength']">
+            Required Skills must be at least 5 characters long.
+          </small>
+          <small *ngIf="jobForm.controls['requiredSkills'].errors?.['maxlength']">
+            Required Skills cannot exceed 500 characters.
+          </small>
+          <small *ngIf="jobForm.controls['requiredSkills'].errors?.['pattern']">
+            Required Skills should only contain letters and spaces.
+          </small>
+        </div>
+      </div>
+
+      <!---Education-->
+
+      <div>
+        <label for="requiredEducation" class="form-label">Required Education:</label>
+        <input id="requiredEducation" formControlName="requiredEducation" type="text" class="form-control" />
+        <div *ngIf="jobForm.controls['requiredEducation'].invalid && jobForm.controls['requiredEducation'].touched"
+          class="text-danger">
+          <small *ngIf="jobForm.controls['requiredEducation'].errors?.['required']">
+            Education is required.
+          </small>
+          <small *ngIf="jobForm.controls['requiredEducation'].errors?.['minlength']">
+            Education title must be at least 5 characters long.
+          </small>
+          <small *ngIf="jobForm.controls['requiredEducation'].errors?.['maxlength']">
+            Education title cannot exceed 100 characters.
+          </small>
+          <small *ngIf="jobForm.controls['requiredEducation'].errors?.['pattern']">
+            Education title should only contain letters and spaces.
+          </small>
+        </div>
+      </div>
+
+      <!---Education Stream-->
+      <div>
+        <label for="requiredEducationStream" class="form-label">Required Education Stream</label>
+        <input type="text" class="form-control" id="requiredEducationStream"
+          formControlName="requiredEducationStream" />
+        <div
+          *ngIf="jobForm.controls['requiredEducationStream'].invalid && jobForm.controls['requiredEducationStream'].touched"
+          class="text-danger">
+          <small *ngIf="jobForm.controls['requiredEducationStream'].errors?.['required']">
+            Education stream is required.
+          </small>
+          <small *ngIf="jobForm.controls['requiredEducationStream'].errors?.['minlength']">
+            Education stream must be at least 3 characters long.
+          </small>
+          <small *ngIf="jobForm.controls['requiredEducationStream'].errors?.['maxlength']">
+            Education stream cannot exceed 100 characters.
+          </small>
+          <small *ngIf="jobForm.controls['requiredEducationStream'].errors?.['pattern']">
+            Education stream should only contain letters and spaces.
+          </small>
+        </div>
+      </div>
+
+      <!----Percentage-->
+
+      <div>
+        <label for="requiredPercentage" class="form-label">Required Percentage:</label>
+        <input id="requiredPercentage" formControlName="requiredPercentage" type="number" class="form-control" />
+        <div *ngIf="jobForm.controls['requiredPercentage'].invalid && jobForm.controls['requiredPercentage'].touched"
+          class="text-danger">
+          <small *ngIf="jobForm.controls['requiredPercentage'].errors?.['required']">
+            Percentage is required.
+          </small>
+          <small *ngIf="jobForm.controls['requiredPercentage'].errors?.['min']">
+            Percentage must be at least 0.
+          </small>
+          <small *ngIf="jobForm.controls['requiredPercentage'].errors?.['max']">
+            Percentage cannot exceed 100.
+          </small>
+        </div>
+      </div>
+
+
+      <!---PassOutYear-->
+
+      <div>
+        <label for="requiredPassoutYear" class="form-label">Required Passout Year</label>
+        <input type="number" class="form-control" id="requiredPassoutYear" formControlName="requiredPassoutYear" />
+        <div *ngIf="jobForm.controls['requiredPassoutYear'].invalid && jobForm.controls['requiredPassoutYear'].touched"
+          class="text-danger">
+          <small *ngIf="jobForm.controls['requiredPassoutYear'].errors?.['required']">
+            Passout Year is required.
+          </small>
+          <small *ngIf="jobForm.controls['requiredPassoutYear'].errors?.['min']">
+            Passout Year cannot be earlier than 1900.
+          </small>
+          <small *ngIf="jobForm.controls['requiredPassoutYear'].errors?.['max']">
+            Passout Year cannot be later than the current year.
+          </small>
+          <small *ngIf="jobForm.controls['requiredPassoutYear'].errors?.['pattern']">
+            Passout Year must be a valid number.
+          </small>
+        </div>
+      </div>
+
+
+      <!--Experiance-->
+
+      <div>
+        <label for="requiredWorkExperience" class="form-label">Required Work Experience (in years):</label>
+        <input type="number" class="form-control" id="requiredWorkExperience"
+          formControlName="requiredWorkExperience" />
+        <div
+          *ngIf="jobForm.controls['requiredWorkExperience'].invalid && jobForm.controls['requiredWorkExperience'].touched"
+          class="text-danger">
+          <small *ngIf="jobForm.controls['requiredWorkExperience'].errors?.['required']">
+            Work Experience is required.
+          </small>
+          <small *ngIf="jobForm.controls['requiredWorkExperience'].errors?.['min']">
+            Work Experience must be at least 1 year.
+          </small>
+          <small *ngIf="jobForm.controls['requiredWorkExperience'].errors?.['max']">
+            Work Experience cannot exceed 50 years.
+          </small>
+        </div>
+      </div>
+
+      <!---Basic Job Qualification-->
+      <div>
+        <label>Basic Job Qualification:</label>
+        <div class="toolbar">
+          <button type="button" (click)="execCommand('bold', 'basicJobQualification')"><i
+              class="fa-solid fa-bold"></i></button>
+          <button type="button" (click)="execCommand('italic', 'basicJobQualification')"><i
+              class="fas fa-italic"></i></button>
+          <button type="button" (click)="execCommand('insertUnorderedList', 'basicJobQualification')"><i
+              class="fas fa-list"></i></button>
+          <button type="button" (click)="changeFontSize('increase', 'basicJobQualification')"><i
+              class="fas fa-font fa-lg"></i>
+            <i class="fas fa-arrow-up"></i></button>
+          <button type="button" (click)="changeFontSize('decrease', 'basicJobQualification')"><i
+              class="fas fa-font fa-lg"></i>
+            <i class="fas fa-arrow-down"></i></button>
+          <select (change)="changeColor($event, 'basicJobQualification')">
+            <option value="">Text Color</option>
+            <option value="black">black</option>
+            <option value="red">Red</option>
+            <option value="green">Green</option>
+            <option value="blue">Blue</option>
+            <option value="purple">Purple</option>
+          </select>
+        </div>
+        <div id="basicJobQualification" class="form-control" contenteditable="true"
+          (input)="updateField('basicJobQualification')">
+          Type your basic Job Qualification here...
+        </div>
+      </div>
+
+      <!-- primaryRoles -->
+      <div>
+        <label>Primary Roles:</label>
+        <div class="toolbar">
+          <button type="button" (click)="execCommand('bold', 'primaryRoles')"><i class="fa-solid fa-bold"></i></button>
+          <button type="button" (click)="execCommand('italic', 'primaryRoles')"><i class="fas fa-italic"></i></button>
+          <button type="button" (click)="execCommand('insertUnorderedList', 'primaryRoles')"><i
+              class="fas fa-list"></i></button>
+          <button type="button" (click)="changeFontSize('increase', 'primaryRoles')"><i class="fas fa-font fa-lg"></i>
+            <i class="fas fa-arrow-up"></i></button>
+          <button type="button" (click)="changeFontSize('decrease', 'primaryRoles')"><i class="fas fa-font fa-lg"></i>
+            <i class="fas fa-arrow-down"></i></button>
+          <select (change)="changeColor($event, 'primaryRoles')">
+            <option value="">Text Color</option>
+            <option value="black">black</option>
+            <option value="red">Red</option>
+            <option value="green">Green</option>
+            <option value="blue">Blue</option>
+            <option value="purple">Purple</option>
+          </select>
+        </div>
+        <div id="primaryRoles" class="form-control" contenteditable="true" (input)="updateField('primaryRoles')">
+          Type your primary Roles here...
+        </div>
+      </div>
+
+      <!-- mainResponsibilities Editor -->
+      <div>
+        <label>Main Responsibilities:</label>
+        <div class="toolbar">
+          <button type="button" (click)="execCommand('bold', 'mainResponsibilities')"><i
+              class="fa-solid fa-bold"></i></button>
+          <button type="button" (click)="execCommand('italic', 'mainResponsibilities')"><i
+              class="fas fa-italic"></i></button>
+          <button type="button" (click)="execCommand('insertUnorderedList', 'mainResponsibilities')"><i
+              class="fas fa-list"></i></button>
+          <button type="button" (click)="changeFontSize('increase', 'mainResponsibilities')"><i
+              class="fas fa-font fa-lg"></i>
+            <i class="fas fa-arrow-up"></i></button>
+          <button type="button" (click)="changeFontSize('decrease', 'mainResponsibilities')"><i
+              class="fas fa-font fa-lg"></i>
+            <i class="fas fa-arrow-down"></i></button>
+          <select (change)="changeColor($event, 'mainResponsibilities')">
+            <option value="">Text Color</option>
+            <option value="black">black</option>
+            <option value="red">Red</option>
+            <option value="green">Green</option>
+            <option value="blue">Blue</option>
+            <option value="purple">Purple</option>
+          </select>
+        </div>
+        <div id="mainResponsibilities" class="form-control" contenteditable="true"
+          (input)="updateField('mainResponsibilities')">
+          Type your primary Roles here...
+        </div>
+      </div>
+
+      <!---Number of Levels-->
+
+      <div class="form-group">
+        <label for="numberOfLevels">No of Levels:</label>
+        <input id="numberOfLevels" formControlName="numberOfLevels" type="number" class="form-control" />
+        <div *ngIf="jobForm.controls['numberOfLevels'].invalid && jobForm.controls['numberOfLevels'].touched"
+          class="text-danger">
+          <small *ngIf="jobForm.controls['numberOfLevels'].errors?.['required']">
+            Number of Levels is required.
+          </small>
+          <small *ngIf="jobForm.controls['numberOfLevels'].errors?.['min']">
+            Number of Levels must be at least 1.
+          </small>
+          <small *ngIf="jobForm.controls['numberOfLevels'].errors?.['max']">
+            Number of Levels cannot exceed 100.
+          </small>
+        </div>
+      </div>
+
+
+      <!---Job Description-->
+
+      <div class="form-group">
+        <label for="jobDescription">Job Description</label>
+        <textarea id="jobDescription" formControlName="jobDescription" rows="3" class="form-control"></textarea>
+        <div *ngIf="jobForm.controls['jobDescription'].invalid && jobForm.controls['jobDescription'].touched"
+          class="text-danger">
+          <small *ngIf="jobForm.controls['jobDescription'].errors?.['required']">
+            Job Description is required.
+          </small>
+          <small *ngIf="jobForm.controls['jobDescription'].errors?.['minlength']">
+            Job Description must be at least 10 characters long.
+          </small>
+          <small *ngIf="jobForm.controls['jobDescription'].errors?.['maxlength']">
+            Job Description cannot exceed 1500 characters.
+          </small>
+          <small *ngIf="jobForm.controls['jobDescription'].errors?.['pattern']">
+            Job Description should only contain letters and spaces.
+          </small>
+        </div>
+      </div>
+
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-update">Update Job</button>
+      </div>
+    </form>
+  </div>
+
+
+
+</div>
+
+
+<div class="Log-modal-overlay" *ngIf="islogoutPopUpOpen">
+  <div class="Log-modal-container">
+    <h6>Are you sure you want to logout?</h6>
+    <div class="Log-modal-buttons">
+      <button class="Log-confirm" (click)="onLogoutSubmit()">Yes, Logout</button>
+      <button class="Log-cancel" (click)="logoutpopClose()">Cancel</button>
+    </div>
+  </div>
+</div>

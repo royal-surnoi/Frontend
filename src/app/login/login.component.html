@@ -1,0 +1,92 @@
+<div class="main">
+    <div class="video-background-container">
+        <!-- Optional background video container -->
+    </div>
+ 
+    <div class="container">
+        <div class="info-card">
+            <h1>Welcome to <span>FusionIQ AI</span></h1>
+            <p>
+                "Empowering Developers to Spark the <br />
+                Next Tech Revolution 💻✨ #FUSIONIQ AI"
+            </p>
+        </div>
+ 
+        <div class="login-card">
+            <h2>Hello!</h2>
+            <form (ngSubmit)="login()">
+                <!-- Email Input -->
+                <div class="input-wrapper">
+                    <input
+                        class="passinput"
+                        [(ngModel)]="email"
+                        id="email"
+                        name="email"
+                        type="email"
+                        placeholder="Enter email/Username"
+                        autofocus
+                    />
+                </div>
+                <div *ngIf="!email && errorMessage === 'Please enter your email/username.'" class="error-message">
+                    {{ errorMessage }}
+                </div>
+ 
+                <!-- Password Input -->
+                <div class="input-wrapper">
+                    <input
+                        class="passinput"
+                        [(ngModel)]="password"
+                        id="password"
+                        name="password"
+                        [type]="showPassword ? 'text' : 'password'"
+                        placeholder="Password"
+                    />
+                    <i
+                        class="password-toggle fas"
+                        [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+                        (click)="togglePasswordVisibility()"
+                    ></i>
+                </div>
+                <div *ngIf="!password && errorMessage === 'Please enter your password.'" class="error-message">
+                    {{ errorMessage }}
+                </div>
+ 
+                <!-- General Error Message -->
+                <div
+                    class="error-message"
+                    *ngIf="
+                        errorMessage &&
+                        errorMessage !== 'Please enter your email/username.' &&
+                        errorMessage !== 'Please enter your password.'
+                    "
+                >
+                    {{ errorMessage }}
+                </div>
+                
+                <!-- Login Button -->
+                <button type="submit">Login</button>
+            </form>
+ 
+            <p>
+                forgot password?
+                <a href="#" class="new-account" (click)="navigateToForgotPassword($event)">Click Here!!</a><br/>
+                Don't have an account?
+                <a href="#" class="new-account" (click)="navigateToHrRegister($event)">Create an account</a>
+            </p>
+        </div>
+    </div>
+ 
+    <!-- Popup Overlay -->
+    <div *ngIf="showPopup" class="popup-overlay">
+        <div class="popup-content">
+            <h2>Welcome to FUSIONIQ!</h2>
+            <p *ngIf="loginStatus === 'success'">Congratulations on joining us! Your journey starts here</p>
+            <p *ngIf="loginStatus === 'failed'">
+                Some of the information you provided is invalid. Please check your details and try again.
+            </p>
+            <button (click)="closePopup()" class="close-button">Click Here</button>
+        </div>
+    </div>
+</div>
+ 
+ 

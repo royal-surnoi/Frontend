@@ -1,0 +1,85 @@
+<div class="quiz-container">
+  <!-- Container 1: Quiz Creation Form -->
+  <div class="form-container">
+    <h1>Create a Quiz</h1>
+    <div class="form">
+      <!-- Question Input -->
+      <input
+        id="questionText"
+        type="text"
+        [(ngModel)]="questionText"
+        placeholder="Enter your question"
+        (ngModelChange)="validateQuestion()"
+        [ngClass]="{ 'error-border': isQuestionInvalid }"
+      />
+      <div *ngIf="isQuestionInvalid" class="error-message">
+        Question must be between 10 to 1500 characters.
+      </div>
+ 
+      <!-- Options Input -->
+      <div *ngFor="let option of options; let i = index">
+        <input
+          type="text"
+          [(ngModel)]="option.value"
+          placeholder="Enter option {{ i + 1 }}"
+          (ngModelChange)="validateOptions()"
+          [ngClass]="{ 'error-border': option.isInvalid }"
+        />
+        <div *ngIf="option.isInvalid" class="error-message">
+          Answer must be between 1 to 500 characters.
+        </div>
+      </div>
+ 
+      <!-- Correct Answer Selection -->
+      <select id="correctAnswer" [(ngModel)]="correctAnswerIndex" (change)="validateCorrectAnswer()"
+        [ngClass]="{ 'error-border': isCorrectAnswerInvalid }">
+        <option *ngFor="let option of options; let i = index" [value]="i">
+          {{ option.value }}
+        </option>
+      </select>
+      <div *ngIf="isCorrectAnswerInvalid" class="error-message">
+        Please select a correct answer.
+      </div>
+ 
+      <!-- Add Question Button -->
+      <button class="qbutton" (click)="addQuestion()">Add Question</button>
+    </div>
+  </div>
+ 
+ 
+ 
+  <!-- Container 2: List of Added Questions -->
+  <div class="question-list-container" *ngIf="questions.length > 0">
+    <h2>Questions List</h2>
+    <ul>
+      <li *ngFor="let question of questions; let i = index">
+        <strong>{{ i + 1 }}. {{ question.question }}</strong>
+        <ul>
+          <li *ngFor="let option of question.options; let j = index">
+            {{ option }}
+            <span
+              *ngIf="j === question.correctAnswer"
+              style="color: green; font-weight: bold;"
+            >
+              (Correct)
+            </span>
+          </li>
+        </ul>
+ 
+        <!-- Display correct answer -->
+        <p class="correct-answer">
+          {{ question.options[question.correctAnswer] }}
+        </p>
+ 
+        <button class="edit" (click)="editQuestion(i)">Edit</button>
+        <button class="delete" (click)="deleteQuestion(i)">Delete</button>
+      </li>
+    </ul>
+    <button class="submit-quiz" (click)="submitQuiz(responseId)">Submit Quiz</button>
+  </div>
+</div>
+ 
+ 
+ 
+ 
+ 

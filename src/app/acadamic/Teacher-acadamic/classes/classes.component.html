@@ -1,0 +1,84 @@
+<div class="subjects-container">
+    <div class="header">
+        <h1>My Classes</h1>
+        <div class="dropdown">
+            <button class="AddButton" (click)="togglePopup()">
+                + SubjectsButton
+            </button>
+        </div>
+
+        <div class="actions">
+            <input type="text" placeholder="Search subjects..." class="search-bar" [(ngModel)]="searchQuery" />
+        </div>
+    </div>
+    <ul class="subjects-list">
+        <li *ngFor="let subject of filteredSubjects" (click)="openSubjectComponent(subject.id)">
+            {{ getTruncatedContent(subject) }}        
+        </li>
+    </ul>
+</div>
+
+<div class="popup-backdrop" *ngIf="isPopupOpen">
+    <div class="popup-modal">
+      <h2>Add New Subject</h2>
+      <form [formGroup]="subjectForm" (ngSubmit)="addSubject()">
+        <input 
+          type="text" 
+          formControlName="className" 
+          placeholder="Enter class name" 
+          class="subject-input" />
+        <div *ngIf="subjectForm.get('class_name')?.invalid && subjectForm.get('class_name')?.touched">
+          <small class="error">Class name is required.</small>
+        </div>
+  
+        <input 
+          type="text" 
+          formControlName="classSubject" 
+          placeholder="Enter subject name" 
+          class="subject-input" />
+        <div *ngIf="subjectForm.get('class_subject')?.invalid && subjectForm.get('class_subject')?.touched">
+          <small class="error">Subject name is required.</small>
+        </div>
+  
+        <input 
+          type="date" 
+          formControlName="academicYearStart" 
+          class="subject-input" 
+          [min]="today" />
+        <div *ngIf="subjectForm.get('class_academic_year_start')?.invalid && subjectForm.get('class_academic_year_start')?.touched">
+          <small class="error">Start date is required and cannot be in the past.</small>
+        </div>
+  
+        <input 
+          type="date" 
+          formControlName="academicYearEnd" 
+          class="subject-input" 
+          [min]="subjectForm.get('class_academic_year_start')?.value" />
+        <div *ngIf="subjectForm.get('class_academic_year_end')?.invalid && subjectForm.get('class_academic_year_end')?.touched">
+          <small class="error">End date must be after the start date.</small>
+        </div>
+  
+        <input 
+          type="text" 
+          formControlName="classGrade" 
+          placeholder="Enter class" 
+          class="subject-input" />
+        <div *ngIf="subjectForm.get('class')?.invalid && subjectForm.get('class')?.touched">
+          <small class="error">Class is required.</small>
+        </div>
+  
+        <input 
+          type="text" 
+          formControlName="classSection" 
+          placeholder="Enter section" 
+          class="subject-input" />
+        <div *ngIf="subjectForm.get('class_section')?.invalid && subjectForm.get('class_section')?.touched">
+          <small class="error">Section is required.</small>
+        </div>
+  
+        <button type="submit" id="Submit" [disabled]="subjectForm.invalid">Submit</button>
+        <button type="button" (click)="togglePopup()" id="Cancel">Cancel</button>
+      </form>
+    </div>
+  </div>
+  

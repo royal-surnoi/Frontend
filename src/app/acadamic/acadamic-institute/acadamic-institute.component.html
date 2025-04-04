@@ -1,0 +1,287 @@
+<div class="container">
+  <!-- Institute Header -->
+  <div class="institute-header">
+    <h1 class="institute-name">{{instituteData.institute_Name}}</h1>
+
+    <!-- Profile Picture Upload -->
+    <div class="profile-pic-container">
+      <img class="profile-pic" [src]="GetImage(instituteData.profileImage)" alt="Institute Logo">
+
+      <!-- Hidden file input -->
+      <input type="file" accept="image/*" capture="camera" id="file-input"
+        title="Click to upload or take a photo with your camera">
+
+      <!-- Camera icon or symbol to trigger file input -->
+      <label for="file-input" class="upload-icon">
+        <i class="fa fa-camera"></i>
+      </label>
+    </div>
+
+    <!-- Profile Description Section -->
+    <div class="profile-description-container">
+      <div class="profile-description">
+        <p class="institute-description">
+          Welcome to <strong>{{instituteData.institute_Name}}</strong>, {{instituteData.description}}
+        </p>
+      </div>
+    </div>
+
+    <!-- Power-off Button -->
+    <button class="power-off-btn" (click)="EditProfile()">
+      <i class="fa-solid fa-pencil"></i>
+    </button>
+  </div>
+</div>
+
+<!-- Institute Details Section -->
+<div class="institute-details-container card">
+  <div class="institute-details-header">
+    <h3 class="Institute-section-title">Institute Details</h3>
+  </div>
+
+  <div class="institute-details-body">
+    <div class="detail-item">
+      <label>Location/Pincode:</label>
+      <p class="detail-text">{{ instituteData.location }} - {{instituteData.pincode}}</p>
+    </div>
+
+    <div class="detail-item">
+      <label>Established:</label>
+      <p class="detail-text">{{instituteData.establishedIn}}</p>
+    </div>
+
+    <div class="detail-item">
+      <label>Institute Type/Board:</label>
+      <p class="detail-text">{{instituteData.instituteType}} - {{instituteData.board}}</p>
+    </div>
+
+    <div class="detail-item">
+      <label>Institute Registration No:</label>
+      <p class="detail-text">{{instituteData.institute_Registration_No}}</p>
+    </div>
+
+    <div class="detail-item">
+      <label>Contact No:</label>
+      <p class="detail-text">{{instituteData.contactNo}}</p>
+    </div>
+
+    <div class="detail-item">
+      <label>Email:</label>
+      <p class="detail-text">{{instituteData.email}}</p>
+    </div>
+
+    <div class="detail-item">
+      <label>Principal Name:</label>
+      <p class="detail-text">{{instituteData.principal_name}}</p>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Culture Section (Photo Gallery) -->
+<div class="culture card">
+  <div class="Cultere-Header">
+  <h3 class="Institute-section-title">Culture</h3>
+
+    <label for="gallery-upload" class="upload-label">
+      <i class="fa fa-plus"></i> 
+      <span>Add Image</span>
+    </label>
+  
+    <input id="gallery-upload" type="file" (change)="onGalleryImageUpload($event)" accept="image/*" multiple
+      style="display: none;">
+    
+    </div>
+
+  <!-- Photo Gallery -->
+  <div class="photo-gallery">
+    <div *ngFor="let img of galleryImages; let i = index" class="gallery-item">
+      <img [src]="img" class="gallery-image" alt="Gallery Image">
+
+      <!-- Delete Image Button -->
+      <button (click)="deleteImage(i)" class="delete-btn">
+        <i class="fa fa-trash"></i> <!-- Trash Icon for deleting -->
+      </button>
+    </div>
+  </div>
+
+
+</div>
+
+
+
+<!-- TEACHER & STUDENT SECTION -->
+
+<div class="container">
+
+  <!-- Teacher & Student Section with Overlay -->
+  <div class="teacher-student-container">
+    <!-- Buttons to Toggle Views -->
+    <div class="toggle-buttons">
+      <button (click)="toggleView(true)" [class.active]="isTeacherView">Teacher's Requests</button>
+      <button (click)="toggleView(false)" [class.active]="!isTeacherView">Student's Requests</button>
+    </div>
+
+    <!-- Teacher Section -->
+    <div *ngIf="isTeacherView" class="section teacher-section">
+      <h2>Teacher Requests</h2>
+      <div class="request-container">
+        <div *ngIf="teacherRequests.length > 4" class="scrollable">
+          <div *ngFor="let request of teacherRequests" class="request-card">
+            <div>
+            <h3>{{ request.name }}</h3>
+            <p>EMailId Conmeher</p>
+            <p>Teacher Id come Here</p>
+          </div>
+
+            <div class="buttons-a">
+              <button 
+                (click)="handleRequest('teacher', request.id, 'accept')" class="accept-btn">Accept</button>
+              <button 
+                (click)="handleRequest('teacher', request.id, 'reject')" class="reject-btn">Reject</button>
+              <button  (click)="addProfile('teacher', request.id)"
+                class="add-profile">Add Profile</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Student Section -->
+    <div *ngIf="!isTeacherView" class="section student-section">
+      <h2>Student Requests</h2>
+      <div class="request-container">
+        <div *ngIf="studentRequests.length > 4" class="scrollable">
+          <div *ngFor="let request of studentRequests" class="request-card">
+            <div class="Data-d">
+            <h3>{{ request.name }}</h3>
+            <p>EmailCome Here</p>
+            <p>Reg no come here</p>
+            </div>
+            <div class="buttons-b">
+              <button
+                (click)="handleRequest('student', request.id, 'accept')" class="accept-btn">Accept</button>
+              <button
+                (click)="handleRequest('student', request.id, 'reject')" class="reject-btn">Reject</button>
+              <button (click)="addProfile('student', request.id)"
+                class="add-profile">View</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Exam Section -->
+
+<div class="exam-container card">
+  <h2>Upcoming Exams</h2>
+  <button class="add-exam-btn" (click)="openPopup()">Add Exam</button>
+  <div *ngIf="exams.length > 0; else noExams" class="exam-list">
+    <div *ngFor="let exam of exams" class="exam-card">
+      <h3>{{ exam.name }}</h3>
+      <p><strong>Date:</strong> {{ exam.date }}</p>
+      <p><strong>Time:</strong> {{ exam.time }}</p>
+      <p><strong>Venue:</strong> {{ exam.venue }}</p>
+      <p><strong>Duration:</strong> {{ exam.duration }}</p>
+    </div>
+  </div>
+
+  <!-- Popup Form -->
+  <div class="popup-overlay" *ngIf="isPopupOpen">
+    <div class="popup-form">
+      <h3>Add New Exam</h3>
+      <form (ngSubmit)="addExam()">
+        <label for="name">Name</label>
+        <input type="text" id="name" [(ngModel)]="newExam.name" name="name" required>
+
+        <label for="date">Date</label>
+        <input type="date" id="date" [(ngModel)]="newExam.date" name="date" required>
+
+        <label for="time">Time</label>
+        <input type="time" id="time" [(ngModel)]="newExam.time" name="time" required>
+
+        <label for="venue">Venue</label>
+        <input type="text" id="venue" [(ngModel)]="newExam.venue" name="venue" required>
+
+        <label for="duration">Duration</label>
+        <input type="text" id="duration" [(ngModel)]="newExam.duration" name="duration" required>
+
+        <button type="submit">Add Exam</button>
+        <button type="button" class="close-btn" (click)="closePopup()">Close</button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- Fallback if there are no exams -->
+  <ng-template #noExams>
+    <p class="no-exams">No upcoming exams at the moment.</p>
+  </ng-template>
+</div>
+
+
+<!-- Show Popup If Any Field is Missing -->
+<div class="popup-overlay" *ngIf="showPopup">
+  <div class="popup-form">
+    <h2><span>{{FirstTime?"Complete":"Update"}}</span> Institute Information</h2>
+    <form>
+      <div *ngIf="!FirstTime">
+        <div>
+          <label>Institute Name</label>
+          <input [(ngModel)]="instituteData.institute_Name" name="institute_Name" type="text" required />
+        </div>
+        <div>
+          <label>Location</label>
+          <input [(ngModel)]="instituteData.location" name="location" type="text" required />
+        </div>
+        <div>
+          <label>Principal Name</label>
+          <input [(ngModel)]="instituteData.principal_name" name="principal_name" type="text" required />
+        </div>
+        <div>
+          <label>Institute Registration No</label>
+          <input [(ngModel)]="instituteData.institute_Registration_No" name="institute_Registration_No" type="text"
+            required />
+        </div>
+        <div>
+          <label>Institute Type</label>
+          <input [(ngModel)]="instituteData.instituteType" name="instituteType" type="text" required />
+        </div>
+        <div>
+          <label>Board</label>
+          <input [(ngModel)]="instituteData.board" name="board" type="text" required />
+        </div>
+        <div>
+          <label>Email</label>
+          <input [(ngModel)]="instituteData.email" name="email" type="email" required />
+        </div>
+        <div>
+          <label>Pincode</label>
+          <input [(ngModel)]="instituteData.pincode" name="pincode" type="number" required />
+        </div>
+      </div>
+      <div>
+        <label>Contact No</label>
+        <input [(ngModel)]="instituteData.contactNo" name="contactNo" type="tel" required />
+      </div>
+      <div>
+        <label>Description</label>
+        <textarea [(ngModel)]="instituteData.description" name="description" required></textarea>
+      </div>
+      <div>
+        <label>Established In</label>
+        <input [(ngModel)]="instituteData.establishedIn" name="establishedIn" type="number" required />
+      </div>
+      <div>
+        <label>Image</label>
+        <input type="file" (change)="onFileChange($event)" name="image" required />
+      </div>
+      <button class="submit-button" (click)="submitCreateForm()" *ngIf="FirstTime">Save</button>
+      <button class="submit-button" (click)="submitUpdateForm()" *ngIf="!FirstTime">Update</button>
+      <button type="submit" class="submit-button" (click)="CancelForm()" *ngIf="!FirstTime">Cancel</button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,51 @@
+<div *ngIf="loading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <h5> loading</h5>
+  </div>
+  
+  <div *ngIf="!loading && quizData && quizInterface" class="quiz-form">
+    <h2>Quiz</h2>
+    <form [formGroup]="quizForm" (ngSubmit)="submitQuiz()" [ngClass]="{ 'disabled-form': submitted }">
+      <div *ngFor="let question of quizData.questions; let i = index" class="question-block">
+        <p>
+          <span class="serial-number">{{ i + 1 }}.</span>
+          {{ question.text }}
+        </p>
+        <div *ngFor="let option of question.options" class="option">
+          <label>
+            <input
+              type="radio"
+              [formControlName]="'question_' + i"
+              [value]="option"
+              [disabled]="submitted"
+            />
+            {{ option }}
+          </label>
+        </div>
+      </div>
+      <button type="submit" [disabled]="submitted || loading">Submit Quiz</button>
+    </form>
+  </div>
+  
+  <div *ngIf="quizResult && submitted" class="quiz-result">
+    <h2>Quiz Result</h2>
+    <p>Total Questions: {{ quizData.questions.length }}</p>
+    <p>Percentage: {{ quizResult.percentage }}%</p>
+    <p>Quiz Grade: {{ quizResult.grade }}</p>
+    <p>Correct Answers: {{ quizResult.correctAnswers }} / {{ quizData.questions.length }}</p>
+    <div *ngFor="let question of quizData.questions; let i = index" class="result-block">
+      <p><strong>Q{{ i + 1 }}:</strong> {{ question.text }}</p>
+      <p class="user-answer"><strong>Your Answer:</strong> {{ quizForm.get('question_' + i)?.value || 'Not Answered' }}</p>
+      <p class="correct-answer"><strong>Correct Answer:</strong> {{ question.correct_answer }}</p>
+      <p><strong>Explanation:</strong> {{ question.explanation }}</p>
+    </div>
+  </div>
+  
+  <!-- Success Popup Modal -->
+  <div *ngIf="showSuccessPopup" class="overlay">
+    <div class="popup">
+      <h2>Quiz Submitted Successfully!</h2>
+      <p>Your quiz has been submitted</p>
+      <button (click)="closePopup()">Close</button>
+    </div>
+  </div>

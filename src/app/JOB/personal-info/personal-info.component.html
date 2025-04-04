@@ -1,0 +1,59 @@
+<div class="Master">
+<div class="back-button" (click)="goBack()">
+  <i class="fa fa-arrow-left"></i>
+</div>
+
+<div class="sub-navbar">
+  <button
+    class="sub-nav-button"
+    [class.active]="selectedPage === 'Details'"
+    (click)="selectedPage = 'Details'">
+    Details
+  </button>
+  <button
+    class="sub-nav-button"
+    [class.active]="selectedPage === 'Skills'"
+    (click)="selectedPage = 'Skills'">
+    Skills/Projects
+  </button>
+  <button
+    class="sub-nav-button"
+    [class.active]="selectedPage === 'Education'"
+    (click)="selectedPage = 'Education'">
+    Education/Experience
+  </button>
+</div>
+
+<div class="body"  *ngIf="selectedPage === 'Details'">
+  <div class="container">
+  <div class="card">
+    <div id="personal-details" class="personal-details-section" [ngClass]="user_deatils?.theme?.toLowerCase()">
+      <div class="pdheading-div">
+        <h2 class="personal-details-heading">Personal Details</h2>
+        <div class="pdetails-links">
+          <a class="edit-EdDetails" routerLink="/profile-sett">
+            <i class="fa-regular fa-pen-to-square" id="edit"></i>
+          </a>
+        </div>
+      </div>
+      <p><strong>Name:</strong> {{ user_deatils?.user?.name }}</p>
+      <p><strong>Email:</strong> <a [href]="'mailto:' + user_deatils?.user?.email">{{ user_deatils?.user?.email }}</a></p>
+      <p><strong>Phone:</strong> {{ user_deatils?.phoneNumber }}</p>
+      <p><strong>City:</strong> {{ user_deatils?.permanentCity }}</p>
+      <p><strong>State:</strong> {{ user_deatils?.permanentState }}</p>
+      <p><strong>Country:</strong> {{ user_deatils?.permanentCountry }}</p>
+      <p><strong>Bio:</strong> {{ user_deatils?.userDescription }}</p>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="body2" *ngIf="selectedPage === 'Education'" >
+<app-education-experiance [theme2]="theme" />
+</div>
+
+<div class="body2" *ngIf="selectedPage === 'Skills'" >
+<app-skills-projects [theme]="theme2" />
+</div>
+
+</div>

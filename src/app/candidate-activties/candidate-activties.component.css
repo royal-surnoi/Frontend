@@ -1,0 +1,258 @@
+/* General Improvements */
+:host {
+  font-family: 'Mulish', Helvetica, Arial, sans-serif;
+  --primary-color: #452758; /* Updated button color */
+  --secondary-color: #6a1b9a; /* Slightly lighter purple for hover */
+  --background-color: #ffffff; /* Pure white */
+  --card-background: #ffffff; /* Pure white */
+  --text-color: #333333; /* Dark gray for text */
+}
+ 
+.dashboard-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: var(--background-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+ 
+.tab-nav {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  background-color: var(--primary-color);
+  border-radius: 8px;
+  overflow: hidden;
+  height: 20px;
+  width: 40px;
+}
+ 
+.tab-nav button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px; /* Increased font size */
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  flex-grow: 1;
+}
+ 
+.tab-nav button.active {
+  background-color: var(--secondary-color);
+}
+ 
+.module-selector {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+ 
+.module-selector button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 20px; /* Increased padding */
+  margin: 0 5px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 16px; /* Increased font size */
+}
+ 
+.module-selector button.active {
+  background-color: var(--secondary-color);
+}
+ 
+/* Card Styles */
+.quiz-card, .assignment-card, .project-card {
+  background-color: var(--card-background);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+ 
+.quiz-card:hover, .assignment-card:hover, .project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+ 
+/* Form Improvements */
+.form-group {
+  margin-bottom: 20px;
+}
+ 
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 16px; /* Increased font size */
+}
+ 
+textarea, input[type="url"], input[type="text"], input[type="file"] {
+  width: 100%;
+  padding: 12px; /* Increased padding */
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px; /* Increased font size */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+ 
+textarea:focus, input[type="url"]:focus, input[type="text"]:focus, input[type="file"]:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(69, 39, 88, 0.2); /* Matching button color */
+}
+ 
+/* File Upload Styling */
+input[type="file"] {
+  padding: 10px; /* Increased padding */
+  background-color: #f9f9f9;
+  border: 1px dashed #ddd;
+  cursor: pointer;
+}
+ 
+input[type="file"]::file-selector-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 20px; /* Increased padding */
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 16px; /* Increased font size */
+}
+ 
+input[type="file"]::file-selector-button:hover {
+  background-color: var(--secondary-color);
+}
+ 
+/* Button Improvements */
+.submit-btn, .add-btn {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 14px 28px; /* Increased padding */
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  font-size: 18px; /* Increased font size */
+  display: block;
+  width: 100%;
+  max-width: 200px;
+  margin: 20px auto;
+}
+ 
+.submit-btn:hover, .add-btn:hover {
+  background-color: var(--secondary-color);
+  transform: translateY(-2px);
+}
+ 
+/* Success Message */
+.success-message {
+  border: 1px solid #4CAF50;
+  padding: 20px;
+  background-color: #e8f5e9;
+  margin-top: 20px;
+  border-radius: 8px;
+  color: #4CAF50;
+}
+ 
+.success-message h2 {
+  margin-top: 0;
+  font-size: 1.75em; /* Increased font size */
+}
+ 
+.success-message ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+ 
+.success-message li {
+  margin: 5px 0;
+  font-size: 16px; /* Increased font size */
+}
+ 
+/* Project Tab */
+.project-tab {
+  padding: 20px;
+}
+ 
+.project-card {
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px; /* Increased font size */
+  font-family: 'Mulish', Helvetica, Arial, sans-serif;
+}
+ 
+.submission-success-tab {
+  margin-top: 20px;
+}
+ 
+.submission-details {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #4CAF50;
+  border-radius: 8px;
+  background-color: #e8f5e9;
+}
+ 
+.submission-details h3 {
+  margin: 0 0 15px 0;
+  font-size: 1.5em; /* Increased font size */
+}
+ 
+.detail-item {
+  margin-bottom: 15px;
+}
+ 
+.detail-item strong {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 16px; /* Increased font size */
+}
+ 
+.detail-item p {
+  margin: 0;
+  word-wrap: break-word;
+  font-size: 16px; /* Increased font size */
+}
+ 
+/* Assignment Tab */
+.assignment-tab {
+  padding: 20px;
+}
+ 
+.assignment-card {
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+ 
+.assignment-card h3 {
+  margin-top: 0;
+  font-size: 1.5em; /* Increased font size */
+}
+ 
+/* No Content Message */
+.no-content {
+  color: #999;
+  text-align: center;
+  margin-top: 20px;
+  font-size: 16px; /* Increased font size */
+}
+ 
+/* Project Description */
+.project-description {
+  text-overflow: wrap;
+}
+ 
+ 

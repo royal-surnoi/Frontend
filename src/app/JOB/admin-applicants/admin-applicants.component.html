@@ -1,0 +1,697 @@
+<!-- Navbar -->
+ 
+<nav class="navbar" aria-labelledby="navbar-title">
+ 
+  <button class="back-button" (click)="goBack()" aria-label="Go back">
+    <i class="fas fa-arrow-left"></i>
+  </button>
+ 
+  <h1 id="navbar-title" class="navbar-title" style="margin-left: 630px;">Applicants</h1>
+ 
+</nav>
+
+ 
+ <!------------------------------------------shortlist section---------------------->
+ 
+ 
+ 
+<!-- Navbar Section for Shortlisted Candidates -->
+ 
+<nav class="Shortlistednavbar" aria-labelledby="Shortlistedtitle">
+ 
+  <div class="navbar-controls" style="margin-left: 10px;">
+ 
+    <button class="shortlistselect" (click)="toggleShortlistedSelect()">
+      {{ shortlistedSelectEnabled ? 'Disable Select' : 'Select' }}
+    </button>
+ 
+    <label class="select-all">
+      <input type="checkbox" (change)="toggleShortlistedSelectAll()" />
+      Select All
+    </label>
+ 
+    <!-- Display selected count -->
+    <span class="selected-count">
+      {{ selectedShortlistedApplicants.length }} Selected
+    </span>
+  </div>
+ 
+  <h5 id="Shortlistedtitle" class="Shortlistedtitle">
+    Shortlisted Candidates
+  </h5>
+ 
+  <!-- Navbar Take Quiz Button -->
+  <button
+    *ngIf="showNavbarTakeQuizButton"
+    class="take-quiz-navbar-button"
+    (click)="handleNavbarTakeQuiz()"
+    (click)="openmultiplequiz()"
+  >
+    Assign Quiz
+  </button>
+ 
+  <!-- Toggle Shortlisted Cards -->
+  <button class="Shortlistednavbar-button" (click)="toggleCards()">
+    <i class="fa-solid fa-chevron-down Drop"></i>
+  </button>
+</nav>
+
+ 
+ 
+ 
+<!-- Dropdown for Applicant Status -->
+ 
+<div class="filter-navbar" *ngIf="shortlistedapplicants?.length && showCards">
+ 
+ 
+  <span
+ 
+    class="filter-option"
+ 
+    *ngFor="let status of allStatusOptions"
+ 
+    [class.active]="selectedStatus === status"
+ 
+    (click)="selectStatus(status)">
+ 
+    {{ status }} ({{ getStatusCount(status) }})
+ 
+  </span>
+ 
+</div>
+ 
+  
+ <!-- Shortlisted Cards Section -->
+ 
+ <div class="Shortlisted-container" *ngIf="showCards">
+ 
+  <div class="Shortlisted-card" *ngFor="let applicant of filteredApplicants ; let i = index
+ 
+ ">
+ 
+    <!-- Checkbox for Selection -->
+ 
+    <div ngif = "showcheckbox" *ngIf="shortlistedSelectEnabled || shortlistedSelectAllChecked"   >
+ 
+      <input
+ 
+        type="checkbox"
+ 
+        [(ngModel)]="applicant.selected"
+ 
+        (change)="onIndividualCheckboxChange()"
+ 
+      />
+ 
+    </div>
+ 
+ 
+ 
+    <div class="Shortlisted-info">
+ 
+      <img [src]="applicant.userImage" alt="Profile Picture" class="profile-picture" />
+ 
+ 
+ 
+      <div class="Shortlisted-details">
+ 
+        <h3 class="Shortlisted-name">{{ applicant.applicantName }}</h3>
+ 
+        <p class="Shortlisted-email">{{ applicant.applicantEmail }}</p>
+
+        <p class="level1-Score" *ngIf="selectedStatus == 'level-1'">Quiz Score : {{ applicant.quizScore }}</p>
+        <span class="level1-duration" *ngIf="selectedStatus == 'level-1'">completed : {{ formatPostedDate(applicant.completedAt) }} <br/></span>
+
+ 
+      
+ 
+ 
+ 
+        <span class="Shortlisted-duration">
+ 
+          Shortlisted: {{ formatPostedDate(applicant.shortlistedAt) }}
+ 
+        </span>
+ 
+      </div>
+ 
+ 
+ 
+      <div class="Shortlisted-buttons">
+ 
+        <button class="resume-button" (click)="openResumeModal(applicant.resume)">Resume</button>
+ 
+        <button class="details-button" [routerLink]="['/ApplicantData', applicant.userId]" >Details</button>
+ 
+        <button class="Shortlistedstatus-button" [disabled]="disableTakeQuiz" (click)="openquizpopup(applicant.shortlistedCandidateId,applicant.userId)"  *ngIf="selectedStatus=='shortlisted'"> Assign Quiz</button>
+ 
+        
+ 
+ 
+ 
+        <button class="status-button" *ngIf="selectedStatus !== 'shortlisted' && selectedStatus !== 'level-1'" (click)="handleOpenForm(applicant)">Open Form</button>
+        <button class="status-button"  *ngIf="selectedStatus == 'level-1' &&  applicant.quizScore != 'Not Available'"  (click)="openFeedbackModal(applicant,'')">Status</button>
+
+ 
+ 
+ 
+ 
+ 
+ 
+        <!-- Overlay (can use Angular Material Dialog or custom implementation) -->
+ 
+  </div>
+ 
+</div>
+ 
+</div>
+ 
+</div>
+ 
+ 
+ 
+<!-- Overlay for Update Interview Details -->
+ 
+ <div *ngIf="selectedStatus !== 'shortlisted'" >
+ 
+<div *ngIf="showOverlay" class="overlay-container" >
+ 
+ 
+ 
+ 
+ 
+  <div>
+ 
+    <!-- Dropdown for Group Key -->
+ 
+    <label for="groupDropdown"><strong>Select Interviewer Dept:</strong></label>
+ 
+    <select id="groupDropdown" [(ngModel)]="selectedGroup" (change)="onGroupChange()">
+ 
+      <option *ngFor="let group of recruitersGrouped | keyvalue" [value]="group.key">
+ 
+        {{ group.key }}
+ 
+      </option>
+ 
+    </select>
+ 
+  </div>
+ 
+ 
+ 
+  <div *ngIf="selectedGroup && filteredRecruiters">
+ 
+    <!-- Dropdown for Interviewer Name -->
+ 
+    <label for="recruiterDropdown"><strong>Select Interviewer:</strong></label>
+ 
+    <select id="recruiterDropdown" [(ngModel)]="selectedRecruiter" (change)="onRecruiterChange()">
+ 
+      <option *ngFor="let recruiter of filteredRecruiters" [value]="recruiter.interviewerName">
+ 
+        {{ recruiter.interviewerName }}
+ 
+      </option>
+ 
+    </select>
+ 
+  </div>
+ 
+ 
+ 
+  <h2>Update Interview Details</h2>
+ 
+  <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+ 
+    <mat-form-field appearance="outline">
+ 
+      <mat-label>Interviewer Name</mat-label>
+ 
+      <input matInput formControlName="interviewerName" />
+ 
+    </mat-form-field>
+ 
+ 
+ 
+    <mat-form-field appearance="outline">
+ 
+      <mat-label>Interviewer Email</mat-label>
+ 
+      <input matInput formControlName="interviewerEmail" />
+ 
+    </mat-form-field>
+ 
+ 
+ 
+    <mat-form-field appearance="outline">
+ 
+      <mat-label>Interview Description</mat-label>
+ 
+      <textarea matInput formControlName="interviewDescription"></textarea>
+ 
+    </mat-form-field>
+ 
+ 
+ 
+    <mat-form-field appearance="outline">
+ 
+      <mat-label>Interview Timestamp</mat-label>
+ 
+      <input matInput formControlName="interviewTimestamp" type="datetime-local" />
+ 
+    </mat-form-field>
+ 
+ 
+ 
+    <button mat-raised-button color="primary" type="submit" [disabled]="isProcessOn">Submit</button>
+ 
+    <button mat-button color="warn" (click)="closeOverlay()">Cancel</button>
+ 
+  </form>
+ 
+</div>
+ 
+</div>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+                                   
+ 
+ 
+ 
+ <!---------------------------------------------------applied cards nav bar-------------------------------------------------->                                          
+ 
+ <nav class="Appliednavbar" aria-labelledby="Appliedtitle">
+ 
+  <div class="navbar-controls" style="margin-left: 10px;">
+ 
+    <button class="applyselect" (click)="toggleSelect()">
+ 
+      {{ SelectEnabled ? 'Disable Select' : 'Select' }}
+ 
+    </button>
+ 
+    <label class="select-all">
+ 
+      <input
+ 
+        type="checkbox"
+ 
+        [checked]="selectAllChecked"
+ 
+        (change)="toggleSelectAll($event)"
+ 
+      />
+ 
+      Select All
+ 
+    </label>
+ 
+  </div>
+ 
+  <h4 class="Appliednavbar-title">Applied Candidates</h4>
+ 
+  <button class="multiple-shortlist-button"  
+ 
+  *ngIf="showMultipleShortlist"  
+ 
+  (click)="openShortlistmultiplePopup(applicants)">
+ 
+Shortlist
+ 
+</button>  <span class="selected-count">
+ 
+  Selected {{ selectedApplicants.length }} / {{vacancyCount}} :  vacancy count
+ 
+</span>
+ 
+ 
+  <button class="Appliednavbar-button" (click)="toggleAppliedCards()"><i class="fa-solid fa-chevron-down Drop"></i></button>
+ 
+</nav>
+ 
+ <!---------------------------------------------------------------applied cards--------------------------------------------->
+ 
+<div class="applicants-container"*ngIf="showAppliedCards">
+ 
+<!-- First Card -->
+ 
+<div class="Appliedd-card">
+ 
+  <div class="Applied-container">
+ 
+    <div *ngFor="let applicant of applicants; let i = index" class="Applied-card" (click)="toggleCard(i)">
+ 
+      <!-- Checkbox visible only when 'SelectEnabled' is true -->
+ 
+      <div class="checkbox-container" *ngIf="SelectEnabled || selectAllChecked">
+ 
+        <input
+ 
+          type="checkbox"
+ 
+          [(ngModel)]="applicant.selected"
+ 
+          (change)="updateSelectedApplicants()"
+ 
+        />
+ 
+      </div>
+ 
+      <div class="card-content">
+ 
+        <!-- Left Side: Image and Name -->
+ 
+        <div class="user-info">
+ 
+          <div class="user-info-main">
+ 
+          <img [src]="applicant.userImage" alt="Profile Picture" class="profile-picture" />
+ 
+          <h4 class="applicant-name">{{ applicant.userName }}</h4>
+ 
+        </div>
+ 
+          <div class="card-buttons" *ngIf="expandedCardIndex !== i">
+ 
+            <button class="resume-button" (click)="openResumeModal(applicant.resume)">Resume</button>
+ 
+            <button class="details-button" [routerLink]="['/ApplicantData',applicant.userId]"> Details</button>
+ 
+            <button class="shortlist-button" [disabled]="disableButtons"  (click)="openShortlistPopup(applicant)" > {{ applicant.status === 'shortlisted' ? 'Shortlisted' : 'Shortlist' }}</button>            <i class="fa-solid fa-chevron-down Drop"></i>
+ 
+          </div>
+ 
+        </div>
+ 
+   
+ 
+        <!-- Right Side: Hidden Content -->
+ 
+        <div class="hidden-content" [class.expanded]="expandedCardIndex === i">
+ 
+          <p class="applicant-university">Email ID: {{ applicant.userEmail }}</p>
+ 
+          <p class="applicant-university">
+ 
+ 
+ 
+            Education:
+ 
+         
+ 
+            {{
+ 
+         
+ 
+              applicant.EducationDetails[0]?.graduationCollegeSpecialization ??
+ 
+         
+ 
+              applicant.EducationDetails[0]?.postGraduateCollegeSpecialization ??
+ 
+         
+ 
+              'Not Found'
+ 
+         
+ 
+            }}
+ 
+          </p>
+ 
+           
+ 
+          <span class="applicant-duration">{{ formatPostedDate(applicant.createdAt) }}</span>
+ 
+   
+ 
+          <div class="card-buttons">
+ 
+            <button class="resume-button" (click)="openResumeModal(applicant.resume)">Resume</button>
+ 
+            <button class="details-button" [routerLink]="['/ApplicantData',applicant.userId]"> Details</button>
+ 
+            <button class="shortlist-button" [disabled]="disableButtons"  (click)="openShortlistPopup(applicant)" > {{ applicant.status === 'shortlisted' ? 'Shortlisted' : 'Shortlist' }}</button>
+ 
+            <i class="fa-solid fa-chevron-up Drop"></i>
+ 
+          </div>
+ 
+        </div>
+ 
+      </div>
+ 
+      </div>
+ 
+    </div>
+ 
+</div>
+ 
+</div>
+ 
+ 
+ 
+ <!----------------------------------------------------------resume--------------------------------------------------->
+ 
+<div *ngIf="showResumeModal" class="resume-modal">
+ 
+  <div class="resume-modal-content">
+ 
+    <span class="close-button" (click)="closeResumeModal()">&times;</span>
+ 
+    <iframe [src]="sanitizedPdfUrl" width="100%" height="600px" *ngIf="sanitizedPdfUrl" title="" ></iframe>
+ 
+    <div *ngIf="!sanitizedPdfUrl" class="error-message">
+ 
+      <p>Failed to load the resume.</p>
+ 
+    </div>
+ 
+  </div>
+ 
+</div>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ <!-----------------------------------------------------------------------------------shortlist button Popup Modal -->
+ 
+ <div *ngIf="isPopupOpen" class="popup-overlay">
+ 
+  <div class="popup-content">
+ 
+    <h2>Are you sure you want to shortlist {{ selectedApplicant?.userName }}?</h2>
+ 
+   
+ 
+    <!-- Confirmation buttons -->
+ 
+    <div class="confirmation-buttons">
+ 
+      <button class="yes-button"
+ 
+              (click)="shortlistApplicantByAdmin1(selectedApplicant)"
+ 
+              [disabled]="selectedApplicant?.status === 'shortlisted'">
+ 
+        Yes
+ 
+      </button>
+ 
+      <button (click)="closeShortlistPopup()" class="no-button">No</button>
+ 
+    </div>
+ 
+  </div>
+ 
+</div>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+<!------------------------------------------------------------------------------------------- Status button Popup Modal -->
+ 
+<div *ngIf="isStatusPopupOpen" class="status-popup-overlay">
+ 
+  <div class="status-popup-content">
+    <h2>Create Quiz</h2>
+ 
+    <!-- Start Date -->
+    <div class="form-group">
+      <label for="startDate">Start Date</label>
+      <input type="date" id="startDate" class="input-field" (change)="onDateChange($event, 'startDate')" required />
+      <span class="error-message" *ngIf="dateError">{{ dateError }}</span>
+    </div>
+ 
+    <!-- End Date -->
+    <div class="form-group">
+      <label for="endDate">End Date</label>
+      <input type="date" id="endDate" class="input-field" (change)="onDateChange($event, 'endDate')" required />
+      <span class="error-message" *ngIf="dateError">{{ dateError }}</span>
+    </div>
+ 
+ 
+    <!-- Quiz Title -->
+    <div class="form-group">
+      <label for="quizTitle">Quiz Title</label>
+      <input type="text" id="quizTitle" class="input-field" [(ngModel)]="quiz.quizName" (input)="validateTitle()"
+        required />
+      <span class="error-message" *ngIf="titleError">{{ titleError }}</span>
+    </div>
+ 
+    <!-- Create Quiz Button -->
+    <div class="button-group">
+      <button class="create-quiz-button" (click)="assignQuizByAdmin(shortlistedIds1, shortlisteduserId, jobId)"
+        [disabled]="!quiz.quizName || !quiz.startDate || !quiz.endDate || dateError || titleError">
+        Create Quiz
+      </button>
+    </div>
+ 
+    <!-- Close Button -->
+    <button class="close-button" (click)="closequizpopup()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+ 
+ 
+</div>
+ 
+ 
+ 
+ 
+ 
+<div *ngIf="openShortlistmultiple" class="popup-overlay">
+ 
+  <div class="popup-content">
+ 
+    <h2>Are you sure you want to shortlist the following candidates?</h2>
+ 
+ 
+ 
+    <!-- Display selected candidates -->
+ 
+    <div class="candidate-list-container">
+ 
+      <div *ngFor="let candidate of selectedCandidates; let i = index" class="candidate-list">
+ 
+        <p>{{ candidate.userName }}
+ 
+          <!-- Remove button -->
+ 
+          <button class="remove-button" (click)="removeCandidate(i)">X</button>
+ 
+        </p>
+ 
+      </div>
+ 
+    </div>
+ 
+ 
+ 
+    <!-- Confirmation buttons -->
+ 
+    <div class="confirmation-buttons">
+ 
+      <button class="yes-button" (click)="shortlistAllCandidates1()">Yes</button>
+ 
+      <button class="no-button" (click)="closeShortlistmultiple()">No</button>
+ 
+    </div>
+ 
+  </div>
+ 
+</div>
+ 
+ 
+ 
+<div *ngIf="showfeedbackModal" class="level2-modal">
+ 
+  <div class="level2-modal-content">
+ 
+    <div class="level2-modal-header">
+ 
+      <h2>Provide Feedback for {{ selectedApplicantforfeedback?.userName }}</h2>
+ 
+      <span class="level2-close-button" (click)="closeFeedbackModal()">&times;</span>
+ 
+    </div>
+ 
+ 
+ 
+    <div class="modal-body">
+ 
+      <div class="scorecard">
+ 
+        <h3>Details </h3>
+ 
+        <ul>
+ 
+          <li *ngIf="selectedApplicantforfeedback.scorePercentage">Overall Test Score: {{ selectedApplicantforfeedback.scorePercentage }}%</li>
+ 
+          <li *ngIf="!selectedApplicantforfeedback.scorePercentage">Interview Time and Date: {{ tempresp.interviewTimestamp }}</li>
+ 
+          <li *ngIf="!selectedApplicantforfeedback.scorePercentage">Interviewer Name: {{ tempresp.interviewerName }}</li>
+ 
+          <li *ngIf="!selectedApplicantforfeedback.scorePercentage">Interview Link: <a href="{{ tempresp.interviewLink }}">click here</a></li>
+ 
+          <li *ngIf="!selectedApplicantforfeedback.scorePercentage">Interviewer Feed Back: {{ tempresp.interviewerFeedback?tempresp.interviewerFeedback:"not yet given" }}%</li>
+ 
+          <li *ngIf="!selectedApplicantforfeedback.scorePercentage">Interview Score: {{ tempresp.interviewerScore?tempresp.interviewerScore:"Not Yet Given" }}%</li>
+ 
+        </ul>
+ 
+      </div>
+ 
+ 
+ 
+ 
+ 
+     
+ 
+ 
+ 
+      <div class="feedback-form">
+ 
+        <form (submit)="submitLevel1Feedback()">
+ 
+          <p>Present Level: {{ selectedStatus }}</p>
+ 
+     
+ 
+          <label for="feedback">Feedback:</label>
+ 
+          <textarea id="feedback" [(ngModel)]="currentFeedback" name="feedback" required></textarea>
+ 
+     
+ 
+          <button type="submit" [disabled]="isProcessOn">Submit Feedback</button>
+ 
+        </form>
+ 
+      </div>
+ 
+    </div>
+ 
+  </div>
+ 
+</div>
+ 
+ 
+ 
+ 

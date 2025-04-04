@@ -1,0 +1,247 @@
+/* Container Styling */
+.container {
+  display: flex;
+  justify-content: center; 
+  align-items: flex-start; 
+ 
+  padding-top: 20px;
+  gap: 40px; 
+  margin-left: 12%;
+}
+ 
+/* Main Card Styling */
+.card {
+  width: 44%; 
+  height: 176px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  flex-direction: row;
+}
+ 
+/* Avatar Styling */
+.avatar {
+  width: 120px;
+  height: 120px;
+  background: #4e779f;
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px;
+  font-weight: bold;
+  margin-right: 20px;
+}
+ 
+/* Card Content */
+.card-content h2 {
+  margin: 0;
+  font-size: 32px;
+  color: #3498db;
+}
+ 
+.card-content p {
+  margin: 5px 0;
+  color: #4e779f;
+  font-size: 20px;
+}
+ 
+/* Button Card Styling */
+.button-card {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  height: 176px;
+  width: 30%;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background: #fff;
+}
+ 
+.button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 80px;
+  border-radius: 10px;
+  background-color: #f0f0f0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+ 
+.button p {
+  margin-top: 5px;
+  color: #555;
+  font-size: 14px;
+}
+ 
+.icon {
+  font-size: 24px;
+  color: #333;
+}
+ 
+ 
+ 
+/* Navbar styles */
+.navbar {
+    background-color: #4e779f;
+    padding: 10px 0;
+    color: white;
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+ 
+  .navbar ul {
+    list-style-type: none;
+    text-align: center;
+  }
+ 
+  .navbar ul li {
+    display: inline;
+    margin-right: 20px;
+  }
+ 
+  .navbar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+  }
+ 
+  .navbar ul li a:hover {
+    text-decoration: none;
+  }
+ 
+  /* Content styles */
+  .content {
+    padding: 20px;
+  }
+ 
+  .session-item {
+    margin-bottom: 20px;
+  }
+ 
+  .session-item h3 {
+    margin: 0;
+    font-size: 20px;
+  }
+ 
+  input {
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 200px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  /* Container for sessions */
+.sessions-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+ 
+  /* Style for individual session cards */
+  .session-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    width: 250px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+  }
+ 
+  .session-card:hover {
+    transform: translateY(-5px);
+  }
+ 
+  .session-card h3 {
+    font-size: 18px;
+    margin: 0;
+    color: #333;
+  }
+ 
+  .session-card p {
+    font-size: 14px;
+    color: #555;
+  }
+ 
+  button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+ 
+  button:hover {
+    background-color: #45a049;
+  }
+
+  /* Container for the Classmates section */
+.classmates-section {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+ 
+/* Title styling */
+.classmates-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+ 
+/* Input field styling */
+.classmates-search-input {
+  padding: 10px;
+  font-size: 16px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+ 
+/* Styling for the unordered list */
+.classmates-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+ 
+/* Card hover effect */
+.classmate-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+ 
+/* Optional: add styles for the card content */
+.classmate-card {
+  font-size: 18px;
+  color: #333;
+  background-color: #e9c0c01a;
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+ 
+ 

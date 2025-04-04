@@ -1,0 +1,193 @@
+
+<div class="job-listings-page">
+  
+  <div class="job-listings-container">
+    <div *ngFor="let job of filteredJobs" class="job-listing">
+      <div class="job-header">
+        <h2 class="job-title">{{ job.title }}
+        <span class="action-icons">
+          <button (click)="holdjob(job.id, recruiterId)"><i class="fa-solid fa-trash"></i></button>
+          <button (click)="openEditForm(job)"><i class="fa-regular fa-pen-to-square"></i></button>
+        </span>
+      </h2>
+      
+      <div class="job-footer">
+        <span class="posted-date">{{ job.relativeTime }}</span>
+        <button class="apply-btn" [routerLink]="['/JobDetails', job.id, 'Recruiter']">View Job</button>
+        <button class="save-btn" [routerLink]="['/Applicants', job.id]">
+          {{ job.No_Applicants || '0' }} Applicants
+        </button>
+       </div>
+    </div>
+  </div>
+ 
+<!-- Edit Job Form Overlay -->
+<div class="job-form-overlay" *ngIf="isEditFormVisible" (click)="closeEditForm()">
+  <div class="job-form" (click)="$event.stopPropagation()">
+    <!-- Stops event from closing form when clicking inside -->
+    <h2>Edit Job</h2>
+ 
+    <div *ngIf="formSubmitted && jobForm.invalid" class="alert alert-danger">
+      Please fill in all the required fields correctly.
+    </div>
+ 
+    <form [formGroup]="jobForm" (ngSubmit)="onEditSubmit()">
+     
+      <!-- Job Title -->
+      <div>
+        <label for="jobTitle">Job Title: <span class="required">*</span></label>
+        <input id="jobTitle" formControlName="jobTitle" type="text" minlength="5" maxlength="100" required />
+        <div *ngIf="jobForm.get('jobTitle')?.touched && jobForm.get('jobTitle')?.invalid">
+          <small *ngIf="jobForm.get('jobTitle')?.errors?.['required']">Job Title is required.</small>
+          <small *ngIf="jobForm.get('jobTitle')?.errors?.['minlength']">Minimum 5 characters required.</small>
+          <small *ngIf="jobForm.get('jobTitle')?.errors?.['maxlength']">Maximum 100 characters allowed.</small>
+        </div>
+      </div>
+ 
+      <!-- Required Skills -->
+      <div>
+        <label for="requiredSkills">Required Skills: <span class="required">*</span></label>
+        <input id="requiredSkills" formControlName="requiredSkills" type="text" minlength="2" maxlength="500" required />
+        <div *ngIf="jobForm.get('requiredSkills')?.touched && jobForm.get('requiredSkills')?.invalid">
+          <small *ngIf="jobForm.get('requiredSkills')?.errors?.['required']">Required Skills are required.</small>
+          <small *ngIf="jobForm.get('requiredSkills')?.errors?.['minlength']">Minimum 2 characters required.</small>
+          <small *ngIf="jobForm.get('requiredSkills')?.errors?.['maxlength']">Maximum 500 characters allowed.</small>
+        </div>
+      </div>
+ 
+      <!-- Location -->
+      <div>
+        <label for="location">Location: <span class="required">*</span></label>
+        <input id="location" formControlName="location" type="text" minlength="2" maxlength="100" required />
+        <div *ngIf="jobForm.get('location')?.touched && jobForm.get('location')?.invalid">
+          <small *ngIf="jobForm.get('location')?.errors?.['required']">Location is required.</small>
+          <small *ngIf="jobForm.get('location')?.errors?.['minlength']">Minimum 2 characters required.</small>
+          <small *ngIf="jobForm.get('location')?.errors?.['maxlength']">Maximum 100 characters allowed.</small>
+        </div>
+      </div>
+ 
+      <!-- Min Salary -->
+      <div>
+        <label for="minSalary">Min Salary: <span class="required">*</span></label>
+        <input id="minSalary" formControlName="minSalary" type="number" min="0" required />
+        <div *ngIf="jobForm.get('minSalary')?.touched && jobForm.get('minSalary')?.invalid">
+          <small *ngIf="jobForm.get('minSalary')?.errors?.['required']">Minimum Salary is required.</small>
+          <small *ngIf="jobForm.get('minSalary')?.errors?.['min']">Salary must be at least 0.</small>
+        </div>
+      </div>
+ 
+      <!-- Max Salary -->
+      <div>
+        <label for="maxSalary">Max Salary: <span class="required">*</span></label>
+        <input id="maxSalary" formControlName="maxSalary" type="number" min="0" required />
+        <div *ngIf="jobForm.get('maxSalary')?.touched && jobForm.get('maxSalary')?.invalid">
+          <small *ngIf="jobForm.get('maxSalary')?.errors?.['required']">Maximum Salary is required.</small>
+          <small *ngIf="jobForm.get('maxSalary')?.errors?.['min']">Salary must be at least 0.</small>
+        </div>
+      </div>
+ 
+      <!-- Job Type -->
+      <div>
+        <label for="jobType">Job Type: <span class="required">*</span></label>
+        <input id="jobType" formControlName="jobType" type="text" minlength="3" maxlength="50" required />
+        <div *ngIf="jobForm.get('jobType')?.touched && jobForm.get('jobType')?.invalid">
+          <small *ngIf="jobForm.get('jobType')?.errors?.['required']">Job Type is required.</small>
+          <small *ngIf="jobForm.get('jobType')?.errors?.['minlength']">Minimum 3 characters required.</small>
+          <small *ngIf="jobForm.get('jobType')?.errors?.['maxlength']">Maximum 50 characters allowed.</small>
+        </div>
+      </div>
+ 
+      <!-- Vacancy Count -->
+      <div>
+        <label for="vacancyCount">Vacancy Count: <span class="required">*</span></label>
+        <input id="vacancyCount" formControlName="vacancyCount" type="number" min="1" max="10000" required />
+        <div *ngIf="jobForm.get('vacancyCount')?.touched && jobForm.get('vacancyCount')?.invalid">
+          <small *ngIf="jobForm.get('vacancyCount')?.errors?.['required']">Vacancy Count is required.</small>
+          <small *ngIf="jobForm.get('vacancyCount')?.errors?.['min']">Minimum 1 vacancy is required.</small>
+          <small *ngIf="jobForm.get('vacancyCount')?.errors?.['max']">Maximum 10,000 vacancies allowed.</small>
+        </div>
+      </div>
+ 
+      <!-- Required Education -->
+      <div>
+        <label for="requiredEducation">Required Education: <span class="required">*</span></label>
+        <input id="requiredEducation" formControlName="requiredEducation" type="text" minlength="2" maxlength="100" required />
+        <div *ngIf="jobForm.get('requiredEducation')?.touched && jobForm.get('requiredEducation')?.invalid">
+          <small *ngIf="jobForm.get('requiredEducation')?.errors?.['required']">Education is required.</small>
+          <small *ngIf="jobForm.get('requiredEducation')?.errors?.['minlength']">Minimum 2 characters required.</small>
+          <small *ngIf="jobForm.get('requiredEducation')?.errors?.['maxlength']">Maximum 100 characters allowed.</small>
+        </div>
+      </div>
+ 
+      <!-- Required Education Stream -->
+      <div>
+        <label for="requiredEducationStream">Required Education Stream: <span class="required">*</span></label>
+        <input id="requiredEducationStream" formControlName="requiredEducationStream" type="text" minlength="2" maxlength="100" required />
+        <div *ngIf="jobForm.get('requiredEducationStream')?.touched && jobForm.get('requiredEducationStream')?.invalid">
+          <small *ngIf="jobForm.get('requiredEducationStream')?.errors?.['required']">Education Stream is required.</small>
+          <small *ngIf="jobForm.get('requiredEducationStream')?.errors?.['minlength']">Minimum 2 characters required.</small>
+          <small *ngIf="jobForm.get('requiredEducationStream')?.errors?.['maxlength']">Maximum 100 characters allowed.</small>
+        </div>
+      </div>
+ 
+      <!-- Required Percentage -->
+      <div>
+        <label for="requiredPercentage">Required Percentage: <span class="required">*</span></label>
+        <input id="requiredPercentage" formControlName="requiredPercentage" type="number" min="0" max="100" required />
+        <div *ngIf="jobForm.get('requiredPercentage')?.touched && jobForm.get('requiredPercentage')?.invalid">
+          <small *ngIf="jobForm.get('requiredPercentage')?.errors?.['required']">Percentage is required.</small>
+          <small *ngIf="jobForm.get('requiredPercentage')?.errors?.['min']">Value must be at least 0%.</small>
+          <small *ngIf="jobForm.get('requiredPercentage')?.errors?.['max']">Value cannot exceed 100%.</small>
+        </div>
+      </div>
+ 
+      <!-- Required Passout Year -->
+      <div>
+        <label for="requiredPassoutYear">Required Passout Year: <span class="required">*</span></label>
+        <input id="requiredPassoutYear" formControlName="requiredPassoutYear" type="number" min="1900" max="2100" required />
+        <div *ngIf="jobForm.get('requiredPassoutYear')?.touched && jobForm.get('requiredPassoutYear')?.invalid">
+          <small *ngIf="jobForm.get('requiredPassoutYear')?.errors?.['required']">Passout Year is required.</small>
+          <small *ngIf="jobForm.get('requiredPassoutYear')?.errors?.['min']">Year must be at least 1900.</small>
+          <small *ngIf="jobForm.get('requiredPassoutYear')?.errors?.['max']">Year cannot exceed 2100.</small>
+        </div>
+      </div>
+ 
+      <!-- Required Work Experience -->
+      <div>
+        <label for="requiredWorkExperience">Required Work Experience (years): <span class="required">*</span></label>
+        <input id="requiredWorkExperience" formControlName="requiredWorkExperience" type="number" min="0" max="50" required />
+        <div *ngIf="jobForm.get('requiredWorkExperience')?.touched && jobForm.get('requiredWorkExperience')?.invalid">
+          <small *ngIf="jobForm.get('requiredWorkExperience')?.errors?.['required']">Work Experience is required.</small>
+          <small *ngIf="jobForm.get('requiredWorkExperience')?.errors?.['min']">Value must be at least 0 years.</small>
+          <small *ngIf="jobForm.get('requiredWorkExperience')?.errors?.['max']">Value cannot exceed 50 years.</small>
+        </div>
+      </div>
+ 
+      <!-- Job Description -->
+      <div>
+        <label for="jobDescription">Job Description: <span class="required">*</span></label>
+        <textarea id="jobDescription" formControlName="jobDescription" minlength="10" maxlength="2000" required></textarea>
+        <div *ngIf="jobForm.get('jobDescription')?.touched && jobForm.get('jobDescription')?.invalid">
+          <small *ngIf="jobForm.get('jobDescription')?.errors?.['required']">Job Description is required.</small>
+          <small *ngIf="jobForm.get('jobDescription')?.errors?.['minlength']">Minimum 10 characters required.</small>
+          <small *ngIf="jobForm.get('jobDescription')?.errors?.['maxlength']">Maximum 2000 characters allowed.</small>
+        </div>
+      </div>
+ 
+      <!-- Submit and Cancel Buttons -->
+      <div class="button-container">
+        <button type="submit" [disabled]="jobForm.invalid">Update Job</button>
+        <button type="button" (click)="closeEditForm()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+ 
+ 
+</div>
+ 
+ 
+ 
+ 
+ 
+ 

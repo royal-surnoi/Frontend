@@ -1,0 +1,204 @@
+.mock-interview-container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  
+  h1 {
+    font-size: 24px;
+  }
+  
+  p {
+    color: #555;
+  }
+  
+  .assessment-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+  }
+  
+  .assessment-card {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 15px;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 8px;
+    position: relative;
+  }
+  
+  .icon {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  
+  .filter-section {
+    text-align: right;
+    margin-bottom: 10px;
+  }
+  
+  .interview-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .interview-table th, .interview-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .no-data {
+    text-align: center;
+    color: #777;
+    font-style: italic;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+  }
+  
+  .pagination button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    background: #f8f9fa;
+    cursor: not-allowed;
+  }
+  
+  /* Popup Overlay */
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+  }
+  
+  .popup-content {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    width: 400px;
+    position: relative;
+  }
+
+  .input-label {
+    font-weight: bold;
+    margin-top: 10px;
+}
+  
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .input-field {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .resume-input {
+    margin-top: 10px;
+  }
+  
+  .resume-button, .generate-button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    background: #452758;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .resume-button:hover, .generate-button:hover {
+    background: #57346d;
+  }
+  
+
+
+  .assignmentinterview-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+.assignmentinterview-popup-content {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    width: 400px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.assignmentinterview-close-btn {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.assignmentinterview-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.assignmentinterview-input-label {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.assignmentinterview-input-field {
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.assignmentinterview-error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.assignmentinterview-generate-button {
+    background-color: #452758;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+.assignmentinterview-generate-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}

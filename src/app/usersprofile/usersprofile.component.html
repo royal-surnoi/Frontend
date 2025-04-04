@@ -1,0 +1,775 @@
+<div class="main">
+  <div class="col1">
+    <div class="wrapper">
+      <div class="profile-container">
+        <div class="profile-card">
+          <div class="profile-header">
+            <div class="profile-cover" style="background-repeat: no-repeat; background-size: 100% 100%;"
+              [style.background-image]="bannerImage">
+            </div>
+            <div class="profile-content">
+              <div class="profile-photo">
+                <img [src]="userImage || '../../assets/download.png'" alt="Profile Photo">
+              </div>
+              <div class="profile-info">
+                <div class="info">
+                  <div class="User-1">
+                    <p class="profile-name">{{ user.name }}</p>
+                  </div>
+                  <div class="User-3">
+                    <div class="profile-stats">
+                      <a (click)="onFollowerClick()">{{ followingCount }} Followers</a>
+                      <a (click)="onFollowingClick()">{{ followerCount }} Following</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="User-details">
+          <p><i class="fa-solid fa-briefcase"></i> {{personalDetails.profession}}</p>
+          <p> <i class="fa-solid fa-location-dot"></i> {{personalDetails.permanentCity}}</p>
+        </div>
+
+        <div class="horizontal-navbar">
+          <button (click)="showSection('media')" [class.active]="activeSection === 'media'">Media</button>
+          <button (click)="showSection('connections')"
+            [class.active]="activeSection === 'connections'">Connections</button>
+        </div>
+      </div>
+
+      <!-- Add Post From Here -->
+
+      <div class="container">
+
+
+        <!-- Media -->
+        <div class="main-content" *ngIf="activeSection === 'media'">
+          <div class="vertical-sidebar">
+            <button *ngFor="let tab of ['articles', 'photos', 'videos', 'shorts']" (click)="setActiveTab(tab)"
+              [class.active]="activeTab === tab">
+              {{tab | titlecase}}
+            </button>
+          </div>
+
+          <div class="media-content">
+            <div class="section-title-container">
+              <h2 class="section-title">{{activeTab | titlecase}}
+                <i [ngClass]="getIconClass()"></i>
+              </h2>
+            </div>
+
+            <div *ngIf="activeTab == 'articles'">
+              <ng-container class="middle-main-2" *ngFor="let post of combinedPosts;trackBy: trackByPostId">
+                <div class="middle-main-2" *ngIf="isPostVisible(post)">
+                  <div class="post-card">
+                    <!-- Post header -->
+                    <div class="post-about">
+                      <div class="user-details">
+                        <span> <img class="middle-pic" [src]="post.profileImage || '../../assets/image (3).jpg'"
+                            alt="Profile picture" (error)="handleImageError($event)"><span class="name">{{
+                            post.profileName }}</span>
+                        </span>
+                      </div>
+                      <p class="name-about">{{ user.role }} <i class="fa-solid fa-clock"></i>
+                        &nbsp;{{ getFormattedTimeAgo(post.timestamp) || getFormattedTimeAgo(post.createdAt) }}
+                      </p>
+                    </div>
+
+                    <!-- Post content -->
+                    <div class="post-content">
+                      <p class="about">{{ post.description }}</p>
+                      <ng-container [ngSwitch]="true">
+                        <ng-container *ngSwitchCase="post.isVideo">
+                          <video #videoPlayer *ngIf="post.src" [src]="post.src" controls
+                            style="height:300px;width: 550px;">
+                            Your browser does not support the video tag.
+                            <track kind="subtitles" src="https://example.com/subtitles-en.vtt" srclang="en" label="English" default>
+                          </video>
+                          <div *ngIf="!post.src" class="video-loading">
+                            Video is processing, please wait...
+                          </div>
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="post.isImage">
+                          <img [src]="post.src" alt="Posted Image" (error)="handleImageError($event)">
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="post.isArticle">
+                          <div class="article-content">
+                            <p>{{ post.content }}</p>
+                          </div>
+                        </ng-container>
+                      </ng-container>
+                    </div>
+
+                    <!-- Post actions -->
+                    <div class="post-actions">
+                      <button class="action-btn like-btn" [ngClass]="{ 'active': post.liked }" (click)="likePost(post)">
+                        <i [class]="post.liked ? 'fas fa-heart' : 'far fa-heart'"></i>
+                        <span>{{ formatViewCount(post.likes) }}</span>
+                      </button>
+
+                      <ng-container *ngIf="post.isVideo">
+                        <button class="action-btn like-btn">
+                          <i class="fas fa-eye"></i> <span class="views">{{ formatViewCount(post.views) }}</span>
+                        </button>
+                      </ng-container>
+
+                      <button class="action-btn comment-btn" (click)="toggleComments(post.id, post.type)">
+                        <i class="far fa-comment"></i>
+                        <span>{{ post.comments }}</span>
+                      </button>
+
+                      <button class="action-btn share-btn" (click)="sharePost(post)">
+                        <i class="far fa-share-square"></i>
+                        <span>{{ formatViewCount(post.shares) }}</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+
+                <!-- Comments section -->
+                <div *ngIf="post.showComments" class="comments-section">
+                  <div class="add-comment">
+                    <textarea class="add-comment-textarea" [(ngModel)]="newComment"
+                      placeholder="Add a comment"></textarea>
+                    <button class="add-comment-button" (click)="addComment(post.id, post.type)"
+                      [disabled]="!user || !newComment.trim()">
+                      <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                  </div>
+                  <div class="no-comments" *ngIf="comments[post.id] && comments[post.id].length > 0; else noComments">
+                    <!-- Comments list and reply functionality -->
+                    <div *ngFor="let comment of comments[post.id]" class="comment">
+                      <div class="user-avatar" [style.background-image]="getAvatarBackgroundImage(comment.user)">
+                        <span *ngIf="!comment.user || !comment.user.userImage">{{ comment.user ?
+                          comment.user.name[0].toUpperCase() : 'U' }}</span>
+                      </div>
+                      <div class="comment-content">
+                        <div class="userTime">
+                          <span class="username">{{ comment.user ? comment.user.name : 'Unknown Author' }}</span>
+                          <span class="timestamp">{{ formatTimeAgo(comment.createdAt) }} {{
+                            formatTimeAgo(comment.timestamp)
+                            }} {{ formatTimeAgo(comment.commentDate) }}</span>
+                        </div>
+                        <ng-container *ngIf="!editingComment[comment.id]; else editForm">
+                          <p class="comment-text">{{ (comment.videoCommentContent) }} {{ (comment.text) }}</p>
+                          <button (click)="startEditing(comment)" aria-label="Edit Comment" class="edit-button">
+                            <small class="icon-container"><i class="fas fa-edit"></i></small>
+                          </button>
+                          <button (click)="deleteComment(post, comment)" class="delete-button">
+                            <small class="icon-container"><i class="fas fa-trash-alt"></i></small>
+                          </button>
+                        </ng-container>
+                        <ng-template #editForm>
+                          <textarea [(ngModel)]="editContent[comment.id]" class="edit-textarea"></textarea>
+                          <button (click)="editComment(post.type,post.id,comment)" class="save-button">Save</button>
+                          <button (click)="cancelEditing(comment)" class="cancel-button">Cancel</button>
+                        </ng-template>
+                        <div class="comment-actions">
+                          <button (click)="toggleReply(comment.id)">Reply</button>
+                          <button (click)="likeComment(post.id, comment.id)" class="like-button">
+                            <i [class]="comment.liked ? 'fas fa-heart' : 'far fa-heart'"
+                              [ngStyle]="{'color': comment.liked ? 'hwb(303 2% 0%)' : 'defaultColor'}"></i>
+                            <span style="color: chocolate;">{{ comment.likes || comment.likeCount }}</span>
+                          </button>
+                        </div>
+                        <!-- Reply form -->
+                        <div *ngIf="replyingTo[comment.id]" class="reply-form">
+                          <textarea [(ngModel)]="newReply[comment.id]" placeholder="Write a reply..."></textarea>
+                          <button (click)="addReply(post.id, post.type, comment.id,content)"
+                            [disabled]="!user || !newReply[comment.id]"><i class="fa-solid fa-paper-plane"></i></button>
+                        </div>
+                        <button class="no-of-replies" *ngIf="replies[comment.id] && replies[comment.id].length > 0"
+                          (click)="toggleReplies(comment.id)">
+                          <i [class]="repliesVisible[comment.id] ? 'fas fa-chevron-down' : 'fas fa-chevron-right'"></i>
+                          {{ replies[comment.id].length }} {{ replies[comment.id].length === 1 ? 'Reply' : 'Replies' }}
+                        </button>
+                        <div *ngIf="repliesVisible[comment.id]" class="replies">
+                          <div *ngFor="let reply of replies[comment.id]" class="reply">
+                            <div class="user-avatar" [style.background-image]="getAvatarBackgroundImage(reply.user)">
+                              <span *ngIf="!reply.user || !reply.user.userImage">{{ reply.user ?
+                                reply.user.name[0].toUpperCase()
+                                : 'U' }}</span>
+                            </div>
+                            <div class="reply-content">
+                              <div class="userTime">
+                                <span class="username">{{ reply.user ? reply.user.name : 'Unknown Author' }}</span>
+
+                                <span class="timestamp">{{formatTimeAgo( reply.createdAt)}} {{formatTimeAgo(
+                                  reply.timestamp )
+                                  }}
+                                  {{formatTimeAgo(comment.commentDate)}}</span>
+
+                              </div>
+                              <ng-container *ngIf="!editingNestedComment[reply.id]; else editNestedForm">
+
+                                <p class="reply-text">{{ reply.videoCommentContent || reply.text || reply.content }}</p>
+                                <span><button (click)="startEditingNested(reply)" aria-label="Edit Reply"
+                                    class="edit-button">
+                                    <small class="icon-container"> <i class="fas fa-edit fa-xs"></i> </small>
+                                  </button>
+                                  <button (click)="deleteNestedComment(post.id, comment.id, reply.id)"
+                                    class="delete-button">
+                                    <small class="icon-container"> <i class="fas fa-trash"></i> </small>
+                                  </button> </span>
+                              </ng-container>
+                              <ng-template #editNestedForm>
+                                <textarea [(ngModel)]="editNestedContent[reply.id]" class="edit-textarea"></textarea>
+                                <button (click)="editNestedComment(post.id, comment.id, reply, isVideo)"
+                                  class="save-button">Save</button>
+                                <button (click)="cancelEditingNested(reply)" class="cancel-button">Cancel</button>
+                              </ng-template>
+
+
+                              <div class="reply-actions">
+                                <button (click)="likeReply(post.id, comment.id, reply.id)" class="like-button">
+                                  <i [class]="reply.liked ? 'fas fa-heart' : 'far fa-heart'"
+                                    [style.color]="reply.liked ? 'pink' : 'defaultColor'"></i>
+                                  <span style="color: chocolate;">{{ formatViewCount(reply.likes || 0 )}}</span>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <ng-template #noComments>
+                    <p>No comments yet.</p>
+                  </ng-template>
+                </div>
+
+
+              </ng-container>
+
+            </div>
+
+            <div *ngIf="activeTab == 'photos' || activeTab == 'videos'">
+              <div class="gallary-container">
+                <div *ngFor="let post of combinedPosts; trackBy: trackByPostId">
+                  <div class="middle-main-2" *ngIf="isPostVisible(post)">
+                    <!-- Thumbnail for Image or Video -->
+                    <ng-container [ngSwitch]="true">
+                      <ng-container *ngSwitchCase="post.isVideo">
+                        <!-- Video Thumbnail -->
+                        <video *ngIf="post.src" (click)="openPostOverlay(post)" [src]="post.src" controls muted>
+                          <track kind="subtitles" src="https://example.com/subtitles-en.vtt" srclang="en" label="English" default>
+                        </video>
+                      </ng-container>
+
+                      <ng-container *ngSwitchCase="post.isImage">
+                        <!-- Image Thumbnail -->
+                        <img [src]="post.src" alt="Posted Image" (error)="handleImageError($event)"
+                          (click)="openPostOverlay(post)">
+                      </ng-container>
+                    </ng-container>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- Overlay for Full Post -->
+              <div class="overlay" *ngIf="selectedPost">
+                <div class="overlay-content" (click)="$event.stopPropagation()">
+                  <!-- Post Content for Selected Post -->
+                  <div class="post-card">
+                    <div class="post-about">
+                      <div class="user-details">
+                        <span>
+                          <img class="middle-pic" [src]="selectedPost.profileImage || '../../assets/image (3).jpg'"
+                            alt="Profile picture" (error)="handleImageError($event)">
+                          <span class="name">{{ selectedPost.profileName }}</span>
+                        </span>
+                      </div>
+                      <p class="name-about">{{ user.role }} <i class="fa-solid fa-clock"></i> &nbsp;{{
+                        getFormattedTimeAgo(selectedPost.timestamp) || getFormattedTimeAgo(selectedPost.createdAt) }}
+                      </p>
+                      <button (click)="closeOverlay()">&#10006;</button>
+
+                     
+
+                    </div>
+
+                    <!-- Full Post Content -->
+                    <div class="post-content">
+                      <p class="about">{{ selectedPost.description }}</p>
+                      <ng-container [ngSwitch]="true">
+                        <ng-container *ngSwitchCase="selectedPost.isVideo">
+                          <video *ngIf="selectedPost.src" [src]="selectedPost.src" controls
+                            style="height:300px;width: 550px;">
+                            Your browser does not support the video tag.
+                            <track kind="subtitles" src="https://example.com/subtitles-en.vtt" srclang="en" label="English" default>
+                          </video>
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="selectedPost.isImage">
+                          <img [src]="selectedPost.src" alt="Posted Image" (error)="handleImageError($event)">
+                        </ng-container>
+
+                        <ng-container *ngSwitchCase="selectedPost.isArticle">
+                          <div class="article-content">
+                            <p>{{ selectedPost.content }}</p>
+                          </div>
+                        </ng-container>
+                      </ng-container>
+                    </div>
+
+                    <!-- Post Actions -->
+                    <div class="post-actions">
+                      <button class="action-btn like-btn" [ngClass]="{ 'active': selectedPost.liked }"
+                        (click)="likePost(selectedPost)">
+                        <i [class]="selectedPost.liked ? 'fas fa-heart' : 'far fa-heart'"></i>
+                        <span>{{ formatViewCount(selectedPost.likes) }}</span>
+                      </button>
+
+                      <ng-container *ngIf="selectedPost.isVideo">
+                        <button class="action-btn like-btn">
+                          <i class="fas fa-eye"></i> <span class="views">{{ formatViewCount(selectedPost.views)
+                            }}</span>
+                        </button>
+                      </ng-container>
+
+                      <button class="action-btn comment-btn"
+                        (click)="toggleComments(selectedPost.id, selectedPost.type)">
+                        <i class="far fa-comment"></i>
+                        <span>{{ selectedPost.comments }}</span>
+                      </button>
+
+                      <button class="action-btn share-btn" (click)="sharePost(selectedPost)">
+                        <i class="far fa-share-square"></i>
+                        <span>{{ formatViewCount(selectedPost.shares) }}</span>
+                      </button>
+                    </div>
+
+                    <!-- Comments section -->
+                    <div *ngIf="selectedPost.showComments" class="comments-section">
+                      <div class="add-comment">
+                        <textarea class="add-comment-textarea" [(ngModel)]="newComment"
+                          placeholder="Add a comment"></textarea>
+                        <button class="add-comment-button" (click)="addComment(selectedPost.id, selectedPost.type)"
+                          [disabled]="!user || !newComment.trim()">
+                          <i class="fa-solid fa-paper-plane"></i>
+                        </button>
+                      </div>
+                      <div class="no-comments"
+                        *ngIf="comments[selectedPost.id] && comments[selectedPost.id].length > 0; else noComments">
+                        <!-- Comments list and reply functionality -->
+                        <div *ngFor="let comment of comments[selectedPost.id]" class="comment">
+                          <div class="user-avatar" [style.background-image]="getAvatarBackgroundImage(comment.user)">
+                            <span *ngIf="!comment.user || !comment.user.userImage">{{ comment.user ?
+                              comment.user.name[0].toUpperCase() : 'U' }}</span>
+                          </div>
+                          <div class="comment-content">
+                            <div class="userTime">
+                              <span class="username">{{ comment.user ? comment.user.name : 'Unknown Author' }}</span>
+                              <span class="timestamp">{{ formatTimeAgo(comment.createdAt) }} {{
+                                formatTimeAgo(comment.timestamp)
+                                }} {{ formatTimeAgo(comment.commentDate) }}</span>
+                            </div>
+                              <p class="comment-text">{{ (comment.videoCommentContent) }} {{ (comment.text) }}</p>
+                                <div class="comment-actions">
+                              <button (click)="toggleReply(comment.id)">Reply</button>
+                              <button (click)="likeComment(selectedPost.id, comment.id)" class="like-button">
+                                <i [class]="comment.liked ? 'fas fa-heart' : 'far fa-heart'"
+                                  [ngStyle]="{'color': comment.liked ? 'hwb(303 2% 0%)' : 'defaultColor'}"></i>
+                                <span style="color: chocolate;">{{ comment.likes || comment.likeCount }}</span>
+                              </button>
+                            </div>
+                            <!-- Reply form -->
+                            <div *ngIf="replyingTo[comment.id]" class="reply-form">
+                              <textarea [(ngModel)]="newReply[comment.id]" placeholder="Write a reply..."></textarea>
+                              <button (click)="addReply(selectedPost.id, selectedPost.type, comment.id,content)"
+                                [disabled]="!user || !newReply[comment.id]"><i
+                                  class="fa-solid fa-paper-plane"></i></button>
+                            </div>
+                            <button class="no-of-replies" *ngIf="replies[comment.id] && replies[comment.id].length > 0"
+                              (click)="toggleReplies(comment.id)">
+                              <i
+                                [class]="repliesVisible[comment.id] ? 'fas fa-chevron-down' : 'fas fa-chevron-right'"></i>
+                              {{ replies[comment.id].length }} {{ replies[comment.id].length === 1 ? 'Reply' : 'Replies'
+                              }}
+                            </button>
+                            <div *ngIf="repliesVisible[comment.id]" class="replies">
+                              <div *ngFor="let reply of replies[comment.id]" class="reply">
+                                <div class="user-avatar"
+                                  [style.background-image]="getAvatarBackgroundImage(reply.user)">
+                                  <span *ngIf="!reply.user || !reply.user.userImage">{{ reply.user ?
+                                    reply.user.name[0].toUpperCase()
+                                    : 'U' }}</span>
+                                </div>
+                                <div class="reply-content">
+                                  <div class="userTime">
+                                    <span class="username">{{ reply.user ? reply.user.name : 'Unknown Author' }}</span>
+
+                                    <span class="timestamp">{{formatTimeAgo( reply.createdAt)}} {{formatTimeAgo(
+                                      reply.timestamp )
+                                      }}
+                                      {{formatTimeAgo(comment.commentDate)}}</span>
+
+                                  </div>
+                                  <ng-container *ngIf="!editingNestedComment[reply.id]; else editNestedForm">
+
+                                    <p class="reply-text">{{ reply.videoCommentContent || reply.text || reply.content }}
+                                    </p>
+                                    <span><button (click)="startEditingNested(reply)" aria-label="Edit Reply"
+                                        class="edit-button">
+                                        <small class="icon-container"> <i class="fas fa-edit fa-xs"></i> </small>
+                                      </button>
+                                      <button (click)="deleteNestedComment(selectedPost.id, comment.id, reply.id)"
+                                        class="delete-button">
+                                        <small class="icon-container"> <i class="fas fa-trash"></i> </small>
+                                      </button> </span>
+                                  </ng-container>
+                                  <ng-template #editNestedForm>
+                                    <textarea [(ngModel)]="editNestedContent[reply.id]"
+                                      class="edit-textarea"></textarea>
+                                    <button (click)="editNestedComment(selectedPost.id, comment.id, reply, isVideo)"
+                                      class="save-button">Save</button>
+                                    <button (click)="cancelEditingNested(reply)" class="cancel-button">Cancel</button>
+                                  </ng-template>
+
+
+                                  <div class="reply-actions">
+                                    <button (click)="likeReply(selectedPost.id, comment.id, reply.id)"
+                                      class="like-button">
+                                      <i [class]="reply.liked ? 'fas fa-heart' : 'far fa-heart'"
+                                        [style.color]="reply.liked ? 'pink' : 'defaultColor'"></i>
+                                      <span style="color: chocolate;">{{ formatViewCount(reply.likes || 0 )}}</span>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <ng-template #noComments>
+                        <p>No comments yet.</p>
+                      </ng-template>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div *ngIf="activeTab === 'shorts'" class="shorts-container">
+              <div *ngFor="let short of shorts" class="short-item">
+                <div class="video-wrapper">
+                  <video #shortVideo (mouseenter)="shortVideo.play()" (mouseleave)="shortVideo.pause()"
+                    class="short-video" [src]="short.s3Url">
+                    <track kind="subtitles" src="https://example.com/subtitles-en.vtt" srclang="en" label="English" default>
+                  </video>
+
+                  <div class="user-info">
+                    <img [src]="'data:image/jpeg;base64,' + short.profileImage" class="user-profile-image"
+                      alt="user profile">
+                    <div class="user-text">
+                      <p class="profile-name">{{ short.user.name }}</p>
+                      <p class="profile-time">{{ formatTimeAgo(short.createdAt) }}</p>
+                      <p class="descriptions profile-time">{{ short.shortVideoDescription || short.shortVideoTitle }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="action-buttons">
+                  <button class="action-button like-button" (click)="likeShort(short.id,userId)">
+                    <i class="far fa-heart"></i>
+                    <span class="count">{{ formatViewCount(short.shortVideoLikes) }}</span>
+                  </button>
+                  <button class="action-button view-button like-button ">
+                    <i class="fas fa-eye"></i>
+                    <span class="count">{{ formatViewCount(short.shortVideoViews) }}</span>
+                  </button>
+                  <button class="action-button comment-button like-button" (click)="toggleCommentsShorts(short)">
+                    <i class="fas fa-comment"></i>
+                    <span class="count">{{ formatViewCount(short.videoComments?.length || 0) }}</span>
+                  </button>
+                  <button class="action-button share-button like-button" (click)="shareShort(short.id,userId)">
+                    <i class="fas fa-share"></i>
+                    <span class="count">{{ formatViewCount(short.shortVideoShares) }}</span>
+                  </button>
+                </div>
+                <!-- Comments section -->
+                <div *ngIf="short.showComments" class="comments-sections"
+                  [ngClass]="{'open': isCommentSectionOpen(short.id)}">
+                  <button class="close-button" (click)="short.showComments = false">
+                    <i class="fa-solid fa-times"></i>
+                  </button>
+                  <div class="add-comment">
+                    <textarea [(ngModel)]="newComment" placeholder="Add a comment"></textarea>
+                    <button (click)="addCommentToShorts(short.id, userId,newComment)"
+                      [disabled]="!userId || !newComment.trim()"><i class="fa-solid fa-paper-plane"></i></button>
+                  </div>
+                  <div *ngIf="comments[short.id] && comments[short.id].length > 0; else noComments">
+                    <div *ngFor="let comment of comments[short.id]" class="comment">
+                      <div class="user-avatar" [style.background-image]="getAvatarBackgroundImage(comment.user)">
+                        <span *ngIf="!comment.user || !comment.user.userImage">{{ comment.user ?
+                          comment.user.name[0].toUpperCase() : 'U' }}</span>
+                      </div>
+                      <div class="comment-content">
+                        <div class="userTime">
+                          <span class="username">{{ comment.user ? comment.user.name : 'Unknown Author' }}</span>
+                          <span class="timestamp">{{ formatTimeAgo(comment.createdAt) }}</span>
+                        </div>
+                        <ng-container *ngIf="!editingComment[comment.id]; else editCommentForm">
+
+                          <span>
+                            <p class="comment-text">{{ comment.videoCommentContent }}</p>
+                            <button (click)="startEditing(comment)" aria-label="Edit Comment" class="edit-button">
+                              <small class="icon-container"> <i class="fas fa-edit fa-xs"></i></small>
+                            </button>
+
+                            <button (click)="deleteCommentShorts(videoId, comment.id)" aria-label="Delete Comment">
+                              <small class="icon-container"> <i class="fas fa-trash-alt"></i></small>
+                            </button>
+
+                          </span>
+                        </ng-container>
+                        <ng-template #editCommentForm>
+                          <textarea [(ngModel)]="editContent[comment.id]" class="edit-textarea"></textarea>
+                          <button (click)="editCommentOrNestedComment(short.id, comment.id)"
+                            class="save-button">Save</button>
+                          <button (click)="cancelEditing(comment)" class="cancel-button">Cancel</button>
+                        </ng-template>
+                        <div class="comment-actions">
+                          <button (click)="likeCommentShorts(short.id, comment, user.id)" class="like-button">
+                            <i [class]="comment.liked ? 'fas fa-heart' : 'far fa-heart'"
+                              [ngStyle]="{'color': comment.liked ? 'hwb(303 2% 0%)' : 'defaultColor'}"></i>
+                            <span style="color: chocolate;">{{ formatViewCount(comment.likes || comment.likeCount || 0)
+                              }}</span>
+                          </button>
+
+                          <button (click)="comment.showReply = !comment.showReply" class="reply-button"
+                            style="color: rgb(96, 166, 236);font-weight: bold;">Reply</button>
+                        </div>
+                        <div *ngIf="comment.showReply" class="reply-section">
+                          <textarea [(ngModel)]="replyContent[comment.id]"
+                            placeholder="Write a reply...">add Reply</textarea>
+                          <button (click)="addNestedComment( comment.id, user.id)"
+                            [disabled]="!userId || !replyContent[comment.id].trim()"><i
+                              class="fa-solid fa-paper-plane"></i></button>
+                        </div>
+                        <div *ngIf="comment.replies && comment.replies.length > 0" class="replies">
+                          <button (click)="toggleReplies(comment.id)" aria-label="Toggle Replies"
+                            class="dropdown-button1">
+                            <i [class]="showReplies[comment.id] ? 'fas fa-chevron-down' : 'fas fa-chevron-right'"></i>
+                            {{ comment.replies.length }} Reply{{ comment.replies.length > 1 ? 'ies' : '' }}
+                          </button>
+                          <div *ngIf="showReplies[comment.id]" class="replies">
+
+                            <div *ngFor="let reply of comment.replies" class="reply">
+                              <!-- Display each reply -->
+                              <div class="user-avatar" [style.background-image]="getAvatarBackgroundImage(reply.user)">
+                                <span *ngIf="!reply.user || !reply.user.userImage">{{ reply.user ?
+                                  reply.user.name[0].toUpperCase() : 'U' }}</span>
+                              </div>
+                              <div class="reply-content">
+                                <div class="userTime">
+                                  <span class="username">{{ reply.user ? reply.user.name : 'Unknown Author' }}</span>
+                                  <span class="timestamp">{{ formatTimeAgo(reply.createdAt) }}</span>
+                                </div>
+                                <ng-container *ngIf="!editingNestedComment[reply.id]; else editNestedForm">
+
+                                  <span>
+                                    <p class="reply-text">{{ reply.content }}</p>
+                                    <button (click)="startEditingNested(reply)" aria-label="Edit Reply"
+                                      class="edit-button">
+                                      <small class="icon-container"> <i class="fas fa-edit"></i></small>
+                                    </button>
+                                    <button (click)="deleteNestedComment(videoId, comment.id, reply.id)"
+                                      aria-label="Delete Reply">
+                                      <small class="icon-container"> <i class="fas fa-trash-alt"></i></small>
+                                    </button>
+                                  </span>
+                                </ng-container>
+                                <ng-template #editNestedForm>
+                                  <textarea [(ngModel)]="editNestedContent[reply.id]" class="edit-textarea"></textarea>
+                                  <button (click)="editCommentOrNestedComment(short.id, comment.id, reply, isVideo)"
+                                    class="save-button">Save</button>
+                                  <button (click)="cancelEditingNested(reply)" class="cancel-button">Cancel</button>
+                                </ng-template>
+                                <button (click)="likeNestedComment(short.id, comment.id, reply.id, user.id)"
+                                  class="like-button">
+                                  <i [class]="reply.liked ? 'fas fa-heart' : 'far fa-heart'"
+                                    [ngClass]="{'liked': reply.liked}"></i>
+                                  <span style="color: chocolate;">{{ reply.likes }}</span>
+                                </button>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <ng-template #noComments>
+                    <p>No comments yet.</p>
+                  </ng-template>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Connections -->
+        <div *ngIf="activeSection === 'connections'" class="connections">
+          <div *ngIf="activeSection === 'connections'" class="hrigental-sidebar">
+            <button (click)="setActiveTab('followers')" [class.active]="activeTab === 'followers'">followers</button>
+            <button (click)="setActiveTab('friends')" [class.active]="activeTab === 'friends'">following</button>
+          
+          </div>
+          <!-- Content Area for Connections -->
+          <div *ngIf="activeSection === 'connections'" class="connections-content">
+           
+
+           
+            <div *ngIf="activeTab === 'followers'" class="suggestions">
+              <h5>Followers: {{ followingCount }}</h5>
+              <div *ngIf="(followers$ | async) as followers">
+                <div *ngIf="followers.length; else noFollowers">
+                  <div *ngFor="let follower of followers" class="user-item">
+                    <div class="avatar-container">
+                      <img *ngIf="follower.userImage" [src]="getSafeImageUrl(follower.userImage)"
+                        alt="{{ follower.name }}" class="arz">
+                      <div *ngIf="!follower.userImage" class="avatar-initial">
+                        {{ follower.name[0].toUpperCase() }}
+                      </div>
+                    </div>
+                    <div class="user-name" (click)="openUserProfile(follower.id)">
+                      <h6>{{follower.name}}</h6>
+                      <p>{{follower.profession}} | {{follower.followingCount ||'0'}} Followers</p>
+                    </div>
+                   
+                  </div>
+                </div>
+              </div>
+              <ng-template #noFollowers>
+                <p>You don't have any followers at the moment.</p>
+              </ng-template>
+            </div>
+
+            <div *ngIf="activeTab === 'friends'" class="suggestions">
+              <h5>Following: {{ followerCount }}</h5>
+              <div *ngIf="(friends$ | async) as friends">
+                <div *ngIf="friends.length; else noFriends">
+                  <div *ngFor="let friend of friends" class="user-item">
+                    <div class="avatar-container">
+                      <img *ngIf="friend.userImage" [src]="getSafeImageUrl(friend.userImage)" alt="{{ friend.name }}"
+                        class="arz">
+                      <div *ngIf="!friend.userImage" class="avatar-initial">
+                        {{ friend.name[0].toUpperCase() }}
+                      </div>
+                    </div>
+                    <div class="user-name" (click)="openUserProfile(friend.id)">
+                      <h6>{{friend.name}}</h6>
+                      <p>{{ friend.profession }} | {{friend.followingCount||'0'}} Followers</p>
+                    </div>
+                   
+                  </div>
+                </div>
+              </div>
+              <ng-template #noFriends>
+                <p>You don't have any following at the moment.</p>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content Area for Saved -->
+        
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col2">
+    <div class="col2-r1">
+      <div class="header-card">
+        <h6>About </h6>
+      </div>
+      <p>{{personalDetails.userDescription}}
+      </p>
+      <p><i class="fa-solid fa-calendar-days"></i> Born : {{formatDate(personalDetails.dateOfBirth)}}</p>
+      <p><i class="fa-solid fa-envelope"></i> mail : {{user.email}}</p>
+    </div>
+    <div class="col2-r2">
+      <div class="col-education-experience">
+        <div class="header-card">
+          <p>
+            <span [ngClass]="{'active-tab': edex === 'education'}" (click)="switchTab('education')">
+              Education
+            </span> /
+            <span [ngClass]="{'active-tab': edex === 'experience'}" (click)="switchTab('experience')">
+              Experience
+            </span>
+          </p>
+        </div>
+
+        <!-- Education Content -->
+        <div *ngIf="edex === 'education'" class="content">
+          <div *ngIf="EducationDetails[0].postGraduateCollegeName">
+            <p><i class="fa-solid fa-school"></i> {{EducationDetails[0].postGraduateCollegeName}}</p>
+            <p>{{EducationDetails[0].postGraduateYearOfJoining}}-{{EducationDetails[0].postGraduateYearOfPassout}}</p>
+            <p>{{EducationDetails[0].postGraduateCollegeSpecialization}}</p>
+          </div>
+          <div *ngIf="EducationDetails[0].graduationCollegeName">
+            <p><i class="fa-solid fa-school"></i> {{EducationDetails[0].graduationCollegeName}}</p>
+            <p>{{EducationDetails[0].graduationYearOfJoining}}-{{EducationDetails[0].graduationYearOfPassout}}</p>
+            <p>{{EducationDetails[0].graduationCollegeSpecialization}}</p>
+          </div>
+          <div *ngIf="EducationDetails[0].intermediateCollegeName">
+            <p><i class="fa-solid fa-school"></i> {{EducationDetails[0].intermediateCollegeName}}</p>
+            <p>{{EducationDetails[0].intermediateYearOfJoining}}-{{EducationDetails[0].intermediateYearOfPassout}}</p>
+            <p>{{EducationDetails[0].intermediateDiploma}}</p>
+          </div>
+          <div *ngIf="EducationDetails[0].schoolName">
+            <p><i class="fa-solid fa-school"></i> {{EducationDetails[0].schoolName}}</p>
+            <p>{{EducationDetails[0].schoolYearOfJoining}}-{{EducationDetails[0].schoolYearOfPassout}}</p>
+            <p>S.S.C</p>
+          </div>
+        </div>
+
+        <!-- Experience Content -->
+        <div *ngIf="edex === 'experience'" class="content">
+          <div *ngFor="let experiance of ExperianceDetails">
+            <p><i class="fa-solid fa-briefcase"></i> {{experiance.workCompanyName}}</p>
+            <p> {{formatDate2(experiance.workStartDate)}} -
+              {{experiance.currentlyWorking?"Present":formatDate2(experiance.workEndDate)}}</p>
+            <p>{{experiance.workRole}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col2-r3">
+      <div class="header-card">
+        <h6>Photos</h6>
+        <button class="see-button" (click)="openPhotos()">See all Photos</button>
+      </div>
+      <div class="col2-r4-cols">
+        <div class="Flex-for-gall">
+          <img class="item1"  alt="Image" [src]="getFirstFivePhotos()[0]" *ngIf="getFirstFivePhotos()[0]" />
+          <img class="item2"  alt="Image" [src]="getFirstFivePhotos()[1]" *ngIf="getFirstFivePhotos()[1]" />
+        </div>
+        <div class="Flex-for-gall2">
+          <img class="item3"  alt="Image" [src]="getFirstFivePhotos()[2]" *ngIf="getFirstFivePhotos()[2]" />
+          <img class="item4"  alt="Image" [src]="getFirstFivePhotos()[3]" *ngIf="getFirstFivePhotos()[3]" />
+          <div class="photo-container">
+            <img class="item5"  alt="Image" [src]="getFirstFivePhotos()[4]" *ngIf="getFirstFivePhotos()[4]" />
+            <div class="item5overlay" *ngIf="getFirstFivePhotos()[4]" (click)="openPhotos()">
+              <span class="more-text" >See More...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

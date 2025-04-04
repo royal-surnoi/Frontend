@@ -1,0 +1,317 @@
+<p-toast></p-toast>
+ 
+<div [ngClass]="theme">
+  <div id="skills" class="skills-section">
+    <div class="skills-header">
+      <div class="skills-links">
+        <h5 class="skills-heading"><i class="fa-solid fa-book-open-reader" style="color: #304390;"></i>  Skills</h5>
+        <div class="info-button" (mouseenter)="showInfoCard = true" (mouseleave)="showInfoCard = false">
+          <i class="fa-solid fa-info-circle"></i>
+          <div class="info-card" *ngIf="showInfoCard">
+            <h4> Skill Levels</h4>
+            <div class="level"><span class="dot unverified-info"></span>Unverified</div>
+            <div class="level"><span class="dot average-info"></span>Average</div>
+            <div class="level"><span class="dot skilled-info"></span>Skilled</div>
+            <div class="level"><span class="dot expert-info"></span>Expert</div>
+          </div>
+        </div>
+      </div>
+      <!--------------------add skills icon---------->
+      <div class="skills-links">
+        <a class="add-EdDetails" style="color: #304390;" (click)="openPopup(); $event.preventDefault()">
+          <i class="fa-solid fa-plus"></i>
+        </a>
+      </div>
+    </div>
+    <div class="skills-list">
+      <div class="skill" *ngFor="let skill of skills; let i = index" [ngClass]="skill.level">
+        <span class="skill-name">{{ skill.skillName }}</span>
+        <a href="#" class="edit-EdDetails" (click)="editSkill(i); $event.preventDefault()">
+          <i class="fa-regular fa-pen-to-square" ></i>
+        </a>
+       
+        <!-- Skill editing popup -->
+        <div class="popup-overlay skill-editing" [style.display]="skill.isEditing ? 'flex' : 'none'">
+          <div class="popup">
+            <div class="popup-header">
+              <h5>Edit Skill</h5>
+              <button id="close" class="close" (click)="cancelEdit(i)">
+                <i class="fa-solid fa-xmark X-spl"></i>
+              </button>
+            </div>
+            <input type="text" [(ngModel)]="skill.skillName" placeholder="Skill Name" />
+            <select [(ngModel)]="skill.level">
+              <option value="AVERAGE">Average</option>
+              <option value="SKILLED">Skilled</option>
+              <option value="EXPERT">Expert</option>
+ 
+             
+            </select>
+            <div class="popup-buttons">
+              <button (click)="takeTest()">Take a Test</button>
+              <button (click)="saveEditedSkill(i)">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+ <div class="popup-overlay" [style.display]="isPopupOpen ? 'flex' : 'none'">
+  <div class="popup">
+    <form #skillForm="ngForm" (ngSubmit)="onSubmit(skillForm)">
+      <div class="popup-header">
+        <h6>Add a Skill</h6>
+        <button id="close" class="close" (click)="closePopup()">
+          <i class="fa-solid fa-xmark X-spl"></i>
+        </button>
+      </div>
+ 
+      <!-- Skill Name Input with Length Validation -->
+      <input
+        type="text"
+        [(ngModel)]="skillName"
+        name="skillName"
+        placeholder="Skill Name"
+        required
+        [minlength]="3"
+        [maxlength]="30"
+        pattern="^[a-zA-Z\s]+$"  
+        #skillNameInput="ngModel"
+      >
+      <!-- Validation Message for Skill Name -->
+      <div *ngIf="skillNameInput.invalid && skillNameInput.touched" class="error-message">
+        Skill name is required. It should only contain letters (3-30 characters).
+      </div>
+ 
+      <!-- Skill Level Dropdown -->
+      <select
+        [(ngModel)]="skillLevel"
+        name="skillLevel"
+        required
+        #skillLevelSelect="ngModel"
+      >
+        <option value="" disabled selected>Select Skill Level</option>
+        <option value="Average">Average</option>
+        <option value="Skilled">Skilled</option>
+        <option value="Expert">Expert</option>
+      </select>
+      <!-- Validation Message for Skill Level -->
+      <div *ngIf="skillLevelSelect.invalid && skillLevelSelect.touched" class="error-message">
+        Please select a skill level.
+      </div>
+ 
+      <div class="popup-buttons">
+       
+        <!-- Button Disabled if Form is Invalid -->
+        <button type="submit"[disabled]="skillForm.invalid" (click)="takeTest()" class="Submit">Take a Test</button>
+      </div>
+    </form>
+  </div>
+</div>
+ 
+ 
+<!--------------------------------------------------------projects----------------------------------------------------------->
+ 
+<!-- Projects section in HTML -->
+<div id="projects" class="projects-section">
+  <div class="projects-header">
+    <h5 class="projects-heading"><i class="fa-solid fa-list-check" style="color: #304390;"></i>  Projects</h5>
+    <div class="projects-links">
+      <a href="#" class="add-EdDetails" (click)="openProjectPopup(); $event.preventDefault()">
+        <i class="fa-solid fa-plus"></i>
+      </a>
+    </div>
+  </div>
+
+    <div *ngFor="let project of projects; let i = index" class="project-container">
+      <div class="project-card"
+           [ngClass]="{ 'project-left': i % 2 === 0, 'project-right': i % 2 !== 0 }"
+           [style.background-image]="getBackgroundImageUrl(project)">
+       
+        <div *ngIf="showVideoPlayer && currentProjectIndex === i" class="video-player">
+          <video width="100%" height="auto" controls [src]="sanitizedVideoUrl">
+            <track kind="subtitles" src="https://example.com/subtitles-en.vtt" srclang="en" label="English" default>
+          </video>
+        </div>
+ 
+        <button *ngIf="!showVideoPlayer || currentProjectIndex !== i"
+                (click)="loadAndPlayProjectVideo(project, i)"
+                class="play-video-button">
+          <i class="fa-solid fa-play"></i>
+        </button>
+ 
+        <div class="content-overlay">
+          <div class="project-details">
+            <div class="project-title">
+              <h3>{{ project.projectName }}</h3>
+              <a href="#" class="edit-EdDetails" (click)="openProjectPopup(project, i); $event.preventDefault()">
+                <i class="fa-regular fa-pen-to-square"></i>
+              </a>
+            </div>
+            <p><strong>Client:</strong> {{ project.client }}</p>
+            <p><strong>Start Date:</strong> {{ project.startDate | date }}</p>
+            <p><strong>End Date:</strong> {{ project.endDate | date }}</p>
+            <p><strong>Skills Used:</strong> {{ project.skillsUsed }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+ 
+  <div class="projects-list">
+    <div class="projects-list">
+      <div *ngFor="let project of projects; let i = index"
+      [style.background-image]="getBackgroundImageUrl(project)" class="make-Curve">
+        <div class="blur" [ngClass]="{'project': true, 'project-left': i % 2 === 0, 'project-right': i % 2 !== 0}">
+        <video [src]="sanitizedVideoUrl" controls class="project-img">
+          <track kind="subtitles" src="https://example.com/subtitles-en.vtt" srclang="en" label="English" default>
+        </video>
+        <div class="project-details">
+          <div class="project-title">
+            <h3>{{ project.projectName }}</h3>
+            <a class="edit-EdDetails" (click)="openProjectPopup(project, i); $event.preventDefault()">
+              <i class="fa-regular fa-pen-to-square"></i>
+            </a>
+          </div>
+          <p><strong>Client:</strong> {{ project.client }}</p>
+          <p><strong>Description:</strong> {{ project.projectDescription }}</p>
+          <p><strong>Start Date:</strong> {{ project.startDate | date }}</p>
+          <p><strong>End Date:</strong> {{ project.endDate | date}}</p>
+          <p><strong>Skills Used:</strong> {{ project.skillsUsed}}</p>
+        </div>
+      </div>
+    </div>
+    </div>
+   
+  <!-- Popup for adding/editing projects -->
+  <div class="project-popup-overlay" [style.display]="isProjectPopupOpen ? 'flex' : 'none'">
+    <div class="project-popup" *ngIf="isProjectPopupOpen">
+      <div class="popup-header">
+        <h6>{{ isEditMode ? 'Edit Project' : 'Add Project' }}</h6>
+        <button id="close" class="project-close" (click)="closeProjectPopup(); $event.preventDefault()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+ 
+      <form #projectForm="ngForm">
+        <div class="form-group">
+          <input
+            type="text"
+            [(ngModel)]="newProject.projectName"
+            name="projectName"
+            placeholder="Project Title"
+            required
+            maxlength="30"
+            (input)="validateProjectName(newProject.projectName)">
+          <div class="error-message" *ngIf="validationErrors.projectName">
+            {{ validationErrors.projectName }}
+          </div>
+        </div>
+ 
+        <div class="form-group">
+          <input
+            type="text"
+            [(ngModel)]="newProject.projectDescription"
+            name="projectDescription"
+            placeholder="Project Description"
+            maxlength="1500"
+            required>
+        </div>
+ 
+        <div class="form-group">
+          <input
+            type="text"
+            [(ngModel)]="newProject.client"
+            name="client"
+            placeholder="Client"
+            maxlength="50"
+            required>
+        </div>
+ 
+        <div class="form-group">
+          <label for="startDate">Start Date:</label>
+          <input
+            id="startDate"
+            type="date"
+            [(ngModel)]="newProject.startDate"
+            name="startDate"
+            required
+            (change)="validateDates()">
+          <div class="error-message" *ngIf="validationErrors.startDate">
+            {{ validationErrors.startDate }}
+          </div>
+        </div>
+       
+        <div class="form-group">
+          <label for="endDate">End Date:</label>
+          <input
+            id="endDate"
+            type="date"
+            [(ngModel)]="newProject.endDate"
+            name="endDate"
+            required
+            [min]="newProject.startDate"
+            (change)="validateDates()">
+          <div class="error-message" *ngIf="validationErrors.endDate">
+            {{ validationErrors.endDate }}
+          </div>
+        </div>
+ 
+        <div class="form-group">
+          <input
+            type="text"
+            [(ngModel)]="newProject.skillsUsed"
+            name="skillsUsed"
+            placeholder="Skills Used"
+            requir
+            maxlength="50"
+             (input)="validateSkillsUsed(newProject.skillsUsed)">
+          <div class="error-message" *ngIf="validationErrors.skillsUsed">
+            {{ validationErrors.skillsUsed }}
+          </div>
+        </div>
+ 
+        <div class="form-group">
+          <label class="custom-file-input">
+            <input type="file" (change)="onVideoSelected($event)" accept="video/*">
+            <span>Choose Video</span>
+          </label>
+          <div class="file-name" *ngIf="videoFileName">
+            Selected Video: {{ videoFileName }}
+            </div>
+        </div>
+ 
+        <div class="form-group">
+          <label class="custom-file-input">
+            <input type="file" (change)="onBackgroundImageSelected($event)" accept="image/*">
+            <span>Choose Image</span>
+          </label>
+          <div class="file-name" *ngIf="imageFileName">
+            Selected Image: {{ imageFileName }}
+            </div>
+        </div>
+ 
+        <button type="button" (click)="saveProject()" class="Submit">
+          {{ isEditMode ? 'Save Changes' : 'Add Project' }}
+        </button>
+      </form>
+    </div>
+  </div>
+ 
+<!-- Success Popup Overlay -->
+<div class="success-popup-overlay" *ngIf="showSuccessPopup">
+  <div class="success-popup">
+    <div class="success-content">
+      <i class="fa-solid fa-circle-check success-icon"></i>
+      <h3>Success!</h3>
+      <p>Project has been successfully {{ isEditMode ? 'updated' : 'added' }}.</p>
+      <button (click)="closeSuccessPopup()" class="success-btn">OK</button>
+    </div>
+  </div>
+</div>
+</div>
+ 
+ 
+ 
+ 

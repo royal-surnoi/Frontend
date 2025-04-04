@@ -1,0 +1,100 @@
+<div class="feedback-form">
+    <h2>Level Feedback Form</h2>
+   
+    <!-- Loading State for Initial Data Fetch -->
+    <div *ngIf="submissionStatus === SubmissionStatus.Loading && !feedback.jobName" class="loading-container">
+      <div class="spinner"></div>
+      <p>Loading interview details...</p>
+    </div>
+   
+    <!-- Error State for Initial Data Fetch -->
+    <div *ngIf="submissionStatus === SubmissionStatus.Error && !feedback.jobName" class="error-container">
+      <p class="error-message">{{ errorMessage }}</p>
+      <button class="btn btn-retry" (click)="fetchInterviewDetails()">Retry</button>
+    </div>
+   
+    <!-- Feedback Form -->
+    <form
+      *ngIf="feedback.jobName && submissionStatus !== SubmissionStatus.Success"
+      (ngSubmit)="onSubmit(interviewId)"
+      #feedbackForm="ngForm"
+    >
+      <div class="form-group">
+        <label for="jobName">Job Name</label>
+        <input
+          type="text"
+          id="jobName"
+          class="form-control"
+          [value]="feedback.jobName"
+          readonly
+          placeholder="Job Name"
+        />
+      </div>
+   
+      <div class="form-group">
+        <label for="candidateName">Candidate Name</label>
+        <input
+          type="text"
+          id="candidateName"
+          class="form-control"
+          [value]="feedback.candidateName"
+          readonly
+          placeholder="Candidate Name"
+        />
+      </div>
+   
+      <div class="form-group">
+        <label for="score">Score</label>
+        <input
+          type="number"
+          id="score"
+          class="form-control"
+          [(ngModel)]="feedback.score"
+          name="score"
+          required
+          min="1"
+          max="10"
+          placeholder="Enter a score (1-10)"
+        />
+      </div>
+   
+      <div class="form-group">
+        <label for="feedbackText">Feedback</label>
+        <textarea
+          id="feedbackText"
+          class="form-control"
+          [(ngModel)]="feedback.feedbackText"
+          name="feedbackText"
+          required
+          placeholder="Enter your detailed feedback"
+        ></textarea>
+      </div>
+   
+      <!-- Loading State During Submission -->
+      <div *ngIf="submissionStatus === SubmissionStatus.Loading" class="loading-container">
+        <div class="spinner"></div>
+        <p>Submitting feedback...</p>
+      </div>
+   
+      <!-- Error State During Submission -->
+      <div *ngIf="submissionStatus === SubmissionStatus.Error" class="error-container">
+        <p class="error-message">{{ errorMessage }}</p>
+      </div>
+   
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="btn btn-submit"
+        [disabled]="submissionStatus === SubmissionStatus.Loading"
+      >
+        Submit Feedback
+      </button>
+    </form>
+   
+    <!-- Success State -->
+    <div *ngIf="submissionStatus === SubmissionStatus.Success" class="success-container">
+      <h3>Feedback Submitted Successfully!</h3>
+      <p>Thank you for providing your feedback.</p>
+    </div>
+  </div>
+   

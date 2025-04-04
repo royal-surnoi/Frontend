@@ -1,0 +1,57 @@
+<div class="main">
+    <nav class="side-nav">
+        <ul class="nav-list">
+
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="courseId ? ['/createcourse', courseId] : []">
+                    old 
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="courseId ? ['/CCM', courseId, 'courselanding', courseId] : []"
+                    [class.disabled]="!courseId" [class.active]="isActive('courselanding')"
+                    (click)="currentTab='courselanding'">
+                    Course Landing
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="courseId ? ['/CCM', courseId, 'coursetrailer', courseId] : []"
+                    [class.disabled]="!courseId" [class.active]="isActive('coursetrailer')"
+                    (click)="currentTab='coursetrailer'">
+                    Course Trailer
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="courseId ? ['/CCM', courseId, 'planning', courseId] : []"
+                    [class.disabled]="!courseId" [class.active]="isActive('planning')" (click)="currentTab='planning'">
+                    Planning
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="courseId ? ['/CCM', courseId, 'lesson', courseId] : []"
+                    [class.disabled]="!courseId" [class.active]="isActive('lesson')" (click)="currentTab='lesson'">
+                    Lesson
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="courseId ? ['/CCM', courseId, 'project', courseId] : []"
+                    [class.disabled]="!courseId" [class.active]="isActive('project')" (click)="currentTab='project'">
+                    Project
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="courseId ? ['/CCM', courseId, 'pricing', courseId] : []"
+                    [class.disabled]="!courseId" [class.active]="isActive('pricing')" (click)="currentTab='pricing'">
+                    Pricing
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container2">
+        <div class="content">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

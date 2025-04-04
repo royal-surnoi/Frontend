@@ -1,0 +1,1513 @@
+
+
+ 
+ 
+ 
+/* Navbar Styles */
+
+ 
+/* Back Button Styles */
+.navbar .back-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+ 
+.navbar .back-button i {
+  font-size: 24px;
+  color: black;
+}
+ 
+.navbar .back-button:hover i {
+  color: #333;
+}
+ 
+/* Navbar Title */
+.navbar .navbar-title {
+  color: black;
+  font-size: 30px;
+  margin: 0 auto;
+ 
+  text-align: center;
+}
+ 
+ 
+/* ----------------------------------------------Shortlisted Section ----------------------------------*/
+ 
+ 
+.Shortlistednavbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+ 
+.Shortlistednavbar-title {
+  font-size: 1.5rem;
+  color: #333;
+}
+ 
+ 
+.Shortlistednavbar-button:hover {
+  background-color: #452758;
+  color: white;
+}
+ 
+ 
+  .Shortlisted-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers the cards horizontally */
+    width: 100%;
+    margin-top: 20px; /* Adjust for top spacing */
+  }
+ 
+  .Shortlisted-card {
+    display: flex;
+    justify-content: space-between; /* Aligns content and buttons at the ends */
+    align-items: center;
+    width: 80%; /* Adjust as needed for card width */
+    max-width: 1200px; /* Optional: maximum width */
+    background-color: #f6f6f6;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+ 
+  .Shortlisted-info {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+ 
+ 
+  .Shortlisted-details {
+    flex: 1; /* Takes up remaining space */
+  }
+ 
+  .Shortlisted-name {
+    margin: 0;
+    font-size: 1.5em;
+  }
+ 
+  .Shortlisted-email, .Shortlisted-duration {
+    font-size: 0.9em;
+    color: #666;
+  }
+ 
+  .Shortlisted-buttons {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+  }
+ 
+  .Shortlistedstatus-button {
+    background-color: #452758; /* Shortlist/Quiz button color */
+    border-radius: 25px;
+  }
+ 
+/* ----------------------------------------------Shortlisted Section ----------------------------------*/
+ 
+/* Navbar Controls */
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  background-color: white;
+  padding: 0 20px;
+  position: sticky;
+  top: 47px;
+  z-index: 300;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+}
+ 
+.navbar-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-left: auto; /* This pushes the controls to the right */
+}
+
+ 
+.navbar-controls .select-all {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+ 
+.navbar-controls .selected-count {
+  font-size: 14px;
+}
+ 
+ 
+/* ---Popup Overlay for Status button--- */
+ 
+.status-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 2px solid #f17474;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+ 
+/* Popup Content */
+.status-popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+  border: 2px solid #000000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  position: relative; /* Added for positioning the close button */
+}
+ 
+.status-popup-content h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+ 
+.status-popup-content p {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 20px;
+}
+ 
+/* Form Group */
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+ 
+.form-group label {
+  font-size: 14px;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+ 
+.input-field {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #555;
+  background-color: #f9f9f9;
+}
+ 
+.input-field:disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+}
+ 
+/* Button Group */
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 0 165px;
+}
+ 
+.submit-button, .create-quiz-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+ 
+.submit-button {
+  background-color: #f44336; /* Red color */
+  color: white;
+  opacity: 0.6;
+}
+ 
+.submit-button:disabled {
+  background-color: #f44336;
+  cursor: not-allowed;
+}
+ 
+.create-quiz-button {
+  background-color: #452758; /* Green color */
+  color: white;
+}
+ 
+.create-quiz-button:hover {
+  background-color: #553768; /* Darker green */
+}
+ 
+.close-button:hover {
+  background-color: #5e3c74;
+}
+ 
+ 
+.Shortlistedtitle{
+  margin: 0px 15% 0px 0px;
+}
+ 
+/* -----------------------------------------Applicants Section ----------------------------------*/
+ 
+.Appliednavbar {
+  display: flex;
+  justify-content: space-between; /* Aligns title and button */
+  align-items: center;
+  padding: 10px 20px;
+  background-color: white;
+  /* background-color: #f4f4f4; */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+ 
+}
+.Appliednavbar-title {
+  font-size: 1.8rem;
+  color: #333;
+  margin: 0px 0px 0 17%;
+}
+ 
+ 
+.Appliednavbar-button:hover {
+  background-color: #452758;
+  color: white;
+}
+ 
+ 
+.applicants-container {
+  margin-top: 20px; /* Prevent overlap with the navbar */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #ffffff;
+}
+ 
+/* Center Card */
+.applicant-card {
+display: flex;
+justify-content: space-between;
+align-items: center;
+width: 90%; /* Adjust width for spacing */
+padding: 10px;
+background-color: #f3f3f3;
+border: 1px solid #ddd;
+border-radius: 10px;
+margin-bottom: 15px;
+cursor: pointer;
+transition: all 0.3s ease;
+}
+ 
+ 
+ 
+ 
+.applicant-card:hover {
+background-color: #e9e9e9;
+}
+ 
+/* Content Layout */
+.card-content {
+display: flex;
+justify-content: space-between;
+width: 100%;
+height: 5%;
+}
+ 
+/* Left Side: User Info */
+.user-info {
+display: flex;
+align-items: center;
+width: 100%;
+justify-content: space-between  ;
+}
+ 
+.user-info-main{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+  
+.applicant-name {
+font-size: 21px;
+color: #333;
+}
+ 
+/* Right Side: Hidden Content */
+.hidden-content {
+display: none;
+flex-direction: column;
+align-items: flex-end;
+margin-left: auto;
+}
+ 
+.hidden-content.expanded {
+display: flex;
+}
+ 
+.hidden-content p,
+.hidden-content span {
+margin: 5px 0;
+text-align: right;
+}
+ 
+.card-buttons {
+display: flex;
+gap: 15px;
+margin-top: 10px;
+}
+ 
+.resume-button,
+.details-button,
+.status-button,
+.drop {
+padding: 6px 12px;
+font-size: 16px;
+border: none;
+border-radius: 25px;
+cursor: pointer;
+transition: background-color 0.3s ease;
+}
+ 
+.resume-button {
+  background-color: #4b5563;
+  color: white;
+  border-radius: 25px;
+  }
+   
+  .details-button {
+    background-color: #27ae60; /* Details button color */
+    border-radius: 25px;
+    color: white;
+  } 
+ 
+  .details-button:hover {
+  background-color: #000000;
+  }
+   
+  .status-button:hover {
+  background-color: #452758;
+  }
+   
+ 
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+.applicant-card {
+  flex-direction: column;
+  width: 90%;
+}
+ 
+.card-content {
+  flex-direction: column;
+  align-items: center;
+}
+ 
+.hidden-content {
+  align-items: center;
+  text-align: center;
+}
+}
+ 
+ 
+/* General Reset for Buttons and Inputs */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+ 
+/* Input Styles */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="url"],
+textarea,
+select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+ 
+/* Range Slider */
+input[type="range"] {
+  width: 100%;
+  height: 8px;
+  background: #ddd;
+  border-radius: 5px;
+  outline: none;
+}
+ 
+/* Slider Thumb */
+input[type="range"]::-webkit-slider-thumb {
+  width: 20px;
+  height: 20px;
+  background: #007bff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+ 
+/* Checkbox and Radio Button Styles */
+input[type="checkbox"],
+input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+ 
+ 
+  /* Overlay style */
+ 
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+}
+.overlay-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 90%;
+    background-color: #f3f4f6;
+    border-radius: 8px;
+    overflow: hidden;
+}
+ 
+.layout-container {
+  display: flex;
+  height: 100vh;
+  background-color: #f3f4f6;
+}
+ 
+.left-column {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+ 
+.video-container {
+  height: 50%;
+  background-color: black;
+}
+ 
+.video-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+ 
+.details-container {
+  height: 50%;
+  padding: 1rem;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  gap: 10%;
+}
+ 
+.right-column {
+  width: 50%;
+  background-color: white;
+}
+ 
+.pdf-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+ 
+.pdf-header {
+  background-color: #e5e7eb;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+ 
+.pdf-container iframe {
+  flex-grow: 1;
+  width: 100%;
+  border: none;
+}
+ 
+.resume-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+ 
+.resume-modal-content {
+  background: #fff;
+  padding: 35px;
+  border-radius: 8px;
+  width: 45%;
+  /* max-width: 700px; */
+  position: relative;
+  height: 80%;
+  overflow: scroll;
+}
+ 
+
+.close-button {
+  position: absolute; /* Positioning the close button */
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  color: #452758;
+ background: none;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+ 
+.error-message {
+  color: red;
+  text-align: center;
+}
+ 
+ 
+/*------shortlist button disable-------*/
+.shortlist-button  {
+  background-color: #106ebe;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+ 
+.shortlist-button button:hover {
+  background-color: #063a68;
+}
+.shortlist-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+ 
+.multiple-shortlist-button{
+  background-color: #452758;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;  
+  font-size: 16px;
+  z-index: 200;
+}
+ 
+ 
+ 
+ 
+/* Applicant Card */
+.applicant-card.selected {
+  border-color: #007bff;
+  background-color: #e6f7ff;
+}
+ 
+.applicant-card input[type='checkbox'] {
+  margin-right: 10px;
+}
+ 
+ 
+/*---Applied candidates checkbox---*/
+ /* Add some space to the checkboxes */
+ .checkbox-container {
+  position: absolute;
+  top: 10px;
+  left: -30px; /* Moves checkbox outside the card */
+  display: flex;
+  align-items: center;
+  z-index: 1; /* Ensure the checkbox stays above the card content */
+}
+ 
+/* Position the checkbox outside the card */
+.Applied-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* border: 1px solid #ddd; */
+  border: 1px solid #f17474;
+  padding: 20px;
+  width: 1200px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: #f6f6f6;
+  position: relative;
+ 
+}
+ 
+.Applied-info {
+  display: flex;
+  align-items: center;
+ 
+}
+ 
+ 
+.Applied-details {
+  display: flex;
+  flex-direction: column;
+}
+ 
+.Applied-buttons button {
+  margin-left: 10px;
+}
+ 
+/* Style for the checkbox when it's visible */
+.checkbox-container input {
+  position: absolute;
+  left: 0;
+ 
+}
+ 
+.multi-select-enabled .applicant-card .checkbox {
+  display: inline-block;
+}
+ 
+ 
+/* Styling for the Enable Multi-Select Button */
+.navbar-controls button {
+  background-color: #000000; /* Blue background */
+  color: white; /* White text */
+  border: none; /* Remove border */
+  padding: 8px 16px; /* Add spacing */
+  border-radius: 25px; /* Rounded corners */
+  font-size: 14px; /* Set font size */
+  font-weight: 600; /* Make text semi-bold */
+  cursor: pointer; /* Show pointer cursor on hover */
+  transition: background-color 0.3s ease, box-shadow 0.2s ease; /* Smooth transitions */
+}
+ 
+/* Hover effect */
+.navbar-controls button:hover {
+  background-color: #1f1f20; /* Darker blue on hover */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
+}
+ 
+/* Active (click) effect */
+.navbar-controls button:active {
+  background-color: #1e1f1f; /* Even darker blue */
+  transform: scale(0.98); /* Slight shrink effect */
+}
+
+ 
+ /*---------------------------------------------------------------------------------------------------------------*/
+ .Shortlistedstatus-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+ 
+.take-quiz-navbar-button {
+  background-color: #452758;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 25px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+ 
+.take-quiz-navbar-button:hover {
+  background-color: #452758;
+}
+ 
+/*--check box--*/
+.checkbox-container input[type="checkbox"] {
+  display: inline-block;  /* Ensure checkboxes are displayed inline */
+  margin: 5px;
+  position: absolute;
+  left: 0;
+}
+ 
+/*------------------------------------------------------------------------------------------------*/
+ 
+.Shortlisted-card .srk{
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+ 
+.Shortlisted-card .srk input[type="checkbox"] {
+  margin: 0;
+  padding: 0;
+}
+ 
+/* Overlay to darken the background */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 500;
+}
+
+/* Center the content in the popup */
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Heading Style */
+.popup-content h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+/* Scrollable candidate list style */
+.candidate-list-container {
+  max-height: 200px; /* Adjust the height to fit the number of candidates */
+  overflow-y: auto;  /* Enables vertical scrolling */
+  padding-right: 10px; /* Optional, to avoid text being hidden behind the scrollbar */
+  margin-bottom: 20px;
+  text-align: left;
+  color: #555;
+}
+ 
+.candidate-list {
+  padding: 5px;
+  font-size: 16px;
+  position: relative;
+}
+ 
+/* Style for the remove button (X) */
+.remove-button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #f44336;
+  font-size: 18px;
+  cursor: pointer;
+}
+ 
+.remove-button:hover {
+  color: #d32f2f;
+}
+ 
+/* Buttons container */
+.confirmation-buttons {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 20px;
+}
+ 
+/* Button Styles */
+.yes-button,
+.no-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+ 
+/* Yes Button */
+.yes-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+ 
+.yes-button:hover {
+  background-color: #45a049;
+}
+
+ 
+/* No Button */
+
+.no-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+ 
+.no-button:hover {
+  background-color: #e53935;
+}
+
+ 
+/* Disabled Button State */
+button[disabled] {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+ 
+/* Animation for smooth popup appearance */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+ 
+ 
+/* Modal Overlay */
+.level2-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw; /* Covers the entire viewport width */
+  height: 100vh; /* Covers the entire viewport height */
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensures it stays on top */
+}
+ 
+/* Modal Content */
+.level2-modal-content {
+  background: #cccccc;
+  width: 90%;
+  max-width: 700px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.3s ease-in-out;
+  max-height: 90vh; /* Ensures it fits within the viewport */
+  overflow-y: auto; /* Adds scroll if content exceeds available height */
+}
+ 
+/* Modal Header */
+.level2-modal-header {
+  background: #f5f5f5;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+}
+ 
+.level2-modal-header h2 {
+  margin: 0;
+  font-size: 1.5em;
+  color: #333;
+}
+ 
+.level2-close-button {
+  font-size: 1.5em;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+ 
+.level2-close-button:hover {
+  color: #ff5e57;
+}
+ 
+/* Modal Body */
+.modal-body {
+  padding: 20px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+ 
+.scorecard, .feedback-form {
+  flex: 1 1 45%;
+}
+ 
+.scorecard h3 {
+  margin-bottom: 10px;
+  font-size: 1.2em;
+  color: #333;
+}
+ 
+.scorecard ul {
+  list-style: none;
+  padding: 0;
+}
+ 
+.scorecard li {
+  font-size: 1em;
+  margin: 5px 0;
+}
+ 
+/* Feedback Form */
+.feedback-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+ 
+.feedback-form label {
+  font-size: 1em;
+  color: #555;
+}
+ 
+.feedback-form select,
+.feedback-form textarea,
+.feedback-form input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+ 
+.feedback-form textarea {
+  min-height: 80px;
+}
+ 
+.feedback-form button {
+  padding: 10px 20px;
+  font-size: 1em;
+  background-color: #452758;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+ 
+.feedback-form button:hover {
+  background-color: #a09ed4;
+}
+ 
+/* Keyframe Animation for Fade In */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+ 
+ 
+.filter-navbar {
+  display: flex;
+  gap: 13px;
+  margin: 20px 0;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+}
+ 
+.filter-option {
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 25px;
+  background-color: #a09ed4;
+  transition: background-color 0.3s, color 0.3s;
+}
+ 
+.filter-option:hover {
+  background-color: #553768;
+  color: white;
+}
+ 
+.filter-option.active {
+  background-color: #452758;
+    color: white;
+  /* font-weight: bold; */
+  border: 1px solid #000000;
+}
+ 
+ 
+ 
+.level1-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers the cards horizontally */
+  width: 100%;
+  margin-top: 20px; /* Adjust for top spacing */
+}
+ 
+ 
+ 
+ 
+/* Container for the profile card */
+.level1-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px; /* Optional: max width for the card */
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  margin-bottom: 20px;
+  margin-top: 20px; /* Adjust top margin */
+}
+ 
+/* Section for the profile details */
+.level1-details {
+  flex: 1; /* Takes up remaining space */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 20px;
+}
+ 
+/* Profile image style */
+.profile-picture {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 20px;
+}
+ 
+/* Title, name, and email styling */
+.level1-name {
+  font-size: 1.5em;
+  margin: 0;
+}
+ 
+.level1-email{
+  font-size: 0.9em;
+  color: #666;
+  margin: 5px 0;
+}
+ 
+.level1-Score{
+  font-size: 1.1em;
+  font-weight: 700;
+  color: #dcb800;
+  margin: 5px 0;
+}
+ 
+/* Applied date style */
+.level1-duration {
+  font-size: 0.9em;
+  color: #666;
+}
+ 
+/* Button section style */
+.level1-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between buttons */
+}
+ 
+/* Button styling */
+
+ 
+/* Status button color */
+.status-button {
+  background-color: #452758;
+  color: white;
+  border-radius: 25px;
+  }
+   
+ 
+button:hover {
+  opacity: 0.9; /* Slight opacity on hover */
+}
+ 
+/* Blur and darken the background */
+.level1feedback-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  backdrop-filter: blur(5px); /* Apply blur effect */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it appears on top */
+}
+ 
+/* Popup content styling */
+.level1popup-content {
+  background: #fff; /* White background for the popup */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 90%; /* Responsive for smaller screens */
+  text-align: center;
+}
+ 
+/* Title styling */
+.level1popup-content h3 {
+  margin-bottom: 15px;
+  font-size: 1.5em;
+  color: #333;
+}
+ 
+/* Textarea styling */
+.level1feedback-textarea {
+  width: 100%;
+  height: 100px;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+  resize: none; /* Prevent resizing */
+  box-sizing: border-box;
+}
+ 
+/* Buttons container */
+.level1popup-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+ 
+/* Submit button styling */
+.level1submit-button {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+ 
+.level1submit-button:hover {
+  background: #0056b3;
+}
+ 
+/* Cancel button styling */
+.level1cancel-button {
+  background: #ccc;
+  color: #333;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+ 
+.level1cancel-button:hover {
+  background: #999;
+}
+  
+mat-dialog-content {
+  padding: 20px;
+  max-width: 500px;
+  width: 100%;
+}
+ 
+/* General styling for the overlay container */
+.overlay-container {
+  position: fixed;
+  max-height:70vh;
+  overflow-y: scroll;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: snow;
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+ 
+/* Dimmed background overlay */
+body.show-overlay {
+  overflow: hidden;
+}
+body.show-overlay::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 999;
+}
+ 
+/* Form fields styling */
+mat-form-field {
+  display: block;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+/* Buttons styling */
+button {
+  margin: 10px 5px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  color: #fff;
+  transition: opacity 0.3s ease; /* Smooth transition on hover */
+}
+ 
+button[type="submit"] {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+ 
+button[type="submit"]:hover {
+  background-color: #45a049;
+}
+ 
+button.cancel-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+ 
+button.cancel-button:hover {
+  background-color: #d32f2f;
+}
+ 
+/* Header styling */
+.overlay-container h2 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #333;
+}
+ 
+/* Responsive design */
+@media (max-width: 600px) {
+  .overlay-container {
+    max-width: 90%;
+    padding: 15px;
+  }
+ 
+  button {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
+}
+ 
+/* LOADER */
+ 
+/* HTML: <div class="loader"></div> */
+.loader {
+  --d: 22px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  color: #f78888; /* Updated color */
+  box-shadow:
+    calc(1 * var(--d))      calc(0 * var(--d))     0 0,
+    calc(0.707 * var(--d))  calc(0.707 * var(--d)) 0 1px,
+    calc(0 * var(--d))      calc(1 * var(--d))     0 2px,
+    calc(-0.707 * var(--d)) calc(0.707 * var(--d)) 0 3px,
+    calc(-1 * var(--d))     calc(0 * var(--d))     0 4px,
+    calc(-0.707 * var(--d)) calc(-0.707 * var(--d)) 0 5px,
+    calc(0 * var(--d))      calc(-1 * var(--d))    0 6px;
+  animation: l27 1s infinite steps(8);
+}
+ 
+@keyframes l27 {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+  
+.overlayLOADER {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  height: 400PX;
+  background-color: #f3f4f6;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+ 
+.main{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  margin-top: 50vh;
+}
+ 
+.Shortlistednavbar-button {
+  background: none; /* Removes button background */
+  border: none; /* Removes button border */
+  padding: 0; /* Removes padding */
+  cursor: pointer; /* Changes cursor to pointer */
+  display: inline-flex; /* Ensures alignment of icon */
+  align-items: center; /* Centers icon vertically */
+  justify-content: center; /* Centers icon horizontally */
+  width: 50px; /* Square shape */
+  height: 50px;
+  font-size: 1.6rem;
+  color: black;
+  border-radius: 8px;
+  transition: background-color 0.3s, color 0.3s ease;
+}
+ 
+.Shortlistednavbar-button .fa-chevron-down {
+  font-size: 1.6rem; /* Adjust the size of the arrow icon */
+  color: #333; /* Set arrow color, customize as needed */
+}
+ 
+.Shortlistednavbar-button:focus {
+  outline: none; /* Removes focus outline */
+}
+ 
+/* Hover Style */
+.Shortlistednavbar-button:hover .fa-chevron-down {
+  color: white; /* Changes arrow color on hover */
+}
+
+.Appliednavbar-button {
+  background: none; /* Removes button background */
+  border: none; /* Removes button border */
+  padding: 0; /* Removes padding */
+  cursor: pointer; /* Changes cursor to pointer */
+  display: inline-flex; /* Ensures alignment of icon */
+  align-items: center; /* Centers icon vertically */
+  justify-content: center; /* Centers icon horizontally */
+  width: 50px; /* Square shape */
+  height: 50px;
+  font-size: 1.6rem;
+  color: black;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+ 
+.Appliednavbar-button .fa-chevron-down {
+  font-size: 1.6rem; /* Adjust the size of the arrow icon */
+  color: #333; /* Set arrow color, customize as needed */
+}
+ 
+.Appliednavbar-button:focus {
+  outline: none; /* Removes focus outline */
+}
+ 
+/* Hover Style for Appliednavbar-button */
+.Appliednavbar-button:hover .fa-chevron-down {
+  color: #ffffff; /* Changes arrow color on hover */
+}
+ 
+.applyselect {
+  background-color: black;
+  border: none; /* Remove border */
+  border-radius: 20px; /* Rounded edges */
+  color: white; /* White text color */
+  padding: 10px 20px; /* Padding for size */
+  font-size: 16px; /* Font size */
+  font-weight: bold; /* Bold text */
+  cursor: pointer; /* Change cursor on hover */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth animations */
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+}
+ 
+.applyselect:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.6); /* Enhance shadow on hover */
+}
+ 
+.applyselect:active {
+  transform: scale(0.95); /* Slightly shrink on click */
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2); /* Reduce shadow on click */
+}
+ 
+.shortlistselect {
+  background-color: #a09ed4;
+  border: none; /* Remove border */
+  border-radius: 20px; /* Rounded edges */
+  color: white; /* White text color */
+  padding: 10px 20px; /* Padding for size */
+  font-size: 16px; /* Font size */
+  font-weight: bold; /* Bold text */
+  cursor: pointer; /* Change cursor on hover */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth animations */
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+}
+ 
+.shortlistselect:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.6); /* Enhance shadow on hover */
+}
+ 
+.shortlistselect:active {
+  transform: scale(0.95); /* Slightly shrink on click */
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2); /* Reduce shadow on click */
+}
+ 
+ 
+h1, h2, h3, h4, h5, h6 {
+  font-family: Tahoma, Verdana, Geneva, sans-serif;
+}
+ 
+p {
+  font-family: Cambria, Georgia, "Times New Roman", serif;
+}
+ 
+ 
+ 
+ 

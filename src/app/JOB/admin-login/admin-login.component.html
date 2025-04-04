@@ -1,0 +1,36 @@
+<main class="main-container">
+  <div class="login-container">
+    <!-- Left Panel -->
+    <div class="welcome-panel">
+      <h2>Welcome to FusionIQ AI</h2>
+      <p>"Empowering Developers to Spark the Next Tech Revolution 💪 ✨</p>
+      <p>#FUSIONIQ AI"</p>
+    </div>
+ 
+    <!-- Right Panel -->
+    <div class="login-panel">
+      <h2>Hello Admin!</h2>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+        <input type="email" formControlName="email" placeholder="Enter your email">
+        <input type="password" formControlName="password" placeholder="Enter your password">
+
+        <a class="forgot-password-link" (click)="onForgotPassword()">Forgot Password?</a>
+ 
+        <button type="submit" class="login-button" >Login</button>
+      </form>
+     
+      <!-- Display Error Message -->
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+
+ 
+      <div class="signup-link">
+        <p>Don't have an account?</p>
+        <a  routerLink="/JobAdminSignup">Create an account</a>
+      </div>
+    </div>
+  </div>
+</main>
+ 
+ 
+ 

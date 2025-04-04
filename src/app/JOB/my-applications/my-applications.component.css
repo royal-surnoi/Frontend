@@ -1,0 +1,906 @@
+/* Applications Container */
+.applications-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  padding: 1rem;
+  height: auto;
+  background-color: #f7f9fc; /* Light background to complement colorful cards */
+}
+ 
+/* Individual Application Card */
+.application-card {
+  background-color: #ffffff;
+  border: none; /* Removed border to focus on the gradient */
+  border-radius: 12px; /* Softer rounded corners */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow for depth */
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  position: relative; /* Needed for positioning the applied date */
+  width: calc(33.33% - 1rem);
+  /* height: auto; */
+  height: 280px;
+  box-sizing: border-box;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+ 
+.application-card:hover {
+  transform: scale(1.05); /* Smooth zoom effect on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+}
+ 
+/* Ensure cards have the same size */
+.application-card h2,
+.application-card p,
+.application-card div {
+  margin: 5px;
+}
+ 
+/* Card Header Layout */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+ 
+/* Job Title and Company Name */
+.header-info {
+  display: flex;
+  flex-direction: column;
+}
+ 
+.job-title {
+  font-size: 15px;
+  font-weight: bold;
+  color: black; /* White text for better contrast */
+  position: relative;
+  top: -40px;
+ 
+}
+
+.company-name {
+  font-size: 1rem;
+  color: black; 
+  position: relative;
+  top: -40px;
+  margin-left: -4px;
+}
+ 
+/* Status Line */
+.status-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  width: 100%;
+}
+ 
+
+.job-status {
+  font-size: 18px;
+  font-weight: bold;
+  color: black; 
+  margin-top: 15px;
+  position: relative;
+  top: -30px;
+}
+ 
+/* Applied Date Styling */
+.applieddate {
+  font-size: 0.875rem;
+  color: black; /* Semi-transparent white for a subtle look */
+  margin: 0;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* Spacing for icon */
+  position: relative;
+  top: -30px;
+}
+ 
+.applieddate i {
+  font-size: 1rem; /* Adjust the size of the clock icon */
+  color: black; /* Matching semi-transparent white for the icon */
+}
+
+/* Menu Button */
+.menu-btn {
+  background: none;
+  border: none;
+  font-size: 2.2rem;
+  color: black;
+  cursor: pointer;
+  position: relative;
+  top: -45px;
+  display: inline-block;
+  animation: dots-animation 1s infinite;
+}
+ 
+/* Animation for single-color blinking */
+@keyframes blink-single {
+  0%, 50% {
+    color: #950606; /* The blinking color */
+  }
+  100% {
+    color: #0d014e; /* Original color */
+  }
+}
+ 
+/* Dropdown Menu Styling */
+.dropdown-menu {
+  position: absolute;
+  top: 1rem;
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  min-width: 150px;
+}
+ 
+.dropdown-item {
+  background: none;
+  border: none;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 1rem;
+  color: #333333;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 755px) {
+  .application-card {
+    width: calc(50% - 1rem);
+  }
+}
+ 
+@media screen and (max-width: 480px) {
+  .application-card {
+    width: 100%;
+  }
+}
+ 
+.status-divider {
+  border: none;
+  border-top: 1px solid black;
+  width: 100%;
+  opacity: 0.5;
+  position: relative;
+  top: -20px;
+}
+ 
+.getfeed {
+  display: flex; /* Align buttons horizontally */
+  gap: 12px; /* Add spacing between the buttons */
+  position: relative;
+  top: -40px;
+}
+
+.getfeed .dropdowns-item {
+  padding: 10px 16px; /* Add padding for better clickable area */
+  font-size: 14px; /* Set font size */
+  font-weight: 600; /* Make text slightly bold */
+  color: white; /* White text color */
+  background-color: #a5a5db;
+  border: none; /* Remove default button border */
+  border-radius: 5px; /* Add rounded corners */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.getfeed .dropdowns-item:hover {
+  background-color: #452758; /* Darker blue on hover */
+  transform: scale(1.05); /* Slight zoom effect on hover */
+}
+ 
+.getfeed .dropdowns-item:active {
+  background-color: #d4ffff; /* Even darker blue when clicked */
+  transform: scale(1); /* Reset zoom effect */
+}
+ 
+.getfeed .dropdowns-item:focus {
+  outline: none; /* Remove default outline */
+  box-shadow: 0 0 5px rgba(105, 165, 230, 0.8); /* Add focus glow */
+}
+ 
+ /* //////////////////////////////////////feed back//////////////////////////////////////////////////////// */
+ 
+/* Modal Background */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+ 
+.modal-content::-webkit-scrollbar{
+  width: 2%;
+}
+ 
+/* Modal Content */
+ 
+.modal-content {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+  max-height: 80vh;
+  overflow: auto;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  float: right;
+  font-size: 24px;
+  cursor: pointer;
+  color: #999;
+  transition: color 0.2s;
+}
+
+.close-btn:hover {
+  color: #333;
+}
+ 
+/* Header */
+.modal-content h2 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  color: #333;
+  height: auto;
+}
+ 
+.company-logo {
+  width: 440px;
+  height: auto;
+  margin-right: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+ 
+/* Feedback Section */
+.feedback-container {
+  padding-top: 10px;
+}
+
+.feedback-section {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-top: 10px;
+  background-color: #d4cdd8;
+}
+
+.level-heading {
+  font-size: 25px;
+  color: #d74242;
+  margin-bottom: 5px;
+}
+
+.feedback-section p {
+  font-size: 14px;
+  margin: 5px 0;
+ 
+}
+ 
+/* No Feedback Message */
+#noFeedback {
+  text-align: center;
+  font-style: italic;
+  color: #999;
+  padding-top: 20px;
+}
+ 
+.recommendation-section {
+  margin: 20px;
+  /* padding: 20px; */
+  border-radius: 8px;
+  width: 500px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-family: Arial, sans-serif;
+  color: #333;
+  height: 70vh;
+  overflow: scroll;
+}
+.recommendation-section::-webkit-scrollbar{
+  width: 2%;
+}
+ 
+.courses-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  /* padding: 10px; */
+  box-shadow: none;
+  width: max-content;
+ 
+}
+ 
+.course-card {
+  background:#d4cdd8;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* padding: 16px; */
+  margin: 10px;
+  transition: transform 0.2s ease-in-out;
+  width: 450px;
+  height: 30dvh;
+  scrollbar-width: none;
+  display: flex;
+ 
+}
+.course-image{
+  margin: auto;
+  width:55%;
+  height: 50%;
+}
+.course-image img{
+  width: 100%;
+}
+ 
+.course-card:hover {
+  transform: scale(1.02);
+}
+ 
+.course-details{
+  margin-top: 50px;
+ 
+}
+ 
+.view-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+  background: #2196f3;
+  color: #fff;
+}
+
+.view-btn:hover {
+  background: #1976d2;
+}
+ 
+
+ 
+.enroll-btn {
+  background: #452758;
+  color: #fff;
+  padding: 6px 9px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+  margin-left: 30px;
+    margin-right: 30px;
+    width: 90px;
+}
+ 
+.enroll-btn:hover {
+  background: #452758e0;
+}
+ 
+
+.company-info .company-name {
+  font-size: 17px;
+  width: 400px;
+  font-weight: bold;
+  color: #e53e3e;
+  margin-right: 97px;
+  margin-top:-13px;
+}
+ 
+.company-info .rating {
+  background-color: #ffcf10;
+  padding: 3px 8px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  margin-right: 5px;
+}
+ 
+.job-footer {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  flex-direction: row;
+  gap: 5%;
+}
+ 
+ .takequiz-btn{
+  background: linear-gradient(135deg, #6e91c8 0%, #3d84a5 100%);
+color: #ffffff;
+border-radius: 20px;
+font-size: 15px;
+height: 35px;
+width: 97px;
+margin-top: -122px;
+ }
+ 
+.takequiz-btn:hover {
+  /* background-color:  #d80000; */
+  background: linear-gradient(135deg, #2365c2 0%, #6bbcda 100%);
+transform: scale(1.05);
+box-shadow: 0 8px 16px rgba(118, 176, 255, 0.4);
+}
+
+/* Withdraw Button */
+.withdraw-btn {
+  background: linear-gradient(135deg, #e33f3d 0%, #d83e3e 100%); /* Red Gradient */
+  color: #ffffff;
+  border: none;
+  border-radius: 30px;
+  height: 40px;
+  width: 100px;
+  margin-top: -122px;
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.withdraw-btn:hover {
+  background: linear-gradient(135deg, #e94c4c 0%, #e94040 100%); /* Hover Red Gradient */
+  transform: scale(1.1);
+  box-shadow: 0 8px 16px rgba(211, 47, 47, 0.4);
+}
+
+.feedback-btn {
+  background:linear-gradient(135deg, #fb9b6f 0%, #e98035 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 30px;
+  height: 40px;
+  width: 100px;
+  margin-top: -122px;
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.feedback-btn:hover {
+  background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%); /* Hover Orange Gradient */
+  transform: scale(1.1);
+  box-shadow: 0 8px 16px rgba(255, 152, 0, 0.4);
+}
+ 
+.viewjob-btn {
+  /* background-color: #0061c8;
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer; */
+  background:rgb(223, 131, 131);
+  color: #ffffff;
+  border-radius: 20px;
+  font-size: 15px;
+  height: 35px;
+  width: 97px;
+  margin-top: -122px;
+}
+ 
+.viewjob-btn:hover {
+  /* background-color: #0056b3; */
+  /* background: linear-gradient(135deg, #5d9aee 0%, #92dffb 100%); */
+  background:rgb(204, 104, 104);
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(118, 176, 255, 0.4);
+}
+ 
+
+ 
+/* .job-status span {
+  background-color: #e0e0e0;
+  padding: 5px 10px;
+  border-radius: 10px;
+} */
+ 
+.status-inprogress {
+  color: #00b831;
+}
+ 
+.status-level-1 {
+  color: #003f82;
+}
+ 
+.status-rejected {
+  color: #DC3545;
+}
+ 
+ 
+/* Company Details */
+.company-details {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.company-details div {
+  font-size: 14px;
+}
+.company-details a {
+  color: #0066cc;
+  text-decoration: none;
+}
+.company-details a:hover {
+  text-decoration: underline;
+}
+ 
+/* Recruiter Details */
+.recruiter-details, .user-details {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  height: auto;
+}
+.recruiter-details h3, .user-details h3 {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 5px;
+}
+ 
+/* Feedback Section */
+
+
+
+
+ 
+/* No Feedback Message */
+
+ 
+.company-logo img{
+  margin-top: 10px;
+  width: 68px;
+  height: 66px;
+  margin-right: 32px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-left: 174px;
+}
+ 
+ 
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+ 
+.modal-content p {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 30px;
+  color: #6c7a89;
+}
+ 
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+ 
+.confirm-btn,
+.cancel-btn {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+ 
+.confirm-btn {
+  background-color: #4CAF50;
+  color: #fff;
+}
+ 
+.cancel-btn {
+  background-color: #f44336;
+  color: #fff;
+}
+ 
+.confirm-btn:hover,
+.cancel-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+ 
+.confirm-btn:active,
+.cancel-btn:active {
+  transform: translateY(1px);
+  opacity: 0.8;
+}
+ 
+.confirm-btn:focus,
+.cancel-btn:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+ 
+.cancel-btn:focus {
+  box-shadow: 0 0 5px rgba(244, 67, 54, 0.5);
+}
+ 
+@media (max-width: 480px) {
+  .modal-content {
+    width: 95%;
+    padding: 20px;
+  }
+ 
+  .modal-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+ 
+  .modal-actions button {
+    width: 100%;
+  }
+}
+ 
+ 
+ 
+.body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: var(--grey);
+  font-family: Arial, sans-serif;
+  flex-direction: column;
+}
+ 
+.loader21 {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+ 
+.loader22 {
+  margin-bottom: 20px;
+  margin-right: 5px;
+  font-size: 20px;
+  color: #333;
+}
+ 
+.f-letter {
+  position: absolute;
+  font-size: 80px;
+  font-weight: bold;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+ 
+.f-letter:nth-child(1) {
+  color: #5DA2D5;
+  animation-delay: 0s;
+}
+ 
+.f-letter:nth-child(2) {
+  color: #f3d250;
+  animation-delay: 0.2s;
+}
+ 
+.f-letter:nth-child(3) {
+  color: #f78888;
+  animation-delay: 0.4s;
+}
+ 
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2) rotate(10deg);
+    opacity: 0.7;
+  }
+}
+ 
+ 
+ /* HTML:  */
+ .loader {
+  width: 50px;
+  padding: 8px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #25b09b;
+  --_m:
+    conic-gradient(#0000 10%,#000),
+    linear-gradient(#000 0 0) content-box;
+  -webkit-mask: var(--_m);
+          mask: var(--_m);
+  -webkit-mask-composite: source-out;
+          mask-composite: subtract;
+  animation: l3 1s infinite linear;
+}
+@keyframes l3 {to{transform: rotate(1turn)}}
+ 
+.loader-container{
+  display: flex;
+  justify-content: center;
+  height: 200px;
+  width: 100%;
+}
+ 
+.coming-soon {
+  background-color: #f0f8ff;
+  border: 1px dashed #007bff;
+  padding: 15px;
+  text-align: center;
+  margin-top: 10px;
+}
+ 
+/* General Card Styles */
+.card {
+  border: 1px solid #eee;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+ 
+.toggle-icon {
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid #666;
+  border-bottom: 2px solid #666;
+  transform: rotate(45deg);
+  transition: transform 0.3s ease;
+}
+ 
+.toggle-icon.expanded {
+  transform: rotate(-135deg);
+}
+  
+ /* General Card Styles */
+.card-content {
+  padding: 10px;
+  display: block;
+  transition: height 0.3s ease, opacity 0.3s ease;
+}
+ 
+.card-content.collapsed {
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding: 0;
+}
+ 
+ 
+.company {
+  font-family: 'Arial', sans-serif;
+  font-size: 1.2rem;
+  width: 420px;
+  color: #333; /* Dark gray for a professional look */
+  background-color:#d4cdd8; /* Subtle light gray background */
+  border: 1px solid #ddd; /* Light border for definition */
+  border-radius: 5px; /* Rounded corners for a modern look */
+  padding: 10px 15px; /* Inner padding for spacing */
+  margin: 10px 5px 10px 10px; /* Outer margin for spacing from other elements */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+ 
+ 
+.viewjob-btn, .takequiz-btn{
+  background: linear-gradient(135deg, #5b80bc 0%, #86b8d0 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 30px;
+  height: 40px;
+  width: 100px;
+  margin-top: -122px;
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+ 
+ .viewjob-btn:hover, .takequiz-btn:hover{
+  background: linear-gradient(135deg, #5b80bc 0%, #86b8d0 100%);
+  transform: scale(1.1);
+  box-shadow: 0 8px 16px rgba(255, 144, 144, 0.4);
+}
+ 
+.application-card h2{
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: -2px;
+}
+ 
+.dropdown-item:hover {
+  background-color: #a09ed4; 
+  color: white;
+}
+
+/* Base animation for color change */
+@keyframes blink-single {
+  0%, 50% {
+    color: #950606;
+  }
+  100% {
+    color: #0d014e;
+  }
+}
+ 
+/* Animation for dot movement and highlight */
+@keyframes dots-animation {
+  0%, 100% {
+    text-shadow:
+      0 0 10px rgba(149, 6, 6, 0.7),
+      0 0 20px rgba(149, 6, 6, 0.5),
+      0 0 30px rgba(149, 6, 6, 0.3);
+    transform: scale(1);
+  }
+ 
+  33% {
+    text-shadow:
+      0 0 15px rgba(13, 1, 78, 0.7),
+      0 0 25px rgba(13, 1, 78, 0.5),
+      0 0 35px rgba(13, 1, 78, 0.3);
+    transform: scale(1.1);
+  }
+ 
+  66% {
+    text-shadow:
+      0 0 12px rgba(149, 6, 6, 0.7),
+      0 0 22px rgba(149, 6, 6, 0.5),
+      0 0 32px rgba(149, 6, 6, 0.3);
+    transform: scale(0.95);
+  }
+}
+ 
+/* Optional: Add hover effect */
+.menu-btn:hover {
+  animation: dots-animation 5s infinite;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: Tahoma, Verdana, Geneva, sans-serif;
+}
+ 
+p {
+  font-family: Cambria, Georgia, "Times New Roman", serif;
+}
+ 
+ 

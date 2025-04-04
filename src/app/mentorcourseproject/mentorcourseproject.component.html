@@ -1,0 +1,107 @@
+<nav class="headding">
+  <button (click)="navigateToDashboard()" id="dashb"> Back to Dashboard</button>
+
+  <h4 style="margin-right:500px;margin-top:15px;">Send project</h4>
+</nav>
+<form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="projectTitle">Project Title:</label>
+    <input id="projectTitle" formControlName="projectTitle" type="text" />
+    <div *ngIf="projectForm.get('projectTitle')?.errors && (projectForm.get('projectTitle')?.touched || projectForm.get('projectTitle')?.dirty)">
+      <div *ngIf="projectForm.get('projectTitle')?.errors?.['required']">
+        Project Title is required.
+      </div>
+      <div *ngIf="projectForm.get('projectTitle')?.errors?.['minlength']">
+        Minimum 3 characters required.
+      </div>
+      <div *ngIf="projectForm.get('projectTitle')?.errors?.['maxlength']">
+        Maximum 50 characters allowed.
+      </div>
+    </div>
+  </div>    
+
+  <div>
+    <label for="projectDescription">Project Description:</label>
+    <textarea id="projectDescription" formControlName="projectDescription"></textarea>
+    <div *ngIf="projectForm.get('projectDescription')?.errors && (projectForm.get('projectDescription')?.touched || projectForm.get('projectDescription')?.dirty)">
+      <div *ngIf="projectForm.get('projectDescription')?.errors?.['required']">
+        Project Description is required.
+      </div>
+      <div *ngIf="projectForm.get('projectDescription')?.errors?.['minlength']">
+        Project Description must be at least 5 characters long.
+      </div>
+      <div *ngIf="projectForm.get('projectDescription')?.errors?.['maxlength']">
+        Project Description cannot exceed 1500 characters.
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <label for="gitUrl">Git URL:</label>
+    <input id="gitUrl" formControlName="gitUrl" type="text" />
+    <div *ngIf="projectForm.get('gitUrl')?.errors && (projectForm.get('gitUrl')?.touched || projectForm.get('gitUrl')?.dirty)">
+      <div *ngIf="projectForm.get('gitUrl')?.errors?.['required']">
+        Git URL is required.
+      </div>
+      <div *ngIf="projectForm.get('gitUrl')?.errors?.['pattern']">
+        Please enter a valid Git URL (must start with http:// or https://).
+      </div>
+    </div>
+  </div>    
+
+  <!-- Start Date -->
+  <div>
+    <label for="startDate">Start Date:</label>
+    <input id="startDate" formControlName="startDate" type="datetime-local" />
+    <div *ngIf="projectForm.get('startDate')?.errors && (projectForm.get('startDate')?.touched || projectForm.get('startDate')?.dirty)">
+      <div *ngIf="projectForm.get('startDate')?.errors?.['required']">
+        Start Date is required.
+      </div>
+      <div *ngIf="projectForm.get('startDate')?.errors?.['minDate']">
+        Start Date cannot be before {{ today | date:'dd-MM-yyyy' }}.
+      </div>
+    </div>
+  </div>
+
+  <!-- Project Deadline -->
+  <div>
+    <label for="projectDeadline">Project Deadline:</label>
+    <input id="projectDeadline" formControlName="projectDeadline" type="datetime-local" />
+    <div *ngIf="projectForm.get('projectDeadline')?.errors && (projectForm.get('projectDeadline')?.touched || projectForm.get('projectDeadline')?.dirty)">
+      <div *ngIf="projectForm.get('projectDeadline')?.errors?.['required']">
+        Project Deadline is required.
+      </div>
+    </div>
+    <!-- Cross-field error from form-level validator -->
+    <div *ngIf="projectForm.errors?.['deadlineBeforeStart'] && (projectForm.get('projectDeadline')?.touched || projectForm.get('projectDeadline')?.dirty)">
+      Project Deadline must be after Start Date.
+    </div>
+  </div>
+
+<!-- Review Meeting Date -->
+  <div>
+    <label for="reviewMeetDate">Review Meeting Date:</label>
+    <input id="reviewMeetDate" formControlName="reviewMeetDate" type="datetime-local" />
+    <div *ngIf="projectForm.get('reviewMeetDate')?.errors && (projectForm.get('reviewMeetDate')?.touched || projectForm.get('reviewMeetDate')?.dirty)">
+      <div *ngIf="projectForm.get('reviewMeetDate')?.errors?.['required']">
+        Review Meeting Date is required.
+      </div>
+    </div>
+    <!-- Cross-field error from form-level validator -->
+    <div *ngIf="projectForm.errors?.['reviewBeforeDeadline'] && (projectForm.get('reviewMeetDate')?.touched || projectForm.get('reviewMeetDate')?.dirty)">
+      Review Meeting Date must be after Project Deadline.
+    </div>
+  </div>
+
+  <div>
+    <label for="projectDocument">Project Document:</label>
+    <input id="projectDocument" type="file" (change)="onFileChange($event)" />
+    <!-- Display error message if the file type is not allowed -->
+    <div *ngIf="fileError">
+      <span >{{ fileError }}</span>
+    </div>
+  </div>
+  
+
+  <button type="submit">Submit</button>
+</form>

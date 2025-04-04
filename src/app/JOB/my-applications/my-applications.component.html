@@ -1,0 +1,180 @@
+<p-toast></p-toast>
+ <div *ngIf="isloaded" class="applications-container">
+  <div class="application-card" *ngFor="let application of jobApplications; let i = index">
+    <!-- Card Header -->
+    <div class="card-header">
+      <div class="header-info">
+        <h2 class="job-title">{{ application.job.jobTitle }}</h2>
+        <span class="company-name">
+          {{ application.job.jobAdmin?.jobAdminCompanyName || 'No Company Name Available' }}
+        </span>
+      </div>
+      <!-- Three Dots Menu -->
+      <div class="menu-container">
+        <button class="menu-btn" (click)="toggleMenu(application)">
+          &#8942;
+        </button>
+        <div class="dropdown-menu" *ngIf="application.menuOpen">
+          <button class="dropdown-item" (click)="viewJob(application.job.id)">
+            View Job
+          </button>
+          <button class="dropdown-item" (click)="withdrawApplication(application.id)"  *ngIf="application.withdraw !== 'yes'" >Withdraw</button>
+          <button *ngIf="application.withdraw === 'yes' "class="dropdown-item" (click)="reapplyApplication(application.id)">Reapply</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="getfeed">
+      <button class="dropdowns-item" (click)="getfeedbacks(application.job.id, application)">Feedback</button>
+      <button class="dropdowns-item" [routerLink]="['/TakeQuiz', application.job.id]">Take Quiz</button>
+    </div>
+
+    <!-- Card Body -->
+    <hr class="status-divider" />
+    <div class="status-line">
+      <div class="job-status">
+        Status: <span>{{ application.status }}</span>
+      </div>
+
+<p class="applieddate">
+  <i class="far fa-clock"></i>
+  Applied {{ formatPostedDate(application.lastUpdated) }}
+</p>  
+</div>
+  </div>
+</div>
+
+
+
+
+<!----------------------- Feedback Modal ----------------------------->
+<div class="modal" *ngIf="showModal">
+  <div class="modal-content">
+
+    <!-- Close Button -->
+    <div>
+      <span (click)="closeFeedbackModal()" class="close-btn">&times;</span>
+    </div>
+
+    <!-- Job Title Header -->
+    <h2>Feedback for Job Title: {{ selectedJob?.job?.jobTitle }} </h2>
+
+    <!-- Company Details Section -->
+    <div class="company-logo">
+      <img *ngIf="selectedJob?.job?.jobAdmin?.companyLogo"
+        [src]="sanitizeLogoUrl(selectedJob?.job?.jobAdmin?.companyLogo || '')" alt="Company Logo" class="logo-image" />
+      <div class="company">
+        <strong>Company Name:</strong>{{ selectedJob?.job?.jobAdmin?.jobAdminCompanyName || 'No Company Name Available'
+        }} <br>
+      </div>
+    </div>
+    <br>
+
+    <div *ngIf="showdata">
+
+
+
+
+      <!-- Recruiter Details Section -->
+      <div class="card" *ngIf="JobFeedbacks.length>0">
+        <div class="card-header" (click)="toggleSection('recruiter')">
+          <h3>Recruiter Details</h3>
+          <span class="toggle-icon" [ngClass]="{'expanded': isSectionOpen.recruiter}"></span>
+        </div>
+        <div class="card-content" [ngClass]="{'collapsed': !isSectionOpen.recruiter}">
+          <p><strong>Name:</strong> {{JobFeedbacks[0].recruiterName}}</p>
+          <p><strong>Email:</strong> {{JobFeedbacks[0].recruiterEmail}}</p>
+        </div>
+      </div>
+
+      <!-- User Details Section -->
+      <div class="card" *ngIf="JobFeedbacks.length>0">
+        <div class="card-header" (click)="toggleSection('user')">
+          <h3>User Details</h3>
+          <span class="toggle-icon" [ngClass]="{'expanded': isSectionOpen.user}"></span>
+        </div>
+        <div class="card-content" [ngClass]="{'collapsed': !isSectionOpen.user}">
+          <p><strong>Name:</strong> {{JobFeedbacks[0].userName}}</p>
+          <p><strong>Email:</strong>{{JobFeedbacks[0].userEmail}}</p>
+        </div>
+      </div>
+
+
+
+      <!-- Feedback Section -->
+      <div class="feedback-container">
+        <div *ngFor="let i of JobFeedbacks; let idx = index; let last = last">
+          <div class="feedback-section">
+            <h3 class="level-heading">{{ i?.currentLevel }} Feedback</h3>
+            <p><strong>Feedback:</strong> {{ i?.currentFeedback }}</p>
+          </div>
+
+          <div class="feedback-section" *ngIf="i?.interviewLink != null">
+            <h3 class="level-heading">{{ i?.upcomingLevel }} Details</h3>
+            <p><strong>Interview link:</strong> <a href="{{ i?.interviewLink }}">Join Now</a></p>
+            <p><strong>Interview Time:</strong> {{ i?.interviewTimestamp }}</p>
+            <p><strong>Interviewer name:</strong> {{ i?.interviewerName }}</p>
+          </div>
+
+          <!-- Add 'Coming Soon' section if this is the last index -->
+          <div class="feedback-section coming-soon" *ngIf="last">
+            <h3 class="level-heading">Coming Soon</h3>
+            <p>Stay tuned for more updates!</p>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div *ngIf="!showdata" class="loader-container">
+      <div class="loader">
+      </div>
+    </div>
+
+    <!-- No Feedback Template -->
+    <div *ngIf="JobFeedbacks.length == 0">
+      <div class="feedback-section coming-soon">
+        <h3 class="level-heading">Coming Soon</h3>
+        <p>No feedback yet! Stay tuned for more updates!</p>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="recommendations" class="recommendation-section">
+    <div class="recommendation-content">
+      <div class="courses-container">
+        <div *ngFor="let course of recommendations.recommendations.recommended_courses" class="course-card">
+          <!-- Card Header with Full Image -->
+          <div class="card-header">
+            <img *ngIf="course.sanitizedImage" [src]="course.sanitizedImage" alt="{{ course.courseTitle }}"
+              class="course-image" />
+          </div>
+
+          <!-- Card Body -->
+          <div class="card-body">
+            <div class="course-details">
+              <p><strong>{{ course.courseTitle }}</strong></p>
+              <p><strong>Rating:</strong> {{ course.courseRating }}/5</p>
+            </div>
+
+            <button class="enroll-btn" [routerLink]="['/courseland']" [queryParams]="{ courseId: course.id }">
+              Enroll Now
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+<div class="body" *ngIf="!isloaded">
+  <div class="loader21">
+    <div class="f-letter">F</div>
+    <div class="f-letter">F</div>
+    <div class="f-letter">F</div>
+  </div>
+  <p class="loader22">Loading..</p>
+</div>

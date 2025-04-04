@@ -1,0 +1,25 @@
+<main class="main-container">
+  <div class="login-container">
+    <!-- Left Panel -->
+    <div class="welcome-panel">
+      <h2>Welcome to FusionIQ AI</h2>
+      <p>"Empowering Developers to Spark the Next Tech Revolution 💪 ✨</p>
+      <p>#FUSIONIQ AI"</p>
+    </div>
+
+    <!-- Right Panel -->
+    <div class="login-panel">
+      <h2>Hello Recruiter!</h2>
+     
+   <form [formGroup]="loginForm" class="login-form">
+        <input type="email" formControlName="email" placeholder="Enter your email">
+        <input type="password" formControlName="password" placeholder="Enter your password">
+        <button type="submit" class="login-button" (click)="Login()">Login</button>
+      </form>
+     
+      <!-- Display Error Message -->
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    </div>
+  </div>
+</main>
+

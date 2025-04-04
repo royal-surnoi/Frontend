@@ -1,0 +1,191 @@
+<div class="main" [ngClass]="theme2">  <!-- Experience Section -->
+  <div class="main1">
+    <div class="sub-section">
+      <header class="section-header">
+        <h3 style="font-size: 20px;color: #304390;"><i class="fa-brands fa-buromobelexperte"style="color: #304390;"></i>    Experience</h3>
+        <a href="#" (click)="addExperience()" routerLink="/profile-sett" class="add-button">
+          <i class="fa-solid fa-plus"></i>
+        </a>
+      </header>
+ 
+      <div class="experience-items">
+        <ng-container *ngFor="let item of experiences; let i = index">
+          <div class="profile-item">
+            <div class="timeline-bubble">
+              {{ getYear(item.workStartDate) }} -
+              {{ item.currentlyWorking ? 'Present' : getYear(item.workEndDate) }}
+            </div>
+ 
+            <div class="item-content">
+              <ng-container *ngIf="!item.isEditing; else editExperienceMode">
+                <h4>
+                  {{ item.workRole }} at {{ item.workCompanyName }}
+                  <a (click)="editExperience(i)">
+                    <i class="fa-regular fa-pen-to-square" style="float: inline-end; color: #304390;"></i>
+                  </a>
+                </h4>
+                <p>{{ item.workDescription }}</p>
+              </ng-container>
+ 
+              <ng-template #editExperienceMode>
+                <div class="edit-form">
+                  <input [(ngModel)]="item.workRole" placeholder="Job Role" />
+                  <input [(ngModel)]="item.workCompanyName" placeholder="Company Name" />
+                  <input [(ngModel)]="item.workStartDate" placeholder="Start Date" type="date" />
+                  <input [(ngModel)]="item.workEndDate" placeholder="End Date" type="date" />
+                  <textarea [(ngModel)]="item.workDescription" placeholder="Description"></textarea>
+                  <div>
+                    <button (click)="saveExperience(i)">Save</button>
+                    <button (click)="cancelEditExperience(i)">Cancel</button>
+                  </div>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+          <div class="vertical-line" *ngIf="i !== experiences.length - 1"></div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- Education Section -->
+  <div class="main2">
+    <div class="sub-section">
+      <header class="section-header">
+        <h3 style="font-size: 20px;color: #304390;"><i class="fa-solid fa-school" style="color: #304390;"></i>   Education</h3>
+        <a href="#" (click)="addEducation()" routerLink="/profile-sett" class="add-button1">
+          <i class="fa-solid fa-plus"></i>
+        </a>
+      </header>
+ 
+      <div *ngFor="let item of educationDetails; let i = index" class="education-box">
+        <div class="profile-item">
+          <div class="item-content">
+            <!-- School Education Section -->
+<div class="education-section">
+  <h4>School Education</h4>
+  <ng-container *ngIf="!item.isEditingSchool; else editSchoolMode">
+    <p>
+      <strong>{{ item.schoolName }}</strong>
+      ({{ item.schoolYearOfJoining }} - {{ item.schoolYearOfPassout }})
+      - {{ item.schoolPercentage }}% - {{ item.schoolEducationBoard }}
+      <a (click)="editSchoolEducation(i)">
+        <i class="fa-regular fa-pen-to-square" style="color: #304390;"></i>
+      </a>
+    </p>
+  </ng-container>
+  <ng-template #editSchoolMode>
+    <div class="edit-form">
+      <input [(ngModel)]="item.schoolName" placeholder="School Name" />
+      <input [(ngModel)]="item.schoolYearOfJoining" placeholder="Joining Year" type="number" />
+      <input [(ngModel)]="item.schoolYearOfPassout" placeholder="Passout Year" type="number" />
+      <input [(ngModel)]="item.schoolPercentage" placeholder="Percentage" type="number" />
+      <input [(ngModel)]="item.schoolEducationBoard" placeholder="Education Board" />
+      <button (click)="saveSchoolEducation(i)">Save</button>
+      <button (click)="cancelEditSchoolEducation(i)">Cancel</button>
+    </div>
+  </ng-template>
+</div>
+ 
+<!-- Intermediate Education Section -->
+<div class="education-section">
+  <h4>Intermediate Education</h4>
+  <ng-container *ngIf="!item.isEditingIntermediate; else editIntermediateMode">
+    <p>
+      <strong>{{ item.intermediateCollegeName }}</strong>
+      ({{ item.intermediateYearOfJoining }} - {{ item.intermediateYearOfPassout }})
+      - {{ item.intermediateCollegePercentage }} - {{ item.intermediateEducationBoard }}
+      <a (click)="editIntermediateEducation(i)">
+        <i class="fa-regular fa-pen-to-square" style="color: #304390;"></i>
+      </a>
+    </p>
+  </ng-container>
+  <ng-template #editIntermediateMode>
+    <div class="edit-form">
+      <input [(ngModel)]="item.intermediateCollegeName" placeholder="College Name" />
+      <input [(ngModel)]="item.intermediateYearOfJoining" placeholder="Joining Year" type="number" />
+      <input [(ngModel)]="item.intermediateYearOfPassout" placeholder="Passout Year" type="number" />
+      <input [(ngModel)]="item.intermediateCollegePercentage" placeholder="Percentage" type="number" />
+      <input [(ngModel)]="item.intermediateEducationBoard" placeholder="Education Board" />
+      <button (click)="saveIntermediateEducation(i)">Save</button>
+      <button (click)="cancelEditIntermediateEducation(i)">Cancel</button>
+    </div>
+  </ng-template>
+</div>
+ 
+ 
+ 
+<!-- Graduation Education Section -->
+<div class="education-section">
+  <h4>Graduation</h4>
+  <ng-container *ngIf="!item.isEditingGraduation; else editGraduationMode">
+    <p>
+      <strong>{{ item.graduationCollegeName }}</strong>
+      ({{ item.graduationYearOfJoining }} - {{ item.graduationYearOfPassout }})
+      - {{ item.graduationCollegePercentage }}% - {{ item.graduateEducationBoard }}
+      <a (click)="editGraduationEducation(i)">
+        <i class="fa-regular fa-pen-to-square" style="color: #304390;"></i>
+      </a>
+    </p>
+  </ng-container>
+  <ng-template #editGraduationMode>
+    <div class="edit-form">
+      <input [(ngModel)]="item.graduationCollegeName" placeholder="College Name" />
+      <input [(ngModel)]="item.graduationYearOfJoining" placeholder="Joining Year" type="number" />
+      <input [(ngModel)]="item.graduationYearOfPassout" placeholder="Passout Year" type="number" />
+      <input [(ngModel)]="item.graduationCollegePercentage" placeholder="Percentage" type="number" />
+      <input [(ngModel)]="item.graduateEducationBoard" placeholder="Education Board" />
+      <button (click)="saveGraduationEducation(i)">Save</button>
+      <button (click)="cancelEditGraduationEducation(i)">Cancel</button>
+    </div>
+  </ng-template>
+</div>
+ 
+<!-- Postgraduate Education Section -->
+<div class="education-section">
+  <h4>Postgraduate</h4>
+  <ng-container *ngIf="!item.isEditingPostGraduate; else editPostGraduateMode">
+    <p>
+      <strong>{{ item.postGraduateCollegeName }}</strong>
+      ({{ item.postGraduateYearOfJoining }} - {{ item.postGraduateYearOfPassout }})
+      - {{ item.postGraduateCollegePercentage }}% - {{ item.postGraduateEducationBoard }}
+      <a (click)="editPostGraduateEducation(i)">
+        <i class="fa-regular fa-pen-to-square" style="color: #304390;"></i>
+      </a>
+    </p>
+  </ng-container>
+  <ng-template #editPostGraduateMode>
+    <div class="edit-form">
+      <input [(ngModel)]="item.postGraduateCollegeName" placeholder="College Name" />
+      <input [(ngModel)]="item.postGraduateYearOfJoining" placeholder="Joining Year" type="number" />
+      <input [(ngModel)]="item.postGraduateYearOfPassout" placeholder="Passout Year" type="number" />
+      <input [(ngModel)]="item.postGraduateCollegePercentage" placeholder="Percentage" type="number" />
+      <input [(ngModel)]="item.postGraduateEducationBoard" placeholder="Education Board" />
+      <button (click)="savePostgraduateEducation(i)">Save</button>
+      <button (click)="cancelEditPostGraduateEducation(i)">Cancel</button>
+    </div>
+  </ng-template>
+</div>
+ 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  <!-- Popup for Empty Data -->
+  <div class="popup" *ngIf="showPopup">
+    <div class="popup-content">
+      <h4>No Data Found</h4>
+      <p>{{ popupMessage }}</p>
+      <div class="popup-actions">
+        <a routerLink="/profile-sett" (click)="closePopup()" class="popup-link">Go to Education</a>
+        <a routerLink="/profile-sett" (click)="closePopup()" class="popup-link">Go to Experience</a>
+      </div>
+      <a (click)="closePopup()" class="popup-link close-link">Close</a>
+    </div>
+  </div>
+</div>
+ 
+ 
+ 

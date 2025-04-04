@@ -1,0 +1,59 @@
+<div class="button-container">
+  <button class="zaxis-button" [class.active]="ActiveTab=='MentorMock'" (click)="ActiveTab='MentorMock'">
+    Mentor Mock
+  </button>
+  <button class="zaxis-button" [class.active]="ActiveTab=='AiMock'" (click)="ActiveTab='AiMock'">
+    Ai Mock
+  </button>
+</div>
+
+<div *ngIf="ActiveTab=='MentorMock'" class="Master">
+  <ng-template #noTests>
+    <div class="card-container-known">
+      <div class="loader"></div>
+      <p>Loading Your Mocks...</p>
+    </div>
+  </ng-template>
+
+  <div *ngIf="mockTests.length; else noTests">
+    <div class="card-container">
+      <div class="spl-card" *ngFor="let test of mockTests">
+        <div class="spl-image-container">
+          <img [src]="image(test.image)" alt="Test Image">
+          
+        </div>
+        <div class="spl-details">
+          <div class="spl-price">{{ test.title }}</div>
+          <div class="spl-title" [title]="test.description">{{
+            test.description.length>20?test.description.slice(0,17)+"...":test.description }}</div>
+          <div class="spl-title" [title]="test.Course_Title"><a [routerLink]="['/courseland']" [queryParams]="{ courseId: test.courseId }">{{
+              test.Course_Title.length>20?test.Course_Title.slice(0,17)+"...":test.Course_Title }}</a></div>
+          <div class="spl-sizes">
+            <div class="spl-size" [title]="'price'">{{ test.fee | currency }}</div>
+            <div class="spl-size" [title]="'Test Type'">{{ test.testType }}</div>
+            <div class="spl-size" [title]="'Number of free Attempts'">{{ test.freeAttempts }}</div>
+          </div>
+          <button class="spl-book-now" (click)="viewDetails(test.mock_id, test.courseId,test)">Book Now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div *ngIf="ActiveTab=='AiMock'" class="Master">
+  <app-ai-mock></app-ai-mock>
+</div>
+
+<div class="popup-overlay" (click)="closePopup()" *ngIf="isOpen">
+  <div class="popup-content" (click)="$event.stopPropagation()">
+    <div class="icon">⚠️</div>
+    <h2>Caution</h2>
+    <p>{{popuptext}}</p>
+    <div class="button-spl">
+    <button (click)="closePopup()">Close</button>
+    <button *ngIf="showenroll" [routerLink]="['/courseland']" [queryParams]="{ courseId: presentid }">Enroll</button>
+    <button *ngIf="!showenroll" [routerLink]="['/coursedashboard']" [queryParams]="{ courseId: presentid }">View</button>
+  </div>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="certificates-container">
+    <h1>Certificates</h1>
+    <div class="certificates-row">
+      <div *ngFor="let certificate of certificates" class="certificate-card">
+        <h2>{{ certificate.title }}</h2>
+        <p><strong>Issued By:</strong> {{ certificate.authority }}</p>
+        <p><strong>Issue Date:</strong> {{ certificate.issueDate }}</p>
+        <button class="view-certificate-btn" (click)="viewCertificate(certificate)">View Certificate</button>
+      </div>
+    </div>
+  
+    <!-- Popup Overlay -->
+    <div class="popup-overlay" *ngIf="showPopup">
+      <div class="popup-content" id="certificate-content">
+        <button class="close-btn" (click)="closePopup()">×</button>
+        
+        <h2>Certificate</h2>
+        
+        <!-- User Details Section -->
+        <div class="user-details">
+          <img [src]="user.profileImage" alt="User Profile" class="profile-img" />
+          <div>
+            <p><strong>Name:</strong> {{ user.name }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+          </div>
+        </div>
+        
+        <!-- Certificate Details -->
+        <div class="certificate-details">
+          <p><strong>Title:</strong> {{ selectedCertificate?.title }}</p>
+          <p><strong>Issued By:</strong> {{ selectedCertificate?.authority }}</p>
+          <p><strong>Issue Date:</strong> {{ selectedCertificate?.issueDate }}</p>
+          <p><strong>Certificate ID:</strong> {{ selectedCertificate?.certificateId }}</p>
+        </div>
+        
+        <button class="print-btn" (click)="printCertificate()">Print Certificate</button>
+      </div>
+    </div>
+  </div>
+  

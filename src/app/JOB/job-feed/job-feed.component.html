@@ -1,0 +1,57 @@
+<div class="feed-section" *ngIf="isloaded">
+    <div class="posts-container">
+        <div *ngFor="let post of posts" class="post-card">
+            <!-- Post Header with User Info -->
+            <div class="post-header">
+                <div class="user-info">
+                    <img *ngIf="post?.user || post?.jobadmin" 
+                    [src]="getimage(post.user?.userImage || post.jobadmin?.companyLogo) || 'assets/default-avatar.png'"
+                    [alt]="post.user?.name || post.jobadmin?.jobAdminCompanyName" 
+                         class="user-avatar">
+                    <div class="user-details">
+                        <h6 class="user-name">{{post.user?.name || post.jobadmin?.jobAdminCompanyName}}({{post.jobadmin?.jobAdminCompanyName?"Org":"user"}})</h6>
+                        <small class="post-time">{{post.postDate || post.updatedDate | date:'mediumDate'}}</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Post Content -->
+            <div class="content-container">
+                <!-- Video Content -->
+                <div *ngIf="isShortVideo(post) || isLongVideo(post)" class="video-container">
+                    <video controls [src]="post.s3Url">
+                        <source [src]="post.s3Url" type="video/mp4">
+                        Your browser does not support the video tag.
+                        <track kind="subtitles" src="https://example.com/subtitles-en.vtt" srclang="en" label="English" default>
+                    </video>
+                    <div class="video-duration">
+                        {{isShortVideo(post) ? post.shortVideoDuration : post.longVideoDuration}}
+                    </div>
+                </div>
+
+                <!-- Image Content -->
+                <div *ngIf="isImagePost(post)" class="image-container">
+                    <img [src]="'data:image/jpeg;base64,' + post.photo" 
+                         class="post-image" 
+                         alt="Post image">
+                </div>
+
+                <!-- Text Content -->
+                <p class="post-content" [innerHTML]="getContent(post)"></p>
+
+                <!-- Tags -->
+
+                <!-- Engagement Actions -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="body" *ngIf="!isloaded">
+    <div class="loader">
+      <div class="f-letter">F</div>
+      <div class="f-letter">F</div>
+      <div class="f-letter">F</div>
+    </div>
+    </div>

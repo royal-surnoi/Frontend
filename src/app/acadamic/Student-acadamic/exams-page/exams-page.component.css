@@ -1,0 +1,98 @@
+/* Container styling */
+.exam-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #2c3e50;
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  /* Row styling */
+  .exam-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between cards */
+    justify-content: center; /* Center cards horizontally */
+  }
+  
+  /* Individual exam card styling */
+  .exam-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: calc(33.33% - 20px); /* Adjust width to fit 3 cards in a row */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .exam-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Exam card title */
+  .exam-card h2 {
+    margin: 0 0 10px 0;
+    color: #34495e;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  
+  /* Exam card description */
+  .exam-card p {
+    margin: 5px 0;
+    color: #7f8c8d;
+    line-height: 1.5;
+    font-size: 0.95rem;
+  }
+  
+  /* Take Exam button styling */
+  .take-exam-btn {
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    align-self: center; /* Center button in the card */
+  }
+  
+  .take-exam-btn:hover {
+    background-color: #2980b9;
+    transform: scale(1.05);
+  }
+  
+  .take-exam-btn:active {
+    transform: scale(0.95);
+  }
+  
+  /* Responsive design */
+  @media (max-width: 1024px) {
+    .exam-card {
+      width: calc(50% - 20px); /* 2 cards per row on medium screens */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .exam-card {
+      width: 100%; /* 1 card per row on small screens */
+    }
+  }
+  

@@ -1,0 +1,267 @@
+<p-toast></p-toast>
+ 
+<div [ngStyle]="{ 'height': '300px', 'width': '98vw', 'position': 'absolute', 'background-image': gradientStyle }">
+  <div class="company-section" >
+    <div>
+      <h2>
+        <img [src]="companyLogo" alt="Company Logo"  *ngIf="companyLogo"  />
+        <p style="font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;margin-top: 18px;margin-left: 10px;">{{ jobdetails.jobAdmin.jobAdminCompanyName }}</p>
+        <div style="text-align: center;">
+        <i class="fas fa-minus" style="font-size:35px;transform: rotate(90deg);height: 100px;display: inline-block;"></i>
+        </div>
+        <div><h1 style="font-size: 20px;margin-left:50px; font-family: Tahoma, Verdana, Geneva, sans-serif; margin-top:10px">{{ jobdetails.jobTitle || 'Job Title' }}</h1></div>
+      </h2>
+    </div>
+    <div class="red">
+      <p *ngIf="!IsJobActive"><i class="fa-solid fa-circle-info"></i> This Job Is No More Active</p>
+      <p *ngIf="isUserApplied"><i class="fa-solid fa-circle-info"></i> You Are already applied to Job</p>
+    </div>
+  </div>
+</div>
+<div style="position: absolute;top:350px;height: 100px;width: 90vw;display: flex;background-color: white;justify-content: center;align-items: center;">
+  <div style="width: 400px;height: 100px;display: flex;align-items: center;">
+    <p style="margin-left: 30px;">
+      {{ jobdetails.location || 'Location' }} ·
+      {{ formatPostedDate( jobdetails.createdAt) }} ·
+      Over {{ jobdetails.appliedCount || '0' }} applicants
+    </p>
+  </div>
+  <div style="width: 400px;height: 100px;display: flex;align-items: center;margin-left:30px;margin-top:-33px;" *ngIf="ApplyButtonShow">
+    <span class="badge" style="font-family:Cambria, Georgia, 'Times New Roman', serif;" >{{ jobdetails.status || '' }}</span>
+    <span class="badge" style="font-family: Cambria, Georgia, 'Times New Roman', serif;" >{{ jobdetails.jobType || 'Not Disclosed' }}</span>
+    <span class="badge" style="font-family: Cambria, Georgia, 'Times New Roman', serif;">{{ getExperienceLevel(jobdetails.requiredWorkExperience) || 'No Experience Level'}}</span>
+  </div>
+  <div style="width: 400px;height:100px;display: flex;align-items: center;margin-top:-15px;">
+    <strong>Skills:&nbsp;</strong> <span class="skills">{{jobdetails.requiredSkills}} </span>  
+  </div>
+  <div class="apply-save-section" style="height: 100px;display: flex;align-items: center;justify-content: flex-start;" *ngIf="ApplyButtonShow">
+    <button class="apply-btn" [ngClass]="applydisable ? 'noshow' : 'show'" [disabled]="jobdetails.status === 'closed' || applydisable" (click)="openModal()" *ngIf="IsJobActive && !isUserApplied" style="background-color:#452758;border-radius: 10px;height:60px;font-family: Cambria, Georgia, 'Times New Roman', serif;margin-left: 50px;margin-top:-20px;width: 100px;">
+      Fast Apply
+    </button>
+  </div>
+</div>
+  <!-- Modal for Easy Apply -->
+<div class="modal" *ngIf="isModalOpen">
+  <div class="modal-content">
+    <!-- Header Section -->
+    <div class="modal-header">
+      <h2 style="font-family: Cambria, Georgia, 'Times New Roman', serif; ">Apply for Job</h2>
+      <button class="close-btn" (click)="closeModal()">&#10005;</button>
+    </div>
+ 
+    <div *ngIf="!selectedFile">
+      <div class="resume">
+        <div class="existResume">
+            <a [href]="fileUrl" [download]="fileName" style="font-family: Cambria, Georgia, 'Times New Roman', serif;">{{fileName}}</a>
+            <button (click)='addexistingResume()' style="font-family: Cambria, Georgia, 'Times New Roman', serif ;">add existing Resume</button>
+            <p>OR
+                <p>
+        </div>
+        <div class="aiResume">
+            <button (click)="openAiResume()">Build Resume With AI</button>
+        </div>
+      </div>
+
+      <!-- Upload Section -->
+      <label class="upload-label" style="  font-family: Tahoma, Verdana, Geneva, sans-serif;">Upload attachment</label>
+      <div class="upload-box" (click)="triggerFileInput()" (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)" (drop)="onFileDrop($event)">
+        <div class="upload-placeholder" *ngIf="!selectedFile">
+          <i class="fa-solid fa-file"></i>
+          <p style="  font-family: Cambria, Georgia, Times New Roman, serif;">Drag and drop your file here or click to upload a video.</p>
+        </div>
+      </div>
+ 
+      <!-- Hidden File Input -->
+      <input type="file" #fileInput style="display: none" (change)="onFileSelected($event)" />
+ 
+    </div>
+ 
+    <div *ngIf="selectedFile" class="file-info">
+      <p><i class="fa-solid fa-file"></i> Selected File: <a [href]="fileUrl"
+          [download]="fileName">{{selectedFile?.name ? selectedFile?.name : "Error in existing file"}}</a></p>
+ 
+      <div (click)="cancelResume()" class="close-file"><i class="fa fa-times" aria-hidden="true"></i> </div>
+    </div>
+ 
+    <!-- Footer Section -->
+    <div class="footer">
+      <button class="apply-btn" (click)="submitApplication()" style="  font-family: Tahoma, Verdana, Geneva, sans-serif;">Apply</button>
+      <button class="close-btn-footer" (click)="closeModal()" style="  font-family: Tahoma, Verdana, Geneva, sans-serif;">Close</button>
+    </div>
+  </div>
+</div>
+<div style="position: absolute;top: 430px;height:126vh;width:98vw;background-color: #ececec;display: flex;gap:4vw;">
+  <div style="height: 120vh;width:60vw;margin-left: 15px;margin-top: 20px;background-color: white;" >
+    <nav class="navbar">
+      <ul>
+        <li [class.active]="activeSection === 'About Job'">
+          <a (click)="changeActiveSection('About Job')" style="  font-family: Tahoma, Verdana, Geneva, sans-serif;">About Job</a>
+        </li>
+        <li [class.active]="activeSection === 'hiring-team'">
+          <a (click)="changeActiveSection('hiring-team')" style="  font-family: Tahoma, Verdana, Geneva, sans-serif;">Hiring-team</a>
+        </li>
+        <li [class.active]="activeSection === 'Qualifications'">
+          <a (click)="changeActiveSection('Qualifications')" style="  font-family: Tahoma, Verdana, Geneva, sans-serif;">Qualifications</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <div style="height:120vh;width: 34vw;margin-top: 20px;background-color: white;margin-left:-35px">
+    <div class="company">
+      <h1 style="margin-left:75px;font-size:23px;">About Company</h1>
+      <div style="display: flex;flex-direction: column;position: relative;">
+        <div style="display: flex;justify-content: center;margin-left:50px">
+          <img *ngIf="companyLogo" [src]="companyLogo" alt="Company Logo"/>
+        </div>
+        <div style="margin-left:150px;margin-top:30px">
+          <ul>
+            <i class="fa-solid fa-building"></i>
+              <b>{{ " "+jobdetails.jobAdmin.jobAdminCompanyName }}</b><br>
+            <i class="fa-solid fa-user"></i>
+               {{ jobdetails.jobAdmin.jobAdminName }}
+            <br>
+            <i class="fa-solid fa-envelope"></i>
+                {{ jobdetails.jobAdmin.jobAdminEmail }}
+            <br>
+            <i class="fa-solid fa-location-dot"></i>
+              {{ jobdetails.jobAdmin.companyLocation }}
+            <br>
+            <i class="fa-solid fa-phone"></i>
+              {{ jobdetails.jobAdmin.companyPhoneNumber }}
+          </ul>
+        </div>
+        <div style="display: flex;justify-content: center;">
+          <button class="follow" [routerLink]="['/Organization',jobdetails.jobAdmin.id]" style="background-color: black;">Visit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ------------------------------------------------------------------------------------------------------------------------------------ -->
+  <!-- aboutjob -->
+ 
+<div class="job-description" *ngIf="activeSection =='About Job'">
+  <h2 style="font-size: 20px;">About the job</h2>
+  <div [innerHTML]="jobDescription"></div>
+  <hr />
+  <h2 style="font-size: 20px;  font-family: Cambria, Georgia, Times New Roman, serif;">Basic Job Qualification</h2>
+  <div [innerHTML]="jobdetails.basicJobQualification"></div>
+  <hr />
+  <h2 style="font-size: 20px; font-family: Cambria, Georgia, Times New Roman, serif;">Primary Roles</h2>
+  <div [innerHTML]="jobdetails.primaryRoles"></div>
+  <hr />
+  <h2 style="font-size: 20px; font-family: Cambria, Georgia, Times New Roman, serif;">Main Responsibilities</h2>
+  <div [innerHTML]="jobdetails.mainResponsibilities"></div>
+ 
+</div>
+ 
+ 
+<div class="skills-section"  *ngIf="activeSection == 'Qualifications'">
+  <h1 class="section-header" style="  font-family: Tahoma, Verdana, Geneva, sans-serif;">Qualifications</h1>
+  <hr class="divider">
+ 
+  <div class="qualification-item">
+    <span class="qualification-label">Skills:</span>
+    <span class="qualification-value" >{{jobdetails.requiredSkills}}</span>
+  </div>
+ 
+  <div class="qualification-item">
+    <span class="qualification-label">Education:</span>
+    <span class="qualification-value">{{jobdetails.requiredEducation}}</span>
+  </div>
+ 
+  <div class="qualification-item">
+    <span class="qualification-label">Education Stream:</span>
+    <span class="qualification-value">{{jobdetails.requiredEducationStream}}</span>
+  </div>
+ 
+  <div class="qualification-item">
+    <span class="qualification-label">Percentage:</span>
+    <span class="qualification-value">{{jobdetails.requiredPercentage}}</span>
+  </div>
+ 
+  <div class="qualification-item">
+    <span class="qualification-label">Passout Year:</span>
+    <span class="qualification-value">{{jobdetails.requiredPassoutYear}}</span>
+  </div>
+ 
+  <div class="qualification-item">
+    <span class="qualification-label">Work Experience:</span>
+    <span class="qualification-value">{{jobdetails.requiredWorkExperience}}</span>
+  </div>
+</div>
+ 
+<!-- hiring team -->
+ 
+<div class="hiring-team" *ngIf="activeSection == 'hiring-team'">
+  <h3>Meet the hiring team</h3>
+ 
+  <div class="team-member">
+ 
+    <div class="team-info">
+      <!-- Name with Verified Badge -->
+      <div class="name-section">
+        <a href="#">
+          <p>
+            <strong>{{ jobdetails.recruiter?.recruiterName ?jobdetails.recruiter.recruiterName:jobdetails.jobAdmin.jobAdminName }}</strong>
+            <span *ngIf="jobdetails.recruiter?.recruiterRole" class="verified-badge"></span>
+          </p>
+        </a>
+      </div>
+ 
+      <!-- Role and Additional Information -->
+      <p *ngIf="jobdetails.recruiter?.recruiterRole">{{ jobdetails.recruiter.recruiterRole || 'Recruiter' }}</p>
+      <p *ngIf="!jobdetails.recruiter?.recruiterRole">{{ 'Admin' }}</p>
+      <p class="recruiter-email"><strong>Email:</strong> {{ jobdetails.recruiter?.recruiterEmail?jobdetails.recruiter.recruiterEmail:jobdetails.jobAdmin.
+jobAdminEmail }}</p>
+    </div>
+ 
+    <!-- Message Button -->
+    <button class="message-btn" (click)="sendEmail(jobdetails)" *ngIf="ApplyButtonShow">Message</button>
+  </div>
+</div>
+  <!-- morejob -->
+ 
+  <div style="position: absolute;top:205vh;">
+  <h1 style="margin-left: 120px; font-size: 25px;">
+    <a href="" style="text-decoration: none;">More Jobs</a>
+  </h1>
+ 
+  <!-- Loading Spinner for Job Fetch -->
+  <div *ngIf="isFetchingJobs" class="loading-spinner">
+    <p>Loading jobs, please wait...</p>
+  </div>
+ 
+  <!-- Jobs Grid -->
+  <div *ngIf="!isFetchingJobs" class="job-grid">
+    <div class="job-card" *ngFor="let job of jobs">
+      <h3>
+        <a href="#">{{ job.title }}</a>
+        <span class="verified-badge">✔</span>
+      </h3>
+      <p>{{ job.companyName }}</p>
+      <p>{{ job.location }}</p>
+ 
+      <div class="school-info">
+        <span>{{ job.alumniCount }} school alumni work here</span>
+      </div>
+      <p class="posted-date">{{ job.daysAgo }} days ago</p>
+      <div class="apply-info">
+        <div class="easyapply">
+
+
+          <button (click)="navigateToJobDetails(job.id)" [disabled]="isNavigating" class="apply-vt" *ngIf="ApplyButtonShow && !isNavigating">Apply</button>
+          <button [disabled]="isNavigating" class="apply-vt" *ngIf="isNavigating">Apply</button>
+
+
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+ 
+ 
+ 

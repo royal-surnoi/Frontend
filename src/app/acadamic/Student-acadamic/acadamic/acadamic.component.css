@@ -1,0 +1,545 @@
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2980b9;
+  --light-background: #f3f4f6;
+  --text-color: #2c3e50;
+  --hover-background: #ecf0f1;
+}
+ 
+.dashboard-container {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  height: 100vh;
+  transition: all 0.3s ease;
+  width: 98vw;
+  background-color: var(--light-background);
+ 
+}
+ 
+.dashboard-container.folded {
+  grid-template-columns: 80px 1fr;
+ 
+}
+ 
+.fold-toggle {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 1.2rem;
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+ 
+.fold-toggle:hover {
+  opacity: 1;
+  transform: rotate(90deg);
+}
+ 
+.portal-title {
+  text-align: center;
+  margin-bottom: 30px;
+  color: var(--primary-color);
+  font-weight: bold;
+  transition: all 0.3s ease;
+padding-top: 20px;
+}
+ 
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+ 
+.sidebar-menu-items {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0 15px;
+}
+ 
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--text-color);
+  position: relative;
+  overflow: hidden;
+}
+ 
+.menu-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+}
+ 
+.menu-item:hover::before {
+  background-color: var(--primary-color);
+}
+ 
+.menu-item i {
+  margin-right: 12px;
+  min-width: 20px;
+  text-align: center;
+  color: var(--primary-color);
+  transition: transform 0.3s ease;
+}
+ 
+.menu-item:hover i {
+  transform: scale(1.1);
+}
+ 
+.dashboard-container.folded .menu-item {
+  justify-content: center;
+  padding: 12px 0;
+}
+ 
+.dashboard-container.folded .menu-item i {
+  margin-right: 0;
+}
+ 
+.menu-label {
+  transition: opacity 0.3s ease;
+  font-weight: 500;
+}
+ 
+/* Scrollbar Customization */
+.sidebar-menu::-webkit-scrollbar {
+  width: 6px;
+}
+ 
+.sidebar-menu::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+ 
+.sidebar-menu::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 3px;
+}
+ 
+.sidebar-menu::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-color);
+}
+ 
+.sidebar-menu {
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) #f1f1f1;
+  background-color: #fff;
+    padding: 20px 0;
+    position: relative;
+    transition: width 0.3s ease;
+    overflow-x: hidden;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+    border-right: 1px solid #e9ecef;
+}
+ 
+.active{
+  color: #3498db;
+}
+ 
+.menu-item:hover{
+  color: #3498db;
+  background-color: var(--hover-background);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .dashboard-container {
+    grid-template-columns: 1fr;
+  }
+ 
+  .dashboard-container.folded {
+    grid-template-columns: 1fr;
+  }
+ 
+  .sidebar-menu {
+    position: absolute;
+    z-index: 100;
+    width: 250px;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+ 
+  .dashboard-container.folded .sidebar-menu {
+    transform: translateX(0);
+    width: 80px;
+  }
+}
+ 
+ 
+.liveClass-container {
+  display: grid;
+  grid-template-areas:
+    "live-class chat"
+    "calendar previous"
+    "calendar previous";
+  grid-template-columns: 70% 30%;
+  grid-gap: 20px;
+  padding: 20px;
+}
+ 
+.liveClass-live-class,
+.liveClass-calendar,
+.liveClass-chat,
+.liveClass-previous-classes {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+ 
+.liveClass-live-class {
+  grid-area: live-class;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-left: 6px solid #007bff;
+}
+ 
+.liveClass-calendar {
+  grid-area: calendar;
+  border-left: 6px solid #28a745;
+}
+ 
+.liveClass-chat {
+  grid-area: chat;
+  border-left: 6px solid #ffc107;
+}
+ 
+.liveClass-previous-classes {
+  grid-area: previous;
+  border-left: 6px solid #dc3545;
+}
+ 
+.liveClass-container h3 {
+  margin-bottom: 20px;
+}
+ 
+.liveClass-video-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 10px;
+}
+ 
+.liveClass-video-container video {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+ 
+.liveClass-video-controls {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+ 
+.liveClass-video-controls button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+ 
+.liveClass-live-info {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+ 
+.liveClass-live-info h2 {
+  margin: 0;
+  font-size: 20px;
+}
+ 
+.liveClass-live-info .invite-btn {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+ 
+.liveClass-class-timeline {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+}
+ 
+.liveClass-class-timeline div {
+  background-color: #d1f3d1;
+  padding: 15px;
+  text-align: center;
+  border-radius: 5px;
+  border: 2px solid #28a745;
+}
+ 
+.liveClass-class-timeline div:hover {
+  background-color: #28a745;
+  color: white;
+  cursor: pointer;
+}
+ 
+.liveClass-messages {
+  flex-grow: 1;
+  max-height: 60%;
+  margin-bottom: 15px;
+  background-color: #fef8e3;
+  padding: 10px;
+  border-radius: 5px;
+  height: 60%;
+  overflow: scroll;
+}
+ 
+.liveClass-messages p {
+  margin: 5px 0;
+}
+ 
+.liveClass-chat-input {
+  display: flex;
+  gap: 10px;
+}
+ 
+.liveClass-chat-input input[type='text'] {
+  flex-grow: 1;
+  padding: 6px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
+}
+ 
+.liveClass-chat-input button {
+  padding: 10px 15px;
+  background-color: #ffc107;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: -15px;
+}
+ 
+.liveClass-previous-classes div {
+  background-color: #ffd6d6;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  border: 2px solid #dc3545;
+}
+ 
+.liveClass-previous-classes div:hover {
+  background-color: #dc3545;
+  color: white;
+  cursor: pointer;
+}
+ 
+/* Global container styles */
+.subjects-container,
+.classmates-container {
+  width: 80%;
+  height: 85%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+}
+ 
+.subjects-container ,
+.classmates-container h1 {
+  font-size: 1.8rem;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  text-align: center;
+  /* background-color:#d1f3d1; */
+}
+.subjects-container h1{
+   font-size: 35px;
+   color: #3498db;
+}
+.subjects-container{
+  background-color:whitesmoke ;
+}
+ 
+/* Header and actions */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+ 
+.actions {
+  display: flex;
+  gap: 10px;
+}
+ 
+/* Search bar */
+.search-bar {
+  width: 75%;
+  padding: 10px 25px;
+  border: 2px solid lightblue;
+  border-radius: 25px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 10px;
+}
+.search-bar:focus {
+  outline: none;
+  border-color:blue;
+}
+ 
+/* Add Subject button */
+.add-subject-btn {
+  background-color:whitesmoke;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+ 
+.add-subject-btn:hover {
+  background-color: #27ae60;
+}
+.subjects-list {
+  list-style: none;
+  width: 100%;
+  padding: 0;
+  margin: 0 auto; /* Centers the list */
+  background-color: whitesmoke;
+  border-radius: 10px;
+   /* Optional: Restrict width for better alignment */
+}
+ 
+.subjects-list li {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  padding: 10px 15px;
+  border: 1px solid #dcdcdc;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+  color: #4e779f;
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-indent: 300px; /* Ensures consistent starting position */
+}
+ 
+.subjects-list li:hover {
+  border-color: #2980b9;
+  background-color: #f0f8ff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.classmates-container {  
+  width: 90%;
+  margin: 20px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+ 
+.classmates-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+ 
+.classmates-container .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+ 
+.classmates-container .header h1 {
+  font-size: 2rem;
+  color: #4a90e2;
+  margin: 0;
+}
+ 
+.classmates-container .header .search-bar {
+  width: 20%;
+  padding: 10px 15px;
+  border: 2px solid #98b4d3;
+  border-radius: 25px;
+  margin-right: 60px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  margin-top: 10px;
+}
+ 
+ 
+.classmates-container .header .search-bar:focus {
+  border-color:blue;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  outline: none;
+}
+ 
+.classmates-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+ 
+.classmate-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  margin-bottom: 10px;
+  background: #f9f9f9;
+  border: 1px solid #ececec;
+  border-radius: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+ 
+.classmate-item:hover {
+  background-color: #f0f8ff;
+  transform: translateX(1px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+ 
+.classmate-item strong {
+  font-size: 20px;
+  color: #333;
+}
+ 
+.classmate-item span {
+  font-size: 18px;
+  color: #666;
+}
+ 
+.no-data {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #999;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ececec;
+  border-radius: 10px;
+  }
+ 
+ 

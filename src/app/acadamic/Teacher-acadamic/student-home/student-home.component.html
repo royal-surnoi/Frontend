@@ -1,0 +1,43 @@
+<div class="homepage">
+    <div class="institute-info">
+      <h1>{{ institute.name }}</h1>
+      <p><i class="fas fa-map-marker-alt"></i> {{ institute.location }}</p>
+      </div>
+  
+    <div class="user-details">
+      <div class="user-image">
+        <img src="https://www.hindustantimes.com/static-content/1y/cricket-logos/players/virat-kohli.png" alt="User Image" />
+      </div>
+      <div class="user-info">
+        <h2>{{ userDetails.name }}</h2>
+        <p><b>Age:</b> {{ userDetails.age }}</p>
+        <p><b>Class:</b> {{ userDetails.class }}</p>
+        <p><b>Find Teacher:</b> {{ userDetails.find }}</p>
+        <p><b>My Teacher:</b> {{ userDetails. teacher }}</p>
+      </div>
+    </div>
+  
+    <div class="extras">
+      <div class="achievements">
+        <h3>Achievements</h3>
+        <ul>
+          <li *ngFor="let achievement of userDetails.achievements">{{ achievement }}</li>
+        </ul>
+      </div>
+      <div class="sports">
+        <h3>Sports</h3>
+        <ul>
+          <li *ngFor="let sport of userDetails.sports">{{ sport }}</li>
+        </ul>
+      </div>
+    </div>
+  
+    <div class="upcoming-events">
+      <h3>Upcoming Events</h3>
+      <ul>
+        <li *ngFor="let event of upcomingEvents">
+          <span>{{ event.date }}: {{ event.name }}</span>
+          <span class="event-location">{{ event.location }}</span>
+        </li>
+      </ul>
+    </div>
