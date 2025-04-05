@@ -28,26 +28,15 @@ pipeline{
             }
         }
 
-        // stage('containerization') {
-        //     steps {
-        //         script{
-        //             sh '''
-        //                 docker build -t $docker_registry:v1 .
-        //             '''
-        //             // sh '''
-        //             //     EXISTING_IMAGE=$(docker images -q $docker_registry)
-        //             //     if [ ! -z "$EXISTING_IMAGE" ]; then
-        //             //         echo "previous build Image '$IMAGE_NAME' found. Removing..."
-        //             //         docker rmi -f $EXISTING_IMAGE
-        //             //         echo "previous build image is removed."
-        //             //     else
-        //             //         echo "No existing image found for '$IMAGE_NAME'."
-        //             //     fi
-        //             //     docker build -t $docker_registry:$GIT_COMMIT .
-        //             // '''
-        //         }
-        //     }
-        // }
+            stage('containerization') {
+                steps {
+                    script {
+                        def imageTag = "${docker_registry}:${pomVersion}"
+                        echo "Building Docker image with tag: ${imageTag}"
+                        sh "docker build -t ${imageTag} ."
+                }
+            }
+        }
 
         // stage('Publish Docker Image') {
         //     steps {
