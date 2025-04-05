@@ -8,6 +8,15 @@ pipeline{
         DOCKERHUB_CREDENTIALS = credentials('docker-credentials')
     }
     stages{
+        stage('Read JSON') {
+            steps {
+                script {
+                    def packageJson = readJSON file: 'package.json'
+                    def packageJsonVersion = packageJson.version
+                    echo "${packageJsonVersion}"
+                }
+            }
+        }
         stage('Build and Package'){
             steps{
                 dir('/var/lib/jenkins/workspace/project-build-frontend'){
