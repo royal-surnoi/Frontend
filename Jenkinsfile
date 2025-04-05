@@ -6,13 +6,14 @@ pipeline{
     environment {
         docker_registry = 'iamroyalreddy/fusion-fe'
         DOCKERHUB_CREDENTIALS = credentials('docker-credentials')
+        packageJsonVersion = ''
     }
     stages{
         stage('Read JSON') {
             steps {
                 script {
                     def packageJson = readJSON file: 'package.json'
-                    def packageJsonVersion = packageJson.version
+                    packageJsonVersion = packageJson.version
                     echo "${packageJsonVersion}"
                 }
             }
@@ -28,12 +29,12 @@ pipeline{
             }
         }
 
-            stage('containerization') {
-                steps {
-                    script {
-                        def imageTag = "${docker_registry}:${pomVersion}"
-                        echo "Building Docker image with tag: ${imageTag}"
-                        sh "docker build -t ${imageTag} ."
+        stage('containerization') {
+            steps {
+                script {
+                    def imageTag = "${docker_registry}:${packageJsonVersion}"
+                    echo "Building Docker image with tag: ${imageTag}"
+                    sh "docker build -t ${imageTag} ."
                 }
             }
         }
