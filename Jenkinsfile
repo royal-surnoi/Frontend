@@ -14,6 +14,7 @@ pipeline{
                 script {
                     def packageJson = readJSON file: 'package.json'
                     packageJsonVersion = packageJson.version
+                    writeFile file: 'image-version.txt', text: packageJsonVersion
                     echo "${packageJsonVersion}"
                 }
             }
@@ -39,11 +40,17 @@ pipeline{
             }
         }
 
-        // stage('Publish Docker Image') {
-        //     steps {
-        //         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-        //         sh "docker push $docker_registry:v1"
-        //     }       
-        // }
+        stage('Publish Docker Image') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                sh "docker push $docker_registry:v1"
+            }       
+        }
+
+        stage('Archive Image Version') {
+            steps {
+                archiveArtifacts artifacts: 'image-version.txt', onlyIfSuccessful: true
+            }
+        }
     }
 }
