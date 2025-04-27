@@ -42,12 +42,16 @@ pipeline{
                 stage('OWASP Dependency Check') {
                     steps {
                         dir('/var/lib/jenkins/workspace/project-build-frontend'){
-                            dependencyCheck additionalArguments: '''
-                            --scan \'./\' 
-                            --out \'./\'  
-                            --format \'ALL\' 
-                            --disableYarnAudit \
-                            --prettyPrint''', nvdCredentialsId: 'NVD-access',odcInstallation: 'OWASP-DepCheck-10'
+                            withCredentials([string(credentialsId: 'NVD-access', variable: 'NVD_API_KEY')]) {
+                                dependencyCheck additionalArguments: """
+                                    --scan ./ 
+                                    --out ./  
+                                    --format ALL 
+                                    --disableYarnAudit
+                                    --prettyPrint
+                                    --nvdApiKey ${NVD_API_KEY}
+                                """, odcInstallation: 'OWASP-DepCheck-10'
+                            }
                         }
                     }
                 }  
