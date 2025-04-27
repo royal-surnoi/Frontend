@@ -48,8 +48,8 @@ pipeline{
                                     --out ./  
                                     --format ALL 
                                     --disableYarnAudit
-                                    --disableCvssV4
                                     --prettyPrint
+                                    --noupdate                                    
                                 """, odcInstallation: 'OWASP-DepCheck-10'
                             }
                         }
