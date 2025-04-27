@@ -117,7 +117,7 @@ pipeline{
 
         stage('Trivy Vulnerability Scanner') {
             steps {
-                sh  ''' 
+                sh  """
                     trivy image $imageTag \
                         --severity LOW,MEDIUM,HIGH \
                         --exit-code 0 \
@@ -129,7 +129,7 @@ pipeline{
                         --exit-code 1 \
                         --quiet \
                         --format json -o trivy-image-CRITICAL-results.json || true
-                '''
+                """
             }
             //  post {
             //     always {
