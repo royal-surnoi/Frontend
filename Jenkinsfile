@@ -28,28 +28,38 @@ pipeline{
                 }
             }
         }
-        
-        stage('NPM Dependency Audit') {
-            steps {
-                sh '''
-                    npm audit --audit-level=critical
-                    echo $?
-                '''
-            }
-        }
+        stage('Dependencies scannin'){
+            parallel{
+                stage('NPM Dependency Audit') {
+                    steps {
+                        sh '''
+                            npm audit --audit-level=critical
+                            echo $?
+                        '''
+                    }
+                }
+                
+                stage('OWASP Dependency Check') {
+                    steps {
+                        dir('/var/lib/jenkins/workspace/project-build-frontend'){
+                            dependencyCheck additionalArguments: '''
+                            --scan \'./\' 
+                            --out \'./\'  
+                            --format \'ALL\' 
+                            --disableYarnAudit \
+                            --prettyPrint''', nvdCredentialsId: 'NVD-access',odcInstallation: 'OWASP-DepCheck-10'
+                        }
+                    }
+                }  
 
-        stage('OWASP Dependency Check') {
-            steps {
-                dir('/var/lib/jenkins/workspace/project-build-frontend'){
-                    dependencyCheck additionalArguments: '''
-                    --scan \'./\' 
-                    --out \'./\'  
-                    --format \'ALL\' 
-                    --disableYarnAudit \
-                    --prettyPrint''', odcInstallation: 'OWASP-DepCheck-10'
+                stage('Unit Testing'){
+                    steps{
+                        sh 'sleep 5s'
+                    }
                 }
             }
-        }            
+        }
+                  
 
 
         // stage('Build and Package'){
