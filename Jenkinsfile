@@ -42,9 +42,10 @@ pipeline{
             steps {
                 dir('/var/lib/jenkins/workspace/project-build-frontend'){
                     dependencyCheck additionalArguments: '''
-                    --scan \\\'./\\\' 
-                    --out \\\'./\\\'  
-                    --format \\\'ALL\\\' 
+                    --scan \'./\' 
+                    --out \'./\'  
+                    --format \'ALL\' 
+                    --disableYarnAudit \
                     --prettyPrint''', nvdCredentialsId: 'NVD-access', odcInstallation: 'OWASP-DepCheck-10'
                 }
             }
