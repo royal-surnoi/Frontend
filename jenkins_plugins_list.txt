@@ -1,0 +1,2 @@
+- OWASP Dependency-Check Plugin
+tools -> name:OWASP-DepCheck-10 (10.0.3)-> install from Git

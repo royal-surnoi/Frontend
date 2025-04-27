@@ -28,6 +28,7 @@ pipeline{
                 }
             }
         }
+        
         stage('NPM Dependency Audit') {
             steps {
                 sh '''
@@ -36,6 +37,17 @@ pipeline{
                 '''
             }
         }
+
+        stage('OWASP Dependency Check') {
+            steps {
+                dependencyCheck additionalArguments: '''
+                --scan \\\'./\\\' 
+                --out \\\'./\\\'  
+                --format \\\'ALL\\\' 
+                --prettyPrint''', nvdCredentialsId: 'NVD-access', odcInstallation: 'OWASP-DepCheck-10'
+            }
+        }            
+
 
         // stage('Build and Package'){
         //     steps{
