@@ -101,14 +101,14 @@ pipeline{
             steps {
                 script {
                     imageTag = "${docker_registry}:${packageJsonVersion}"
-                    // EXISTING_IMAGE=$(docker images -q $docker_registry)
-                    //     if [ ! -z "$EXISTING_IMAGE" ]; then
-                    //         echo "previous build Image '$IMAGE_NAME' found. Removing..."
-                    //         docker rmi -f $EXISTING_IMAGE
-                    //         echo "previous build image is removed."
-                    //     else
-                    //         echo "No existing image found for '$IMAGE_NAME'."
-                    //     fi
+                    EXISTING_IMAGE=$(docker images -q $docker_registry)
+                        if [ ! -z "$EXISTING_IMAGE" ]; then
+                            echo "previous build Image '$IMAGE_NAME' found. Removing..."
+                            docker rmi -f $EXISTING_IMAGE
+                            echo "previous build image is removed."
+                        else
+                            echo "No existing image found for '$IMAGE_NAME'."
+                        fi
                     echo "Building Docker image with tag: ${imageTag}"
                     sh "docker build -t ${imageTag} ."
                 }
@@ -155,18 +155,18 @@ pipeline{
         }
 
 
-        // stage('Publish Docker Image') {
-        //     steps {
-        //         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-        //         sh "docker push $docker_registry:$packageJsonVersion"
-        //     }       
-        // }
+        stage('Publish Docker Image') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                sh "docker push $docker_registry:$packageJsonVersion"
+            }       
+        }
 
-        // stage('Archive Image Version') {
-        //     steps {
-        //         archiveArtifacts artifacts: 'image-version.txt', onlyIfSuccessful: true
-        //     }
-        // }
+        stage('Archive Image Version') {
+            steps {
+                archiveArtifacts artifacts: 'image-version.txt', onlyIfSuccessful: true
+            }
+        }
     }
 
     post { 
