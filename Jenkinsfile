@@ -41,7 +41,6 @@ pipeline{
                 
                 stage('OWASP Dependency Check') {
                     steps {
-                        dir('/var/lib/jenkins/workspace/project-build-frontend') {
                             withCredentials([string(credentialsId: 'NVD-access', variable: 'NVD_API_KEY')]) {
                                 dependencyCheck additionalArguments: """
                                     --scan ./ 
@@ -52,7 +51,6 @@ pipeline{
                                     --noupdate                                    
                                 """, odcInstallation: 'OWASP-DepCheck-10'
                                dependencyCheckPublisher failedTotalCritical: 1, pattern: 'dependency-check-report.xml', stopBuild: false
-                            }
                         }
                     }
                 }
