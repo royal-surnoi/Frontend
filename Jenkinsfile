@@ -7,6 +7,7 @@ pipeline{
         docker_registry = 'iamroyalreddy/fusion-fe'
         DOCKERHUB_CREDENTIALS = credentials('docker-credentials')
         packageJsonVersion = ''
+        imageTag = ''
     }
     parameters {
         booleanParam(name: 'CodeAnalysisDependencyCheck', defaultValue: false, description: 'is it required Code Analysis and Dependency Check')
@@ -95,29 +96,64 @@ pipeline{
                 }
             }
         }
-                  
 
+        stage('containerization') {
+            steps {
+                script {
+                    imageTag = "${docker_registry}:${packageJsonVersion}"
+                    EXISTING_IMAGE=$(docker images -q $docker_registry)
+                        if [ ! -z "$EXISTING_IMAGE" ]; then
+                            echo "previous build Image '$IMAGE_NAME' found. Removing..."
+                            docker rmi -f $EXISTING_IMAGE
+                            echo "previous build image is removed."
+                        else
+                            echo "No existing image found for '$IMAGE_NAME'."
+                        fi
+                    echo "Building Docker image with tag: ${imageTag}"
+                    sh "docker build -t ${imageTag} ."
+                }
+            }
+        }
 
-        // stage('Build and Package'){
-        //     steps{
-        //         dir('/var/lib/jenkins/workspace/project-build-frontend'){
-        //             sh '''
-        //                 npm install --no-audit
-        //                 ng build --configuration=production
-        //             '''
-        //         }
-        //     }
-        // }
+        stage('Trivy Vulnerability Scanner') {
+            steps {
+                sh  ''' 
+                    trivy image $imageTag \
+                        --severity LOW,MEDIUM,HIGH \
+                        --exit-code 0 \
+                        --quiet \
+                        --format json -o trivy-image-MEDIUM-results.json
 
-        // stage('containerization') {
-        //     steps {
-        //         script {
-        //             def imageTag = "${docker_registry}:${packageJsonVersion}"
-        //             echo "Building Docker image with tag: ${imageTag}"
-        //             sh "docker build -t ${imageTag} ."
-        //         }
-        //     }
-        // }
+                    trivy image $imageTag \
+                        --severity CRITICAL \
+                        --exit-code 1 \
+                        --quiet \
+                        --format json -o trivy-image-CRITICAL-results.json
+                '''
+            }
+             post {
+                always {
+                    sh '''
+                        trivy convert \
+                            --format template --template "@/usr/local/share/trivy/templates/html.tpl" \
+                            --output trivy-image-MEDIUM-results.html trivy-image-MEDIUM-results.json 
+
+                        trivy convert \
+                            --format template --template "@/usr/local/share/trivy/templates/html.tpl" \
+                            --output trivy-image-CRITICAL-results.html trivy-image-CRITICAL-results.json
+
+                        trivy convert \
+                            --format template --template "@/usr/local/share/trivy/templates/junit.tpl" \
+                            --output trivy-image-MEDIUM-results.xml  trivy-image-MEDIUM-results.json 
+
+                        trivy convert \
+                            --format template --template "@/usr/local/share/trivy/templates/junit.tpl" \
+                            --output trivy-image-CRITICAL-results.xml trivy-image-CRITICAL-results.json          
+                    '''
+                }
+            }
+        }
+
 
         // stage('Publish Docker Image') {
         //     steps {
@@ -136,11 +172,11 @@ pipeline{
     post { 
         always { 
             junit allowEmptyResults: true, stdioRetention: '', testResults: 'dependency-check-junit.xml' 
-            // junit allowEmptyResults: true, stdioRetention: '', testResults: 'trivy-image-CRITICAL-results.xml'
-            // junit allowEmptyResults: true, stdioRetention: '', testResults: 'trivy-image-MEDIUM-results.xml'            
+            junit allowEmptyResults: true, stdioRetention: '', testResults: 'trivy-image-CRITICAL-results.xml'
+            junit allowEmptyResults: true, stdioRetention: '', testResults: 'trivy-image-MEDIUM-results.xml'            
             publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './', reportFiles: 'dependency-check-jenkins.html', reportName: 'Dependency Check HTML Report', reportTitles: '', useWrapperFileDirectly: true])
-            // publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './', reportFiles: 'trivy-image-CRITICAL-results.html', reportName: 'Trivy Image Critical Vul Report', reportTitles: '', useWrapperFileDirectly: true])
-            // publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './', reportFiles: 'trivy-image-MEDIUM-results.html', reportName: 'Trivy Image Medium Vul Report', reportTitles: '', useWrapperFileDirectly: true])
+            publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './', reportFiles: 'trivy-image-CRITICAL-results.html', reportName: 'Trivy Image Critical Vul Report', reportTitles: '', useWrapperFileDirectly: true])
+            publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: './', reportFiles: 'trivy-image-MEDIUM-results.html', reportName: 'Trivy Image Medium Vul Report', reportTitles: '', useWrapperFileDirectly: true])
             echo "\033[34mJob completed. Cleaning up workspace...\033[0m"
             deleteDir()
         }
