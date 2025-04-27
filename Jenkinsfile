@@ -46,7 +46,7 @@ pipeline{
                     --out \'./\'  
                     --format \'ALL\' 
                     --disableYarnAudit \
-                    --prettyPrint''', nvdCredentialsId: 'NVD-access', odcInstallation: 'OWASP-DepCheck-10'
+                    --prettyPrint''', odcInstallation: 'OWASP-DepCheck-10'
                 }
             }
         }            
