@@ -19,38 +19,56 @@ pipeline{
                 }
             }
         }
-        stage('Build and Package'){
+        stage('Install Dependencies'){
             steps{
                 dir('/var/lib/jenkins/workspace/project-build-frontend'){
                     sh '''
                         npm install --no-audit
-                        ng build --configuration=production
                     '''
                 }
             }
         }
-
-        stage('containerization') {
+        stage('NPM Dependency Audit') {
             steps {
-                script {
-                    def imageTag = "${docker_registry}:${packageJsonVersion}"
-                    echo "Building Docker image with tag: ${imageTag}"
-                    sh "docker build -t ${imageTag} ."
-                }
+                sh '''
+                    npm audit --audit-level=critical
+                    echo $?
+                '''
             }
         }
 
-        stage('Publish Docker Image') {
-            steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                sh "docker push $docker_registry:$packageJsonVersion"
-            }       
-        }
+        // stage('Build and Package'){
+        //     steps{
+        //         dir('/var/lib/jenkins/workspace/project-build-frontend'){
+        //             sh '''
+        //                 npm install --no-audit
+        //                 ng build --configuration=production
+        //             '''
+        //         }
+        //     }
+        // }
 
-        stage('Archive Image Version') {
-            steps {
-                archiveArtifacts artifacts: 'image-version.txt', onlyIfSuccessful: true
-            }
-        }
+        // stage('containerization') {
+        //     steps {
+        //         script {
+        //             def imageTag = "${docker_registry}:${packageJsonVersion}"
+        //             echo "Building Docker image with tag: ${imageTag}"
+        //             sh "docker build -t ${imageTag} ."
+        //         }
+        //     }
+        // }
+
+        // stage('Publish Docker Image') {
+        //     steps {
+        //         sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+        //         sh "docker push $docker_registry:$packageJsonVersion"
+        //     }       
+        // }
+
+        // stage('Archive Image Version') {
+        //     steps {
+        //         archiveArtifacts artifacts: 'image-version.txt', onlyIfSuccessful: true
+        //     }
+        // }
     }
 }
