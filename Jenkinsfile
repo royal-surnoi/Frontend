@@ -41,7 +41,7 @@ pipeline{
                 
                 stage('OWASP Dependency Check') {
                     steps {
-                        dir('/var/lib/jenkins/workspace/project-build-frontend'){
+                        dir('/var/lib/jenkins/workspace/project-build-frontend') {
                             withCredentials([string(credentialsId: 'NVD-access', variable: 'NVD_API_KEY')]) {
                                 dependencyCheck additionalArguments: """
                                     --scan ./ 
@@ -49,12 +49,12 @@ pipeline{
                                     --format ALL 
                                     --disableYarnAudit
                                     --prettyPrint
-                                    --nvdApiKey ${NVD_API_KEY}
                                 """, odcInstallation: 'OWASP-DepCheck-10'
                             }
                         }
                     }
-                }  
+                }
+  
 
                 stage('Unit Testing'){
                     steps{
