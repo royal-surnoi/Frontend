@@ -101,7 +101,7 @@ pipeline{
             steps {
                 script {
                     imageTag = "${docker_registry}:${packageJsonVersion}"
-                    // EXISTING_IMAGE=$(docker images -q $docker_registry)
+                    // EXISTING_IMAGE=$(docker images -q $imageTag)
                     //     if [ ! -z "$EXISTING_IMAGE" ]; then
                     //         echo "previous build Image '$IMAGE_NAME' found. Removing..."
                     //         docker rmi -f $EXISTING_IMAGE
