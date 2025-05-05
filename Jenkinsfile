@@ -167,6 +167,55 @@ pipeline{
                 archiveArtifacts artifacts: 'image-version.txt', onlyIfSuccessful: true
             }
         }
+
+        stage('Integration-test') {
+            steps {
+                script {
+                    sh '''
+                        set -e
+
+                        echo "Updating kubeconfig..."
+                        aws eks update-kubeconfig --region us-east-1 --name fusioniq-dev
+
+                        echo "Verifying cluster access..."
+                        kubectl get nodes
+
+                        echo "Creating namespace (if not exists)..."
+                        kubectl apply -f namespace.yaml
+
+                        echo "Deploying backend..."
+                        kubectl apply -f backend-integrate-test.yaml
+
+                        echo "Waiting for backend to be ready..."
+                        kubectl wait --namespace=fusioniq --for=condition=available deployment/backend --timeout=120s 
+
+                        echo "Testing backend service internally..."
+                        kubectl run curl-tester --rm -i --restart=Never --image=curlimages/curl:latest -n fusioniq \
+                        -- curl -s http://backend:8080/
+
+                        echo "Deploying frontend (web)..."
+                        kubectl apply -f frontend-integrate-test.yaml
+
+                        echo "Waiting for frontend to be ready..."
+                        kubectl wait --namespace=fusioniq --for=condition=available deployment/web --timeout=90s
+
+                        echo "Waiting for Classic Load Balancer (CLB) hostname..."
+                        for i in {1..12}; do
+                        WEB_HOST=$(kubectl get svc web -n fusioniq -o jsonpath='{.status.loadBalancer.ingress[0].hostname}' || true)
+                        if [ -n "$WEB_HOST" ]; then break; fi
+                        echo "Waiting for CLB hostname..."; sleep 60; 
+                        done
+
+                        if [ -z "$WEB_HOST" ]; then
+                        echo "Classic Load Balancer not ready"; exit 1;
+                        fi
+
+                        echo "CLB provisioned successfully: http://$WEB_HOST"
+                    '''
+                }
+            }
+        }
+
     }
 
     // post { 
